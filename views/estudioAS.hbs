@@ -1,0 +1,99 @@
+{{> head }}
+{{> navbarusuario }}
+{{!-- AQUI ESTÁ EL FORMULARIO QUE TOMA LOS DATOS DE ENTRADA  --}}
+    <div class="jumbotron">
+        <h1 class="display-4">Torre AUTOSOPORTADA </h1>
+        <p class="lead">Estudio de torre autosoportada
+            <ul class="navbar-nav mr-auto">
+                Favor introduzca los datos para producir el estudio</p>
+                <div class="container mt-5">
+  <div class="row">
+    <div class="col-md-15">
+      <div class="card-body">
+
+        <form action="/../resultadoAS" method="POST" id="prueba">
+          <div class="form-group">
+              <label for="">Memoria de cálculo</label>
+            <input type="text" name="mem_cal" placeholder="Memoria de calculo" class="form-control" autofocus>
+          </div>
+
+          <div class="input-group">
+            <input name="moment_basal" placeholder="Momento basal" type="text" required class="form-control" >
+            <span class="input-group-addon"> , Momentos  </span>
+            <input name="moment_corte" placeholder="Corte de la memoria" type="text" required class="form-control" >
+            </div>
+
+          <div class="form-group">
+              <label for="">Norma</label>
+            <input type="text" name="viento" placeholder="Carga del viento" class="form-control">
+          </div>
+
+            <div class="form-group">
+              <div class="row">
+                  <div class="col-xs-12 col-md-13 col-md-13">
+                      <div class="form-group">
+                          <label for="">Antenas parabólicas</label>
+                          {{!-- Antena 1 --}}
+                          <div class="input-group">
+                              <input name="antena1" placeholder="Tipo de antena" type="text" required class="form-control" >
+                                 <span class="input-group-addon"> , altura </span>
+                                 <input name="alturaAntena1" placeholder="Altura de antena" type="text" required class="form-control" >
+                            </div>
+                            {{!-- Antena 2 --}}
+                            <div class="input-group">
+                              <input name="antena2" placeholder="Tipo de antena" type="text" required class="form-control" >
+                                <span class="input-group-addon"> , altura </span>
+                                 <input name="alturaAntena2" placeholder="Altura de antena" type="text" required class="form-control" >
+                            </div>
+                            {{!-- Antena 3 --}}
+                            <div class="input-group">
+                              <input name="antena3" placeholder="Tipo de antena" type="text" required class="form-control" >
+                                <span class="input-group-addon"> , altura </span>
+                                 <input name="alturaAntena3" placeholder="Altura de antena" type="text" required class="form-control" >
+                            </div>
+
+                                                      <label for="">Antenas Sectoriales</label>
+                          <div class="input-group">
+                              <input name="antenaSect1" placeholder="Tipo de antena" type="text" required class="form-control" >
+                                 <span class="input-group-addon"> , altura </span>
+                                 <input name="alturaAntenaSect1" placeholder="Altura del arreglo" type="text" required class="form-control" >
+                                 <span class="input-group-addon"> , cantidad </span>
+                                 <input name="cantAntSect1" placeholder="Cantidad de elementos" type="text" required class="form-control"> 
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+                   {{!-- <div class="checkbox">
+<label>
+<input type="checkbox" name="aceptolopd" value="Acepto Lopd" required />
+He leído y acepto la política de protección de datos.</label>
+</div>  --}}
+
+
+
+
+          <button type="submit" class="btn btn-primary">
+            Ingresar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+
+
+        <hr class="my-4">
+        <p>Simplemente Industrial 4.0 en las estructuras de las antenas de tu planta externa.</p>
+        <a class="btn btn-primary btn-lg" href="#" role="button">Leer más</a>
+    </div>
+{{> footer}}

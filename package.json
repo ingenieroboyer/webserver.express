@@ -17,6 +17,7 @@
         "express": "^4.16.4",
         "express-myconnection": "^1.0.4",
         "hbs": "^4.0.1",
+        "json": "^9.0.6",
         "jsonwebtoken": "^8.4.0",
         "mongoose": "^5.3.13",
         "morgan": "^1.9.1",
