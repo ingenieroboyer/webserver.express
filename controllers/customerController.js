@@ -62,15 +62,15 @@ controller.valid = (req, res) => {
         var password = req.body.password;
         console.log(email);
         console.log(password);
-        conn.query('SELECT * FROM user WHERE email1 = ?', [email], function(error, results, fields) {
-            if (error) {
+        conn.query('SELECT * FROM user WHERE email1 = ?', [email], function(err, results, fields) {
+            if (err) {
                 console.log("error ocurred", error);
                 res.send({
                     "code": 400,
                     "failed": "pilas con la cantidad de variables que envias"
                 })
             } else {
-                // console.log('The solution is: ', results);
+
                 if (results.length > 0) {
                     if (results[0].password == password && results[0].email1 == email) {
                         const role = results[0].role;
@@ -96,13 +96,9 @@ controller.valid = (req, res) => {
                         if (role === 'USER_ROLE' || role === 'ANALYST_ROLE') {
                             res.render('usuarioUser', { token, role, nombre });
                         }
-                        // if (role === 'ANALYST_ROLE') {
-                        //     res.render('usuarioAnalyst', { token, role });
-                        // }
-
 
                     } else {
-                        console.log(role, nombre)
+                        console.log('El usuario no introdujo un password válido')
                         res.send({
                             "code": 204,
                             "success": "Email y password no coinciden",
