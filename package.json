@@ -1,26 +1,35 @@
 {
-    "name": "06-webserver",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "start": "node server.js",
-        "nodemon": "nodemon server.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "bcrypt": "^3.0.2",
-        "body-parser": "^1.18.3",
-        "ejs": "^2.6.1",
-        "express": "^4.16.4",
-        "express-myconnection": "^1.0.4",
-        "hbs": "^4.0.1",
-        "json": "^9.0.6",
-        "jsonwebtoken": "^8.4.0",
-        "mongoose": "^5.3.13",
-        "morgan": "^1.9.1",
-        "mysql": "^2.16.0"
-    }
+  "name": "06-webserver",
+  "version": "1.0.0",
+  "description": "``` npm install ```",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "nodemon": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.2",
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-myconnection": "^1.0.4",
+    "hbs": "^4.0.1",
+    "json": "^9.0.6",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.3.13",
+    "morgan": "^1.9.1",
+    "mysql": "^2.16.0",
+    "nodemon": "^1.18.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ingenieroboyer/webserver.express.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ingenieroboyer/webserver.express/issues"
+  },
+  "homepage": "https://github.com/ingenieroboyer/webserver.express#readme"
 }

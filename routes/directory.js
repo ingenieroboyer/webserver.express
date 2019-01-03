@@ -24,9 +24,9 @@ router.use(express.static(__dirname + '/public'));
 router.use(myConnection(mysql, {
     host: 'localhost',
     user: 'root',
-    password: 'ajSE18!',
+    password: 'Ajsoftwarestructural2019!',
     port: 3306,
-    database: 'software_estructural'
+    database: 'softstructural'
 }, 'pool'));
 router.use(express.urlencoded({ extended: false }));
 
