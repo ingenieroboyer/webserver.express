@@ -27,7 +27,7 @@ router.use(myConnection(mysql, {
     password: 'ajSE18!',
     port: 3306,
     database: 'software_estructural'
-}, 'single'));
+}, 'pool'));
 router.use(express.urlencoded({ extended: false }));
 
 
