@@ -80,7 +80,7 @@ controller.valid = (req, res) => {
                         let token = jwt.sign({
                             role: role,
                             nombre: nombre
-                        }, 'este-es-el-seed-desarrollo', { expiresIn: 60 * 60 * 24 });
+                        }, 'este-es-el-seed-desarrollo', { expiresIn: 60 * 60 });
                         console.log(role);
                         console.log(pass);
                         console.log(nombre);
@@ -96,6 +96,7 @@ controller.valid = (req, res) => {
                         if (role === 'USER_ROLE' || role === 'ANALYST_ROLE') {
                             res.render('usuarioUser', { token, role, nombre });
                         }
+
 
                     } else {
                         console.log('El usuario no introdujo un password válido')
@@ -209,14 +210,11 @@ controller.analyAST60 = function(req, res) {
                                     if (results.length > 0) {
                                         const coma = ",";
                                         const punto = ".";
-
                                         const coef_forma3 = results[0].coe_antena;
                                         const coef_antena3 = parseFloat(coef_forma3.replace(coma, punto));
-
                                         const area3 = results[0].area_antena;
                                         const areatutu3 = area3.replace(coma, punto);
                                         const areaFloat3 = parseFloat(areatutu3.replace(coma, punto));
-
                                         const fuerza3 = areaFloat3 * n3 * coef_antena3 * q;
                                         global.mom_basal3 = fuerza3 * parseInt(altura3);
                                         global.mom_acum3 = mom_acum2 + mom_basal3;
@@ -236,25 +234,24 @@ controller.analyAST60 = function(req, res) {
                                                 } else {
                                                     const coma = ",";
                                                     const punto = ".";
-
                                                     const coef_forma4 = results[0].coe_antena;
                                                     const coef_antena4 = parseFloat(coef_forma4.replace(coma, punto));
-
                                                     const area4 = results[0].area_antena;
                                                     const areatutu4 = area4.replace(coma, punto);
                                                     const areaFloat4 = parseFloat(areatutu4.replace(coma, punto));
-
                                                     const fuerza4 = areaFloat4 * n4 * coef_antena4 * q;
                                                     global.mom_basal4 = fuerza4 * parseInt(altura4);
                                                     global.mom_acum4 = mom_acum3 + mom_basal4;
                                                     global.cort_acum4 = cort_acum3 + fuerza4;
                                                     const coef_mom4 = mom_acum4 / mom_acum3;
                                                     const coef_cort4 = cort_acum4 / cort_acum3;
-
-
                                                     var VALORES3 = [estudio, altura4, areaFloat4, n4, coef_antena4, q, fuerza4, mom_basal4, mom_acum4, cort_acum4, coef_mom4, coef_cort4];
 
                                                     VALORES[3] = VALORES3;
+                                                    // console.log('Uno' + VALORES[0][10]);
+                                                    // console.log('Dos' + VALORES[1][10]);
+                                                    // console.log('tres' + VALORES[2][10]);
+                                                    // console.log('Cuatro' + VALORES[3][10]);
                                                     amounter(null, VALORES)
                                                 }
 
@@ -285,6 +282,7 @@ controller.analyAST60 = function(req, res) {
                     var factor = 1; //variable que tendrá el valor del momento luego del condicional de las alturas
                     var factorCorte = 1;
                     var k = 0;
+                    // console.log(amounter);
 
                     for (var i = 0; i < n; i++) {
                         // if (amounter) {
@@ -309,18 +307,22 @@ controller.analyAST60 = function(req, res) {
                             alturaux = amounter[j][1];
 
                             if (alturaux > (alturaTopeTramo - 6)) {
-                                factor = amounter[j][10];
+                                factorAmp = amounter[j][10];
                                 factorCorte = amounter[j][11];
                                 // console.log("se cumple condicion alturas con : " + alturaux + "y  " + alturaTopeTramo);
-                            } else factorCorte = 1;
+                            } else {
+                                factorCorte = 1;
+                                factorAmp = 1;
+                            }
 
-                            factAmp = factAmp * factor;
+                            factAmp = factAmp * factorAmp;
                             factAmpCorte = factAmpCorte * factorCorte;
                             // console.log("Factor : " + factAmpCorte);
                         }
                         valorFacAmp[i] = [estudio, i + 1, alturaTopeTramo, factAmp, factAmpCorte];
                     }
                 }
+
                 allast(valorFacAmp)
             });
         });
@@ -328,14 +330,11 @@ controller.analyAST60 = function(req, res) {
 
     let consolida = async(req) => {
         let VAL = await domingo(req, (allast) => {
-
             for (var i = 0; i < 10; i++) {
                 // console.log('Cortantes  :' + allast[i][4])
             }
 
-
             ///// Aquí empieza el  Milton /////
-
             var estudio = req.body.mem_cal;
             req.getConnection((err, conn) => { ///Aquí debaría guardar el resultado en alguna variable para que esta exista fuera de la gestión del query en si
 
@@ -354,8 +353,6 @@ controller.analyAST60 = function(req, res) {
                     } else {
                         console.log("algo está muy mal en el Query");
                     }
-
-
                 });
 
                 conn.query("SELECT * FROM fact_util_trayecto WHERE hist_mc_id = ?", [estudio], (err, results7, fields) => {
@@ -376,7 +373,8 @@ controller.analyAST60 = function(req, res) {
                     } else {
                         console.log("algo está muy mal en el Query");
                     }
-
+                    var imprimibleTramo = [];
+                    var imprimibleTrayecto = [];
                     global.fuCantonero = [];
                     global.fuDiagonales = [];
                     global.fuMontantes = [];
@@ -391,29 +389,65 @@ controller.analyAST60 = function(req, res) {
                     var acuCant, acuDiag, acuMont, acuConDiagPer, acuConDiagPlan, acuMontPer, acuMontPlan;
                     var resultadoFuCantonero, resultadoFuDiag, resultadoFuMont, resultadoConDiagPer, resultadoConDiagPlan, resultadoacuMontPer, resultadoacuMontPlan;
 
+                    var j = 1;
+
 
 
                     // for (i = 0; i < results5.length; i++) {
                     for (i = 0; i < 10; i++) {
                         var desp = i + 1;
+                        imprimibleTramo.push({
+                            Tramo: parseFloat(results6[i].id_factutiltramo),
+                            factorCantonero: parseFloat(allast[i][3]) * parseFloat(results6[i].cantonero.replace(",", ".")),
+                            factorDiagonales: parseFloat(allast[i][4]) * parseFloat(results6[i].diagonales.replace(",", ".")),
+                            factorMontantes: parseFloat(allast[i][4]) * parseFloat(results6[i].montantes.replace(",", ".")),
+                            factordiagpernos: parseFloat(allast[i][4]) * parseFloat(results6[i].conex_diag_pernos.replace(",", ".")),
+                            factordiagplanchas: parseFloat(allast[i][4]) * parseFloat(results6[i].conex_diag_planchas.replace(",", ".")),
+                            factormontpernos: parseFloat(allast[i][4]) * parseFloat(results6[i].conex_mont_pernos.replace(",", ".")),
+                            fuconexmontplanchas: parseFloat(allast[i][4]) * parseFloat(results6[i].conex_mont_planchas.replace(",", ".")),
+                            futramopernos: parseFloat(allast[i][4]) * parseFloat(results7[j].pernos.replace(",", ".")),
+                            futramobridas: parseFloat(allast[i][4]) * parseFloat(results7[j].bridas.replace(",", "."))
+                        });
 
-                        fuCantonero.push(parseFloat(allast[i][3]) * parseFloat(results6[i].cantonero.replace(",", ".")));
-                        // console.log('el resultado es ' + fuCantonero[i]);
-                        fuDiagonales.push(parseFloat(allast[i][4]) * parseFloat(results6[i].diagonales.replace(",", ".")));
-                        fuMontantes.push(parseFloat(allast[i][4]) * parseFloat(results6[i].montantes.replace(",", ".")));
-                        fuconex_diag_pernos.push(parseFloat(allast[i][4]) * parseFloat(results6[i].conex_diag_pernos.replace(",", ".")));
-                        fuconex_diag_planchas.push(parseFloat(allast[i][4]) * parseFloat(results6[i].conex_diag_planchas.replace(",", ".")));
-                        fuconex_mont_pernos.push(parseFloat(allast[i][4]) * parseFloat(results6[i].conex_mont_pernos.replace(",", ".")));
-                        fuconex_mont_planchas.push(parseFloat(allast[i][4]) * parseFloat(results6[i].conex_mont_planchas.replace(",", ".")));
+
+
+
+
+                        // fuMontantes.push(parseFloat(allast[i][4]) * parseFloat(results6[i].montantes.replace(",", ".")));
+                        // fuconex_diag_pernos.push(parseFloat(allast[i][4]) * parseFloat(results6[i].conex_diag_pernos.replace(",", ".")));
+                        // fuconex_diag_planchas.push(parseFloat(allast[i][4]) * parseFloat(results6[i].conex_diag_planchas.replace(",", ".")));
+                        // fuconex_mont_pernos.push(parseFloat(allast[i][4]) * parseFloat(results6[i].conex_mont_pernos.replace(",", ".")));
+                        // fuconex_mont_planchas.push(parseFloat(allast[i][4]) * parseFloat(results6[i].conex_mont_planchas.replace(",", ".")));
                         // console.log('en iteracion ' + i + ', los montantes planchas : ' + fuconex_mont_planchas[i]);
-                        console.log('en iteracion ' + i + ', fuconex_diag_planchas : ' + fuconex_diag_planchas[i]);
+                        // console.log('en iteracion ' + i + ', fuconex_diag_planchas : ' + fuconex_diag_planchas[i]);
                         // console.log('Viene de base de datos conex_diag_planchas : ' + results6[i].conex_diag_planchas);
                         // console.log('en iteracion ' + i + ', los fuconex_mont_planchas : ' + fuconex_mont_planchas[i]);
                         // // fupernos.push(parseFloat(results5[desp].corte_fact_amp.replace(",", ".")) * parseFloat(results7[i].pernos.replace(",", ".")));
                         // // fubridas.push(parseFloat(results5[desp].corte_fact_amp.replace(",", ".")) * parseFloat(results7[i].bridas.replace(",", ".")));
 
                     }
-                    // console.log('el vector ' + fuCantonero);
+
+
+                    for (i = 0; i < 9; i++) { //Poner en función de "n"  
+                        // var desp = i + 1;
+                        imprimibleTrayecto.push({
+                            Trayecto: results7[i].trayecto, //ojo con la coma
+                            factorConexPernos: parseFloat(allast[i][4]) * parseFloat(results7[i].pernos.replace(",", ".")),
+                            factorConexBridas: parseFloat(allast[i][3]) * parseFloat(results7[i].bridas.replace(",", "."))
+                                // factorDiagonales: parseFloat(allast[i][4]) * parseFloat(results6[i].diagonales.replace(",", ".")),
+                                // factorMontantes: parseFloat(allast[i][4]) * parseFloat(results6[i].montantes.replace(",", ".")),
+                                // factordiagpernos: parseFloat(allast[i][4]) * parseFloat(results6[i].conex_diag_pernos.replace(",", ".")),
+                                // factordiagplanchas: parseFloat(allast[i][4]) * parseFloat(results6[i].conex_diag_planchas.replace(",", ".")),
+                                // factormontpernos: parseFloat(allast[i][4]) * parseFloat(results6[i].conex_mont_pernos.replace(",", ".")),
+                                // fuconexmontplanchas: parseFloat(allast[i][4]) * parseFloat(results6[i].conex_mont_planchas.replace(",", ".")),
+                                // futramopernos: parseFloat(allast[i][4]) * parseFloat(results7[j].pernos.replace(",", ".")),
+                                // futramobridas: parseFloat(allast[i][4]) * parseFloat(results7[j].bridas.replace(",", "."))
+                        });
+                    }
+
+                    // console.log(' Mostrando los trayectos');
+                    // console.log(imprimibleTrayecto);
+                    // console.log('el cantonero' + fuCantonero);
 
                     var comparador1 = fuCantonero[0];
                     var comparador2 = fuDiagonales[0];
@@ -425,64 +459,64 @@ controller.analyAST60 = function(req, res) {
 
 
 
-                    for (i = 0; i < 10; i++) {
+                    // for (i = 0; i < 10; i++) {
 
-                        if (i < 10 && isFinite(fuCantonero[i + 1])) { //se puede añadir la condición de que revise si la comparación es número para poder acumular el resultado o no
-                            comparador1 = Math.max(comparador1, parseFloat(fuCantonero[i + 1]))
-                        } else {
-                            resultadoFuCantonero = comparador1;
-                        }
-
-
-                        if (i < 10 && isFinite(fuDiagonales[i + 1])) { //se puede añadir la condición de que revise si la comparación es número para poder acumular el resultado o no
-                            comparador2 = Math.max(comparador2, parseFloat(fuDiagonales[i + 1]));
-
-                        } else {
-                            resultadoFuDiag = comparador2;
-                        }
+                    //     if (i < 10 && isFinite(fuCantonero[i + 1])) { //se puede añadir la condición de que revise si la comparación es número para poder acumular el resultado o no
+                    //         comparador1 = Math.max(comparador1, parseFloat(fuCantonero[i + 1]))
+                    //     } else {
+                    //         resultadoFuCantonero = comparador1;
+                    //     }
 
 
-                        if (i < 10 && isFinite(fuMontantes[i + 1])) { //REVISAR QUE RECORRA TODO EL ARREGLO Y NO DEJE DE VER EL ÚLTIMO ELEMENTO
-                            comparador3 = Math.max(comparador3, parseFloat(fuMontantes[i + 1]));
+                    //     if (i < 10 && isFinite(fuDiagonales[i + 1])) { //se puede añadir la condición de que revise si la comparación es número para poder acumular el resultado o no
+                    //         comparador2 = Math.max(comparador2, parseFloat(fuDiagonales[i + 1]));
 
-                        } else {
-                            resultadoFuMont = comparador3;
-                        }
-
-
-                        if (i < 10 && isFinite(fuconex_diag_pernos[i + 1])) { //REVISAR QUE RECORRA TODO EL ARREGLO Y NO DEJE DE VER EL ÚLTIMO ELEMENTO
-                            comparador4 = Math.max(comparador4, parseFloat(fuconex_diag_pernos[i + 1]));
-                            // console.log('condición del no definido ' + fuconex_diag_pernos[i + 1] * 0);
-                        } else {
-                            resultadoConDiagPer = comparador4;
-                        }
+                    //     } else {
+                    //         resultadoFuDiag = comparador2;
+                    //     }
 
 
-                        if (i < 10 && isFinite(fuconex_diag_planchas[i + 1])) { //REVISAR QUE RECORRA TODO EL ARREGLO Y NO DEJE DE VER EL ÚLTIMO ELEMENTO
-                            comparador5 = Math.max(comparador5, parseFloat(fuconex_diag_planchas[i + 1]));
-                            // console.log('condición del no definido ' + fuconex_diag_planchas[i + 1] * 0);
-                            console.log('Tenemos fuconex_diag_planchas:' + comparador5);
-                        } else {
-                            resultadoConDiagPlan = comparador5;
-                        }
+                    //     if (i < 10 && isFinite(fuMontantes[i + 1])) { //REVISAR QUE RECORRA TODO EL ARREGLO Y NO DEJE DE VER EL ÚLTIMO ELEMENTO
+                    //         comparador3 = Math.max(comparador3, parseFloat(fuMontantes[i + 1]));
+
+                    //     } else {
+                    //         resultadoFuMont = comparador3;
+                    //     }
 
 
-                        if (i < 10 && isFinite(fuconex_mont_pernos[i + 1])) { //REVISAR QUE RECORRA TODO EL ARREGLO Y NO DEJE DE VER EL ÚLTIMO ELEMENTO
-                            comparador6 = Math.max(comparador6, parseFloat(fuconex_mont_pernos[i + 1]));
-                            // console.log('condición del no definido ' + fuconex_mont_pernos[i + 1] * 0);
-                        } else {
-                            resultadoacuMontPer = comparador6;
-                        }
+                    //     if (i < 10 && isFinite(fuconex_diag_pernos[i + 1])) { //REVISAR QUE RECORRA TODO EL ARREGLO Y NO DEJE DE VER EL ÚLTIMO ELEMENTO
+                    //         comparador4 = Math.max(comparador4, parseFloat(fuconex_diag_pernos[i + 1]));
+                    //         // console.log('condición del no definido ' + fuconex_diag_pernos[i + 1] * 0);
+                    //     } else {
+                    //         resultadoConDiagPer = comparador4;
+                    //     }
 
-                        if (i < 10 && isFinite(fuconex_mont_planchas[i + 1])) { //REVISAR QUE RECORRA TODO EL ARREGLO Y NO DEJE DE VER EL ÚLTIMO ELEMENTO
-                            comparador7 = Math.max(comparador7, parseFloat(fuconex_mont_planchas[i + 1]));
-                            // fuconex_mont_planchas[i + 1] = acuMontPlan;
-                            // console.log('condición del no definido ' + fuconex_mont_planchas[i + 1] * 0);
-                        } else {
-                            resultadoacuMontPlan = comparador7;
-                        }
 
-                    }
+                    //     if (i < 10 && isFinite(fuconex_diag_planchas[i + 1])) { //REVISAR QUE RECORRA TODO EL ARREGLO Y NO DEJE DE VER EL ÚLTIMO ELEMENTO
+                    //         comparador5 = Math.max(comparador5, parseFloat(fuconex_diag_planchas[i + 1]));
+                    //         // console.log('condición del no definido ' + fuconex_diag_planchas[i + 1] * 0);
+                    //         console.log('Tenemos fuconex_diag_planchas:' + comparador5);
+                    //     } else {
+                    //         resultadoConDiagPlan = comparador5;
+                    //     }
+
+
+                    //     if (i < 10 && isFinite(fuconex_mont_pernos[i + 1])) { //REVISAR QUE RECORRA TODO EL ARREGLO Y NO DEJE DE VER EL ÚLTIMO ELEMENTO
+                    //         comparador6 = Math.max(comparador6, parseFloat(fuconex_mont_pernos[i + 1]));
+                    //         // console.log('condición del no definido ' + fuconex_mont_pernos[i + 1] * 0);
+                    //     } else {
+                    //         resultadoacuMontPer = comparador6;
+                    //     }
+
+                    //     if (i < 10 && isFinite(fuconex_mont_planchas[i + 1])) { //REVISAR QUE RECORRA TODO EL ARREGLO Y NO DEJE DE VER EL ÚLTIMO ELEMENTO
+                    //         comparador7 = Math.max(comparador7, parseFloat(fuconex_mont_planchas[i + 1]));
+                    //         // fuconex_mont_planchas[i + 1] = acuMontPlan;
+                    //         // console.log('condición del no definido ' + fuconex_mont_planchas[i + 1] * 0);
+                    //     } else {
+                    //         resultadoacuMontPlan = comparador7;
+                    //     }
+
+                    // }
 
                     // console.log(fuCantonero);
                     // console.log('El resultado de los cantoneros es :  ' + resultadoFuCantonero);
@@ -501,13 +535,9 @@ controller.analyAST60 = function(req, res) {
 
 
                     return res.render('resultadoAS', {
-                        resultadoFuCantonero: resultadoFuCantonero,
-                        resultadoFuDiag: resultadoFuDiag,
-                        resultadoFuMont: resultadoFuMont,
-                        resultadoConDiagPer: resultadoConDiagPer,
-                        resultadoConDiagPlan: resultadoConDiagPlan,
-                        resultadoacuMontPer: resultadoacuMontPer,
-                        resultadoacuMontPlan: resultadoacuMontPlan
+                        //// Si quiero enviar los fuCantonero /////
+                        imprimibleTramo: imprimibleTramo,
+                        imprimibleTrayecto: imprimibleTrayecto
 
                     });
 
