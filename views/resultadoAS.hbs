@@ -9,8 +9,6 @@
             <ul class="navbar-nav mr-auto">
                 Estos son los resultados:</p>
                
-
-
                 <div class="container mt-5">
                 {{!-- <h3>El FU de cantoneros {{resultadoFuCantonero}}</h3>
                 <h3>El FU de resultadoFuDiag {{resultadoFuDiag}}</h3>
@@ -19,35 +17,57 @@
                 <h3>El FU de resultadoConDiagPlan {{resultadoConDiagPlan}}</h3>
                 <h3>El FU de resultadoacuMontPer {{resultadoacuMontPer}}</h3> --}}
 
-<h1>El FU de cantoneros es :   {{resultadoFuCantonero}}</h1>
-            <h1>El FU de resultadoFuDiag  es :  {{resultadoFuDiag}}</h1>
-            <h1>El FU de resultadoFuMont  es :  {{resultadoFuMont}}</h1>
-            <h1>El FU de resultadoConDiagPer  es :  {{resultadoConDiagPer}}</h1>
-            <h1>El FU de resultadoConDiagPlan  es :  {{resultadoConDiagPlan}}</h1>
-            <h1>El FU de resultadoacuMontPer es :   {{resultadoacuMontPer}}</h1>
-            <h1>El FU de resultadoacuMontPlan  es :  {{resultadoacuMontPlan}}</h1>
+
+
+{{!-- ///////////AQUI VAN LAS TABLAS /////////--}}
+<h1>PERFILES</h1>
+<table border="1">
+  <tr>
+   <td>Tramo</td> <td>Cantoneros</td><td>Diagonales</td><td>Montantes</td>
+  </tr>
+{{#each imprimibleTramo}}
+  <tr>  
+     <td>{{Tramo}}</td><td>{{factorCantonero}}</td> <td>{{factorDiagonales}}</td><td>{{factorMontantes}}</td>
+  </tr>   
+{{/each}}
+</table>
+
+
+
+<h1>CONEXIONES </h1>
+<table border="1">
+    <tr><td colspan="3" > CONEXIONES DIAGONALES</td><td colspan="3"> CONEXIONES MONTANTES</td></tr>
+  <tr>
+   <td>Tramo</td> <td>Pernos</td><td>Planchas</td><td>Tramo</td> <td>Pernos</td><td>Planchas</td>
+  </tr>
+{{#each imprimibleTramo}}
+  <tr>  
+     <td>{{Tramo}}</td><td>{{factordiagpernos}}</td> <td>{{factordiagplanchas}}</td><td>{{Tramo}}</td><td>{{factormontpernos}}</td> <td>{{fuconexmontplanchas}}</td>
+  </tr>   
+{{/each}}
+</table>
+
+<h1>Factores utilización en trayectos </h1>
+<table border="1">
+    <tr><td colspan="3" > CONEXIONES DIAGONALES</td>
+  <tr>
+   <td>Tramo</td> <td>Pernos</td><td>Bridas</td>
+  </tr>
+{{#each imprimibleTrayecto}}
+  <tr>  
+     <td>{{Trayecto}}</td><td>{{factorConexPernos}}</td> <td>{{factorConexBridas}}</td>
+  </tr>   
+{{/each}}
+</table>
+
+
+
 
   <div class="row">
     <div class="col-md-5">
       <div class="card-body">
 
        
-
-            {{!-- <h1>El FU de cantoneros {{resultadoFuCantonero}}</h1>
-            <h1>El FU de resultadoFuDiag {{resultadoFuDiag}}</h1>
-            <h1>El FU de resultadoFuMont {{resultadoFuMont}}</h1>
-            <h1>El FU de resultadoConDiagPer {{resultadoConDiagPer}}</h1>
-            <h1>El FU de resultadoConDiagPlan {{resultadoConDiagPlan}}</h1>
-            <h1>El FU de resultadoacuMontPer {{resultadoacuMontPer}}</h1>
-            <h1>El FU de resultadoacuMontPlan {{resultadoacuMontPlan}}</h1> --}}
-
-
-            {{!-- <ul>
-                <li><b>mostrar:</b><%= contrale %></li>
-            </ul> --}}
-              
-
-         
 
          </div>
     </div>
