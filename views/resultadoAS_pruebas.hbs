@@ -1,0 +1,109 @@
+
+
+{{> head }}
+{{> navbarusuario }}
+
+    <div class="jumbotron">
+        <h1 class="display-4">RESULTADOS PRUEBA</h1>
+        <p class="lead">Pendiente
+            <ul class="navbar-nav mr-auto">
+                Estos son los resultados:</p>
+               
+                <div class="container mt-5">
+
+
+<h1>Datos del estudio </h1>
+  <table border="1">        
+  <tr>
+    <td><strong>Código</strong></td><td><strong>Factor utilización antes (%)</strong></td>
+  </tr>
+  {{#each enter}}
+   <tr>
+   <td>{{codigo}}</td><td>{{fu}}</td>
+  </tr>
+  {{/each}}
+  </table>
+
+{{!-- ///////////AQUI VAN LAS TABLAS /////////--}}
+<h1>TABLA intermedia</h1>
+<table border="1">
+  <tr>
+   <td>Area</td> <td>q</td><td>Altura Torre</td><td>n</td><td>condicion_viento</td><td>coeficiente</td><td>Fuerza</td><td>Momento basal</td><td>Momento acum</td><td>corte acum</td><td>coef mom</td><td>coef corte</td>
+  </tr>
+{{#each solicitaciones}}
+  <tr>
+     <td>{{area}}</td><td>{{q}}</td><td>{{altura_torre}}</td><td>{{num_antenas}}</td><td>{{condicion_viento}}</td><td>{{coeficiente}}</td><td>{{fuerza}}</td><td>{{mome_bas_actual}}</td> <td>{{mom_bas_acum}}</td><td>{{cort_bas_acum}}</td><td>{{coe_mom_acum}}</td><td>{{coe_cort_acum}}</td>
+  </tr>   
+{{/each}}
+</table>
+
+
+<h1>TABLA FactoresAmplificacion</h1>
+<table border="1">
+  <tr>
+   <td>Altura de Tramo</td> <td>Factor amplificación momento</td><td>Factor amplificación  corte</td>
+   </tr>
+{{#each factoresamptramos}}
+  <tr>  
+    
+     <td>{{tramo}}</td><td>{{factor_amp_momento}}</td><td>{{factor_amp_corte}}</td>
+  </tr>   
+{{/each}}
+</table>
+
+
+<h1>Factores de utilización por tramos</h1>
+<table border="1">
+  <tr>
+   <td>fu_cantonero</td> <td>fu_diagonales</td><td>fu_montantes</td><td>fu_conex_diag_pernos</td><td>fu_conex_diag_planchas</td><td>fu_conex_mont_pernos</td><td>fu_conex_mont_planchas</td>
+  </tr>
+{{#each fu.FU_tramo}}
+  <tr>
+     <td>{{fu_cantonero}}</td><td>{{fu_diagonales}}</td><td>{{fu_montantes}}</td><td>{{fu_conex_diag_pernos}}</td><td>{{fu_conex_diag_planchas}}</td><td>{{fu_conex_mont_pernos}}</td><td>{{fu_conex_mont_planchas}}</td>
+  </tr>   
+{{/each}}
+</table>
+
+<h1>Factores de utilización por elementos</h1>
+<table border="1">
+  <tr>
+   <td>cantonero</td> <td>diagonales</td><td>montantes</td><td>conex_diag_pernos</td><td>conex_diag_planchas</td><td>conex_mont_pernos</td><td>conex_mont_planchas</td>
+  </tr>
+{{#each fu.FU_elemento}}
+  <tr>
+     <td>{{fu_elem_cantonero}}</td><td>{{fu_elem_diagonales}}</td><td>{{fu_elem_montantes}}</td><td>{{fu_elem_conex_diag_pernos}}</td><td>{{fu_elem_conex_diag_planchas}}</td><td>{{fu_elem_conex_mont_pernos}}</td><td>{{fu_elem_conex_mont_planchas}}</td>
+  </tr>   
+{{/each}}
+</table>
+
+
+<h1>EL FACTO DE UTILIZACIÓN DE LA TORRE ES </h1>
+<table border="1">
+  <tr>
+   <td>FU TOTAL</td>
+  </tr>
+
+  <tr>
+     <td><strong>{{fu.fu_torre}}</strong></td>
+  </tr>   
+
+</table>
+
+
+  <div class="row">
+    <div class="col-md-5">
+      <div class="card-body">
+
+       
+
+         </div>
+    </div>
+  </div>
+</div>
+
+
+        <hr class="my-4">
+        <p>Simplemente Industrial 4.0 en las estructuras de las antenas de tu planta externa.</p>
+        <a class="btn btn-primary btn-lg" href="#" role="button">Leer más</a>
+    </div>
+{{> footer}}

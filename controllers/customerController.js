@@ -7,8 +7,74 @@ path = require('path'),
 
 
     require('../config/config');
+
+const { datosSitios } = require('../middleware/datosSitios');
+const { dashboardCliente } = require('../middleware/dashboardCliente');
 var lista = new Array();
 
+
+
+// controller.dash = (req, res, band) => {
+
+//     dashboardCliente(req, res, function(err, band) {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             var anio = new Date().getFullYear();
+//             res.render('dashCliente', {
+//                 // anio: anio,
+//                 band: band
+//             });
+//         }
+
+//     });
+
+
+controller.dash = (req, res) => {
+    console.log(' Ingresa en el controller.dash');
+
+    let dashwaite1 = async(req, res) => {
+
+        console.log(' Ingresa en el dashwaite1 ');
+
+
+        let dashwaite2 = await dashboardCliente(req, res, (err, band) => {
+            if (err) {
+                console.log('En daswaite  :' + err);
+            } else {
+                console.log('Ingreso al final de el controlador antes de pasar a la vista');
+                var anio = new Date().getFullYear();
+                res.render('dashCliente', {
+                    // anio: anio,
+                    band: band
+                });
+            }
+
+        });
+
+        // dashwaite2(req, res);
+    }
+    dashwaite1(req, res);
+
+
+    // let espera = async(conn, req, org) => {
+    //     var anio = new Date().getFullYear();
+    //     let procesado = await datosSitios(conn, req, org, (err, band) => {
+    //         if (err) {
+    //             console.log('El pasaje no era suficiente' + JSON.stringify(band));
+    //         } else {
+    //             console.log('El pasaje no era suficiente' + JSON.stringify(band));
+
+    //             res.render('dashCliente', {
+    //                 // anio: anio,
+    //                 band: band
+    //             });
+    //         }
+    //     });
+    // }
+
+    // espera(conn, req, org);
+}
 
 
 controller.list = (req, res) => {
@@ -76,6 +142,7 @@ controller.valid = (req, res) => {
                         const role = results[0].role;
                         const pass = results[0].password;
                         const nombre = results[0].name1;
+                        const org = results[0].organitation;
 
                         let token = jwt.sign({
                             role: role,
@@ -90,10 +157,44 @@ controller.valid = (req, res) => {
                         }
 
                         if (role === 'CLIENT_ROLE') {
-                            res.render('usuarioClient', { token, role, nombre });
+                            console.log('Entró a la categoria del usuario');
+                            console.log('El valor de la organizacion :' + org);
+
+                            ///Se debe sincronizar aquí
+
+                            let vista = async(conn, req, org) => {
+                                let band = await datosSitios(conn, req, org, (err, band) => {
+
+                                    if (err) {
+                                        console.log('Tenemos un error de los sitios');
+                                    } else {
+                                        console.log('Antes de enviarlo al front ' + JSON.stringify(band))
+                                            // band: band
+                                        var anio = new Date().getFullYear();
+                                        res.render('usuarioClient', { band, nombre, token, anio }); //falta el anio
+                                    }
+
+
+                                });
+
+                                ////hay que atajar el error si se produce
+
+
+                            }
+                            vista(conn, req, org);
+
+                            //fin de la sincronizacion
+
+                            // datosSitios(conn, req, results[0].organitation, function(err, band) {
+                            //     // console.log('Quiero saber que hay en band' + band);
+                            //     var anio = new Date().getFullYear();
+                            //     res.render('usuarioClient', { band, nombre, anio, token });
+                            // });
+
                         }
 
                         if (role === 'USER_ROLE' || role === 'ANALYST_ROLE') {
+
                             res.render('usuarioUser', { token, role, nombre });
                         }
 
@@ -157,10 +258,10 @@ controller.analyAST60 = function(req, res) {
                         global.coma = ",";
                         global.punto = ".";
                         global.coef_forma1 = results[0].coe_antena;
-                        global.coef_antena1 = parseFloat(coef_forma1.replace(coma, punto));
+                        global.coef_antena1 = coef_forma1;
                         global.area1 = results[0].area_antena;
-                        global.areatutu1 = area1.replace(coma, punto);
-                        global.areaFloat1 = parseFloat(areatutu1.replace(coma, punto));
+                        global.areatutu1 = area1;
+                        global.areaFloat1 = areatutu1;
                         global.fuerza1 = areaFloat1 * n1 * coef_antena1 * q;
                         global.mom_basal1 = fuerza1 * parseInt(altura1);
                         global.mom_acum1 = mom_basal1 + parseInt(mom_basal);
@@ -183,11 +284,11 @@ controller.analyAST60 = function(req, res) {
                                 const punto = ".";
 
                                 const coef_forma2 = results[0].coe_antena;
-                                const coef_antena2 = parseFloat(coef_forma2.replace(coma, punto));
+                                const coef_antena2 = coef_forma2;
 
                                 const area2 = results[0].area_antena;
-                                const areatutu2 = area2.replace(coma, punto);
-                                const areaFloat2 = parseFloat(areatutu2.replace(coma, punto));
+                                const areatutu2 = area2;
+                                const areaFloat2 = areatutu2;
 
                                 const fuerza2 = areaFloat2 * n2 * coef_antena2 * q;
                                 global.mom_basal2 = fuerza2 * parseInt(altura2);
@@ -211,10 +312,10 @@ controller.analyAST60 = function(req, res) {
                                         const coma = ",";
                                         const punto = ".";
                                         const coef_forma3 = results[0].coe_antena;
-                                        const coef_antena3 = parseFloat(coef_forma3.replace(coma, punto));
+                                        const coef_antena3 = coef_forma3;
                                         const area3 = results[0].area_antena;
-                                        const areatutu3 = area3.replace(coma, punto);
-                                        const areaFloat3 = parseFloat(areatutu3.replace(coma, punto));
+                                        const areatutu3 = area3;
+                                        const areaFloat3 = areatutu3;
                                         const fuerza3 = areaFloat3 * n3 * coef_antena3 * q;
                                         global.mom_basal3 = fuerza3 * parseInt(altura3);
                                         global.mom_acum3 = mom_acum2 + mom_basal3;
@@ -235,10 +336,10 @@ controller.analyAST60 = function(req, res) {
                                                     const coma = ",";
                                                     const punto = ".";
                                                     const coef_forma4 = results[0].coe_antena;
-                                                    const coef_antena4 = parseFloat(coef_forma4.replace(coma, punto));
+                                                    const coef_antena4 = coef_forma4;
                                                     const area4 = results[0].area_antena;
-                                                    const areatutu4 = area4.replace(coma, punto);
-                                                    const areaFloat4 = parseFloat(areatutu4.replace(coma, punto));
+                                                    const areatutu4 = area4;
+                                                    const areaFloat4 = areatutu4;
                                                     const fuerza4 = areaFloat4 * n4 * coef_antena4 * q;
                                                     global.mom_basal4 = fuerza4 * parseInt(altura4);
                                                     global.mom_acum4 = mom_acum3 + mom_basal4;
