@@ -29,6 +29,7 @@ let datosSitios = async(conn, req, org, band) => {
                         } else {
 
                             for (var s = 0; s < geometria.length; s++) {
+                                console.log(" Aquí debería haber la cantidad de sitios en estructura para el cliente =" + geometria.length);
                                 // console.log(i + ') geometria_id de las estructuras que cumplen : ' + geometria[i].geometria_id);
                                 conn1.query('SELECT sitio,id_geometria FROM geometria where id_geometria=?', [geometria[s].geometria_id],
                                     function(err, sitios) {
@@ -36,10 +37,12 @@ let datosSitios = async(conn, req, org, band) => {
                                             console.log('Tengo un error  en  datosSitios' + err);
                                         } else {
 
-                                            if (s = (geometria.length - 1)) {
+                                            // if (s = (geometria.length - 1)) {
+                                            if (s = (geometria.length)) {
                                                 nombre2.push({ lugar: sitios[0].sitio, id: sitios[0].id_geometria });
 
-                                                // console.log('El contenido de nombre2 ' + JSON.stringify(nombre2) + 'Con S : ' + s);
+                                                console.log("El id en geometría de los sitios es = " + sitios[0].id_geometria);
+                                                console.log("Los en geometría son = " + sitios[0].id_geometria);
 
                                             }
 

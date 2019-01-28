@@ -168,7 +168,7 @@ controller.valid = (req, res) => {
                                     if (err) {
                                         console.log('Tenemos un error de los sitios');
                                     } else {
-                                        console.log('Antes de enviarlo al front ' + JSON.stringify(band))
+                                        console.log('Antes de enviarlo al front ' + JSON.stringify(band)) ///esta cargando varias veces
                                             // band: band
                                         var anio = new Date().getFullYear();
                                         res.render('usuarioClient', { band, nombre, token, anio }); //falta el anio

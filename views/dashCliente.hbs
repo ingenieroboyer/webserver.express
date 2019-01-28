@@ -7,8 +7,9 @@
         <h1 class="display-4">Aqui se creará el dashboard para estructuras</h1>
         <h2 class="display-4" align ='right'> Versión 1.3</h2>
         <p class="lead">Datos sobre la memoria de cálculo base
-            <table border="1">
-           
+            
+  <div>          
+ <table border="1">
  {{#each band.nombre1}}
             <tr>
     <td><strong>Estudio </strong>    </td><td>{{general.codigo}}</td>
@@ -27,6 +28,8 @@
   </tr>
   {{/each}}
 </table>
+</div> 
+
 <p></p>
 <p></p>
 <p></p>
@@ -310,7 +313,9 @@
                               <input type="hidden" name="id_hist_mc" value={{general.id_hist_mc}}>
                               <input type="hidden" name="altura_torre" value={{general.altura_torre}}>
                               <input type="hidden" name="codigo" value={{general.codigo}}> 
-                              <input type="hidden" name="fu" value={{general.fu}}>                          
+                              <input type="hidden" name="fu" value={{general.fu}}>  
+                              <input type="hidden" name="antenasAntes" value={{band.nombre2}}> 
+                                                       {{!-- ///serializar la salida para que la pueda mandar  el html --}}
                               
                               {{/each}}
                             </div>
