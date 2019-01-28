@@ -29,6 +29,7 @@ model.calculoAgnos = function(req, res, conn) {
         var altura;
         var altura_torre = enter.arr.altura_torre;
 
+
         for (i = 0; i < enter.ent.length; i++) {
             condicion_viento = req.body.condicion_viento;
             coeficiente = enter.ent[i].coeficiente;
@@ -67,10 +68,10 @@ model.calculoAgnos = function(req, res, conn) {
         //////AHORA VAMOS A GENERAR LOS FACTORES DE AMPLIFICACIÓN PARA MOMENTO Y CORTE//////
 
         console.log("Altura de la torre : " + SOLIC_ANT[0].altura_torre);
-        console.log("Variable de altura que actua en la fórmula  =   " + altura_torre);
+        // console.log("Variable de altura que actua en la fórmula  =   " + altura_torre);
         const n = altura_torre / 6; //Máxima cantidad de tramos
         // const altEstructura = altura_torre; //Altura de la estructura
-        console.log("Número de tramos desde la fórmula : " + n);
+        // console.log("Número de tramos desde la fórmula : " + n);
 
         var valorFacAmp = new Array(100);
         var alturaTopeTramo = 0; ///inicializado
@@ -83,7 +84,7 @@ model.calculoAgnos = function(req, res, conn) {
         //   
         const m = SOLIC_ANT.length; ///es el número de antenas que se instala en la estructura
 
-        var nuevo = new Array(n);
+        var nuevo = new Array(Math.round(n) + 1);
         var nuevoFactAmp = new Array(m);
         var factAmpAcum = 1;
         var factAmpCorte = 1;
@@ -108,6 +109,7 @@ model.calculoAgnos = function(req, res, conn) {
             }
             vect_fact_amp.push({
                 tramo: (i + 1) * 6,
+                tramoReal: (i + 1),
                 factor_amp_momento: factAmp.toFixed(3),
                 factor_amp_corte: factAmp2.toFixed(3)
             });
@@ -119,8 +121,9 @@ model.calculoAgnos = function(req, res, conn) {
 
             ///Aquí yo debería incluir un midleware para enviar a la vista de acuerdo al perfil del usuario solicitante
             // console.log(" Persiguiendo a fu  :" + JSON.stringify(fu))
-
+            console.log("Antes de pasarlo a la vista =" + JSON.stringify(req.body.antenasAntes));
             return res.render('resultadoAS_pruebas', {
+                antenasAntes: req.body.antenasAntes,
                 solicitaciones: SOLIC_ANT,
                 factoresamptramos: vect_fact_amp,
                 enter: enter,
@@ -130,129 +133,10 @@ model.calculoAgnos = function(req, res, conn) {
         });
 
 
-
     });
 
     console.log("Ip que hace la solicitud : " + req.ip); ///
 
-
-    // let consolida = async(req) => {
-    //     let VAL = await domingo(req, (allast) => {
-    //         for (var i = 0; i < 10; i++) {
-    //             // console.log('Cortantes  :' + allast[i][4])
-    //         }
-
-    //         ///// Aquí empieza el  Milton /////
-    //         var estudio = req.body.mem_cal;
-    //         req.getConnection((err, conn) => { ///Aquí debaría guardar el resultado en alguna variable para que esta exista fuera de la gestión del query en si
-
-    //             conn.query("SELECT * FROM fact_util_tramo WHERE hist_mc_id = ?", [estudio], (err, results6, fields) => {
-    //                 if (err) {
-    //                     console.log("error ocurred", err);
-    //                     res.send({
-    //                         "code": 400,
-    //                         "failed": "pilas con la cantidad de variables que envias"
-    //                     })
-    //                 }
-    //                 if (results6.length > 0) {
-    //                     global.results6 = results6;
-    //                     global.filas2 = results6.length;
-
-    //                 } else {
-    //                     console.log("algo está muy mal en el Query");
-    //                 }
-    //             });
-
-    //             conn.query("SELECT * FROM fact_util_trayecto WHERE hist_mc_id = ?", [estudio], (err, results7, fields) => {
-    //                 if (err) {
-    //                     console.log("error ocurred", err);
-    //                     res.send({
-    //                         "code": 400,
-    //                         "failed": "pilas con la cantidad de variables que envias"
-    //                     })
-    //                 }
-    //                 if (results7.length > 0) {
-    //                     global.filas3 = results7.length;
-    //                     // global.facUtilTrayecto = JSON.stringify(results7[0].pernos);
-    //                     global.results7 = results7;
-
-
-    //                     // console.log(pruebaLETTER)
-    //                 } else {
-    //                     console.log("algo está muy mal en el Query");
-    //                 }
-    //                 var imprimibleTramo = [];
-    //                 var imprimibleTrayecto = [];
-    //                 global.fuCantonero = [];
-    //                 global.fuDiagonales = [];
-    //                 global.fuMontantes = [];
-    //                 global.fuconex_diag_pernos = [];
-    //                 global.fuconex_diag_planchas = [];
-    //                 global.fuconex_mont_pernos = [];
-    //                 global.fuconex_mont_planchas = [];
-
-    //                 var fupernos = [];
-    //                 var fubridas = [];
-    //                 var lista = new Array();
-    //                 var acuCant, acuDiag, acuMont, acuConDiagPer, acuConDiagPlan, acuMontPer, acuMontPlan;
-    //                 var resultadoFuCantonero, resultadoFuDiag, resultadoFuMont, resultadoConDiagPer, resultadoConDiagPlan, resultadoacuMontPer, resultadoacuMontPlan;
-
-    //                 var j = 1;
-
-
-
-    //                 // for (i = 0; i < results5.length; i++) {
-    //                 for (i = 0; i < 10; i++) {
-    //                     var desp = i + 1;
-    //                     imprimibleTramo.push({
-    //                         Tramo: parseFloat(results6[i].id_factutiltramo),
-    //                         factorCantonero: parseFloat(allast[i][3]) * parseFloat(results6[i].cantonero.replace(",", ".")),
-    //                         factorDiagonales: parseFloat(allast[i][4]) * parseFloat(results6[i].diagonales.replace(",", ".")),
-    //                         factorMontantes: parseFloat(allast[i][4]) * parseFloat(results6[i].montantes.replace(",", ".")),
-    //                         factordiagpernos: parseFloat(allast[i][4]) * parseFloat(results6[i].conex_diag_pernos.replace(",", ".")),
-    //                         factordiagplanchas: parseFloat(allast[i][4]) * parseFloat(results6[i].conex_diag_planchas.replace(",", ".")),
-    //                         factormontpernos: parseFloat(allast[i][4]) * parseFloat(results6[i].conex_mont_pernos.replace(",", ".")),
-    //                         fuconexmontplanchas: parseFloat(allast[i][4]) * parseFloat(results6[i].conex_mont_planchas.replace(",", ".")),
-    //                         futramopernos: parseFloat(allast[i][4]) * parseFloat(results7[j].pernos.replace(",", ".")),
-    //                         futramobridas: parseFloat(allast[i][4]) * parseFloat(results7[j].bridas.replace(",", "."))
-    //                     });
-
-
-    //                 }
-    //                 for (i = 0; i < 9; i++) { //Poner en función de "n"  
-    //                     // var desp = i + 1;
-    //                     imprimibleTrayecto.push({
-    //                         Trayecto: results7[i].trayecto, //ojo con la coma
-    //                         factorConexPernos: parseFloat(allast[i][4]) * parseFloat(results7[i].pernos.replace(",", ".")),
-    //                         factorConexBridas: parseFloat(allast[i][3]) * parseFloat(results7[i].bridas.replace(",", "."))
-
-    //                     });
-    //                 }
-    //                 var comparador1 = fuCantonero[0];
-    //                 var comparador2 = fuDiagonales[0];
-    //                 var comparador3 = fuMontantes[0];
-    //                 var comparador4 = fuconex_diag_pernos[0];
-    //                 var comparador5 = fuconex_diag_planchas[0]; //fuconex_diag_planchas
-    //                 var comparador6 = fuconex_mont_pernos[0];
-    //                 var comparador7 = fuconex_mont_planchas[0];
-
-    // return res.render('resultadoAS_pruebas', {
-    //     //// Si quiero enviar los fuCantonero /////
-    //     imprimibleTramo: "hola mundo",
-    //     imprimibleTrayecto: "que tal",
-    //     anio: new Date().getFullYear()
-
-    // });
-
-    //             });
-    //         });
-
-
-    //         //////////Fin del Milton //////////
-    //     });
-    // }
-
-    // consolida(req);
 
 }
 

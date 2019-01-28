@@ -28,11 +28,11 @@
 <h1>TABLA intermedia</h1>
 <table border="1">
   <tr>
-   <td>Area</td> <td>q</td><td>Altura Torre</td><td>n</td><td>condicion_viento</td><td>coeficiente</td><td>Fuerza</td><td>Momento basal</td><td>Momento acum</td><td>corte acum</td><td>coef mom</td><td>coef corte</td>
+   <td>Area</td> <td>q</td><td>Altura Torre</td><td>Altura antena</td><td>n</td><td>condicion_viento</td><td>coeficiente</td><td>Fuerza</td><td>Momento basal</td><td>Momento acum</td><td>corte acum</td><td>coef mom</td><td>coef corte</td>
   </tr>
 {{#each solicitaciones}}
   <tr>
-     <td>{{area}}</td><td>{{q}}</td><td>{{altura_torre}}</td><td>{{num_antenas}}</td><td>{{condicion_viento}}</td><td>{{coeficiente}}</td><td>{{fuerza}}</td><td>{{mome_bas_actual}}</td> <td>{{mom_bas_acum}}</td><td>{{cort_bas_acum}}</td><td>{{coe_mom_acum}}</td><td>{{coe_cort_acum}}</td>
+     <td>{{area}}</td><td>{{q}}</td><td>{{altura_torre}}</td><td>{{altura}}</td><td>{{num_antenas}}</td><td>{{condicion_viento}}</td><td>{{coeficiente}}</td><td>{{fuerza}}</td><td>{{mome_bas_actual}}</td> <td>{{mom_bas_acum}}</td><td>{{cort_bas_acum}}</td><td>{{coe_mom_acum}}</td><td>{{coe_cort_acum}}</td>
   </tr>   
 {{/each}}
 </table>
@@ -41,12 +41,27 @@
 <h1>TABLA FactoresAmplificacion</h1>
 <table border="1">
   <tr>
-   <td>Altura de Tramo</td> <td>Factor amplificación momento</td><td>Factor amplificación  corte</td>
+   <td>Tramo</td> <td>Factor amplificación momento</td><td>Factor amplificación  corte</td>
    </tr>
 {{#each factoresamptramos}}
   <tr>  
     
-     <td>{{tramo}}</td><td>{{factor_amp_momento}}</td><td>{{factor_amp_corte}}</td>
+     <td>{{tramoReal}}</td><td>{{factor_amp_momento}}</td><td>{{factor_amp_corte}}</td>
+  </tr>   
+{{/each}}
+</table>
+
+
+
+
+<table border="1">
+  <tr>
+   <td>Descripcion</td> 
+   </tr>
+{{#each antenasAntes}}
+  <tr>  
+    
+     <td>{{antena.descripcion}} </td>
   </tr>   
 {{/each}}
 </table>
