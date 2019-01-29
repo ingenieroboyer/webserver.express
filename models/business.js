@@ -68,20 +68,14 @@ model.calculoAgnos = function(req, res, conn) {
         //////AHORA VAMOS A GENERAR LOS FACTORES DE AMPLIFICACIÓN PARA MOMENTO Y CORTE//////
 
         console.log("Altura de la torre : " + SOLIC_ANT[0].altura_torre);
-        // console.log("Variable de altura que actua en la fórmula  =   " + altura_torre);
         const n = altura_torre / 6; //Máxima cantidad de tramos
-        // const altEstructura = altura_torre; //Altura de la estructura
-        // console.log("Número de tramos desde la fórmula : " + n);
-
         var valorFacAmp = new Array(100);
         var alturaTopeTramo = 0; ///inicializado
         var alturaux;
         var factor = 1; //variable que tendrá el valor del momento luego del condicional de las alturas
         var factorCorte = 1;
         var k = 0;
-        //                 // console.log(amounter);
 
-        //   
         const m = SOLIC_ANT.length; ///es el número de antenas que se instala en la estructura
 
         var nuevo = new Array(Math.round(n) + 1);
@@ -119,17 +113,42 @@ model.calculoAgnos = function(req, res, conn) {
 
         let pasofinal = fu_final(conn, req, res, vect_fact_amp, enter, SOLIC_ANT, (fu) => {
 
-            ///Aquí yo debería incluir un midleware para enviar a la vista de acuerdo al perfil del usuario solicitante
-            // console.log(" Persiguiendo a fu  :" + JSON.stringify(fu))
-            console.log("Antes de pasarlo a la vista =" + JSON.stringify(req.body.antenasAntes));
-            return res.render('resultadoAS_pruebas', {
-                antenasAntes: req.body.antenasAntes,
-                solicitaciones: SOLIC_ANT,
-                factoresamptramos: vect_fact_amp,
-                enter: enter,
-                fu: fu
+            console.log("Quiero ver el req body " + JSON.stringify(req.body.id_hist_mc));
+
+            req.getConnection((err, conn1) => {
+                var CargaInicial = [];
+                conn1.query("SELECT * FROM inventario WHERE hist_mc_id=? ", [req.body.id_hist_mc], (err, cargin, fields) => {
+                    if (err) {
+                        console.log("Atento con error en query inventario");
+                    } else {
+                        for (i = 0; i < cargin.length; i++) {
+                            CargaInicial.push({
+                                descripcion: cargin[i].descripcion,
+                                cantidad: cargin[i].cantidad,
+                                orientacion: cargin[i].orientacion,
+                                altura: cargin[i].altura
+                            });
+                        }
+                        console.log("Quiero saber que hay en CargaInicial " + JSON.stringify(CargaInicial));
+                        return res.render('resultadoAS_pruebas', {
+                            antenasAntes: req.body.antenasAntes,
+                            solicitaciones: SOLIC_ANT,
+                            factoresamptramos: vect_fact_amp,
+                            enter: enter,
+                            fu: fu,
+                            CargaInicial: CargaInicial
+
+                        });
+                    }
+
+
+                });
 
             });
+
+            ///Aquí yo debería incluir un midleware para enviar a la vista de acuerdo al perfil del usuario solicitante
+
+
         });
 
 
@@ -650,8 +669,8 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                     id_hist_mc: req.body.id_hist_mc
                 }
 
-                console.log("Donde se arma el arr, mom_basal :" + basales[0].mom_basal);
-                console.log("Donde se arma el arr, mom_basal :" + basales[0].corte_basal);
+                // console.log("Donde se arma el arr, mom_basal :" + basales[0].mom_basal);
+                // console.log("Donde se arma el arr, mom_basal :" + basales[0].corte_basal);
                 qs = buscaq(conn, req, arr, (pol) => {
                     console.log("marca para ver los tiempos de ejecución");
                     enter({
@@ -669,7 +688,7 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
 buscaq = (conn, req, arr, pol) => {
     var q;
     var alt = Math.round(arr.altura);
-    console.log("Las alturas  :" + alt);
+
     req.getConnection((err, conn1) => {
         conn1.query("SELECT * FROM q WHERE altura=? ", [alt], (err, ques, fields) => {
             if (err) {
@@ -711,88 +730,110 @@ buscaalt = function(conn, req) {
 
 fu_final = function(conn, req, res, vect_fact_amp, enter, SOLIC_ANT, fu) {
     var FU_tramo = [];
+    var FU_trayecto = [];
     var FU_elemento = [];
-
-
-    // console.log("El valor de id_hist_mc =" + req.body.id_hist_mc);
+    var FU_elemento2 = [];
 
     req.getConnection((err, conn) => {
         conn.query("SELECT * FROM fact_util_tramo WHERE hist_mc_id=? ", [req.body.id_hist_mc], (err, bdFacUtilTramo, fields) => {
             if (err) {
-                console.log("Manejar el error de query en buscaalt");
+                console.log("Manejar el error de query en buscaalt1");
             } else {
-                for (i = 0; i < bdFacUtilTramo.length; i++) {
-                    // console.log(" Valores FacUtilTramo en " + i + "=" + bdFacUtilTramo[i].cantonero);
-                    // console.log(" Valores vect_fact_amp en " + i + "=" + vect_fact_amp[i].factor_amp_momento);
-                    FU_tramo.push({
-                        fu_cantonero: ((bdFacUtilTramo[i].cantonero) * (vect_fact_amp[i].factor_amp_momento)).toFixed(2),
-                        fu_diagonales: ((bdFacUtilTramo[i].diagonales) * (vect_fact_amp[i].factor_amp_corte)).toFixed(2),
-                        fu_montantes: ((bdFacUtilTramo[i].montantes) * (vect_fact_amp[i].factor_amp_corte)).toFixed(2),
-                        fu_conex_diag_pernos: ((bdFacUtilTramo[i].conex_diag_pernos) * (vect_fact_amp[i].factor_amp_corte)).toFixed(2),
-                        fu_conex_diag_planchas: ((bdFacUtilTramo[i].conex_diag_planchas) * (vect_fact_amp[i].factor_amp_corte)).toFixed(2),
-                        fu_conex_mont_pernos: ((bdFacUtilTramo[i].conex_mont_pernos) * (vect_fact_amp[i].factor_amp_corte)).toFixed(2),
-                        fu_conex_mont_planchas: ((bdFacUtilTramo[i].conex_mont_planchas) * (vect_fact_amp[i].factor_amp_corte)).toFixed(2)
-                    });
-                }
-                // console.log(" Echemosle un vistazo a FU_tramo =  " + JSON.stringify(FU_tramo));
-                // console.log(" El Fu total de cantonero =  " + Math.max(FU_tramo.fu_cantonero));
-                var elem = FU_tramo;
+                /// intervengo para añadir el cálculo de los trayectos
+                conn.query("SELECT * FROM fact_util_trayecto WHERE hist_mc_id=? ", [req.body.id_hist_mc], (err, bdFacUtilTrayecto, fields) => {
+                    if (err) {
+                        console.log("Manejar el error de query en buscaalt2");
+                    } else {
+                        for (i = 0; i < bdFacUtilTramo.length; i++) {
+                            FU_tramo.push({
+                                fu_cantonero: ((bdFacUtilTramo[i].cantonero) * (vect_fact_amp[i].factor_amp_momento)).toFixed(2),
+                                fu_diagonales: ((bdFacUtilTramo[i].diagonales) * (vect_fact_amp[i].factor_amp_corte)).toFixed(2),
+                                fu_montantes: ((bdFacUtilTramo[i].montantes) * (vect_fact_amp[i].factor_amp_corte)).toFixed(2),
+                                fu_conex_diag_pernos: ((bdFacUtilTramo[i].conex_diag_pernos) * (vect_fact_amp[i].factor_amp_corte)).toFixed(2),
+                                fu_conex_diag_planchas: ((bdFacUtilTramo[i].conex_diag_planchas) * (vect_fact_amp[i].factor_amp_corte)).toFixed(2),
+                                fu_conex_mont_pernos: ((bdFacUtilTramo[i].conex_mont_pernos) * (vect_fact_amp[i].factor_amp_corte)).toFixed(2),
+                                fu_conex_mont_planchas: ((bdFacUtilTramo[i].conex_mont_planchas) * (vect_fact_amp[i].factor_amp_corte)).toFixed(2)
+                            });
+                        }
 
-                var comparador1 = elem[0].fu_cantonero;
-                var comparador2 = elem[0].fu_diagonales;
-                var comparador3 = elem[0].fu_montantes;
-                var comparador4 = elem[0].fu_conex_diag_pernos;
-                var comparador5 = elem[0].fu_conex_diag_planchas;
-                var comparador6 = elem[0].fu_conex_mont_pernos;
-                var comparador7 = elem[0].fu_conex_mont_planchas;
+                        for (i = 0; i < bdFacUtilTrayecto.length; i++) {
+                            FU_trayecto.push({
+                                fu_pernos: ((bdFacUtilTrayecto[i].pernos) * (vect_fact_amp[i].factor_amp_momento)).toFixed(2),
+                                fu_bridas: ((bdFacUtilTrayecto[i].bridas) * (vect_fact_amp[i].factor_amp_momento)).toFixed(2)
+                            });
+                        }
+
+                        var elem = FU_tramo;
+                        var comparador1 = elem[0].fu_cantonero;
+                        var comparador2 = elem[0].fu_diagonales;
+                        var comparador3 = elem[0].fu_montantes;
+                        var comparador4 = elem[0].fu_conex_diag_pernos;
+                        var comparador5 = elem[0].fu_conex_diag_planchas;
+                        var comparador6 = elem[0].fu_conex_mont_pernos;
+                        var comparador7 = elem[0].fu_conex_mont_planchas;
+
+                        //// inicializando los FU trayecto
+                        var elem2 = FU_trayecto;
+                        var comparador11 = elem2[0].fu_pernos;
+                        var comparador21 = elem2[0].fu_bridas;
+
+                        for (i = 0; i < elem.length; i++) {
+                            j = i + 1;
+                            if (j < elem.length) {
+                                comparador1 = Math.max(comparador1, elem[j].fu_cantonero);
+                                comparador2 = Math.max(comparador2, elem[j].fu_diagonales);
+                                comparador3 = Math.max(comparador3, elem[j].fu_montantes);
+                                comparador4 = Math.max(comparador4, elem[j].fu_conex_diag_pernos);
+                                comparador5 = Math.max(comparador5, elem[j].fu_conex_diag_planchas);
+                                comparador6 = Math.max(comparador6, elem[j].fu_conex_mont_pernos);
+                                comparador7 = Math.max(comparador7, elem[j].fu_conex_mont_planchas);
+                            }
+                        }
 
 
+                        for (i = 0; i < elem2.length; i++) {
+                            j = i + 1;
+                            if (j < elem2.length) {
+                                comparador11 = Math.max(comparador11, elem2[j].fu_pernos);
+                                comparador21 = Math.max(comparador21, elem2[j].fu_bridas);
 
-                for (i = 0; i < elem.length; i++) {
-                    j = i + 1;
-                    if (j < elem.length) {
-                        comparador1 = Math.max(comparador1, elem[j].fu_cantonero);
-                        comparador2 = Math.max(comparador2, elem[j].fu_diagonales);
-                        comparador3 = Math.max(comparador3, elem[j].fu_montantes);
-                        comparador4 = Math.max(comparador4, elem[j].fu_conex_diag_pernos);
-                        comparador5 = Math.max(comparador5, elem[j].fu_conex_diag_planchas);
-                        comparador6 = Math.max(comparador6, elem[j].fu_conex_mont_pernos);
-                        comparador7 = Math.max(comparador7, elem[j].fu_conex_mont_planchas);
+                            }
+                        }
 
-                        // console.log(" Cada iteracion " + i + " = " + elem[j].fu_cantonero);
-                        // console.log(" Cada iteracion " + i + " = " + comparador1);
+                        FU_elemento.push({
+                            fu_elem_cantonero: comparador1.toFixed(2),
+                            fu_elem_diagonales: comparador2.toFixed(2),
+                            fu_elem_montantes: comparador3.toFixed(2),
+                            fu_elem_conex_diag_pernos: comparador4.toFixed(2),
+                            fu_elem_conex_diag_planchas: comparador5.toFixed(2),
+                            fu_elem_conex_mont_pernos: comparador6.toFixed(2),
+                            fu_elem_conex_mont_planchas: comparador7.toFixed(2)
+                        });
+
+                        FU_elemento2.push({
+                            fu_elem2_pernos: comparador11.toFixed(2),
+                            fu_elem2_bridas: comparador21.toFixed(2),
+
+                        });
+
+                        var fu_torre = Math.max(FU_elemento[0].fu_elem_cantonero, FU_elemento2[0].fu_elem2_bridas, FU_elemento2[0].fu_elem2_pernos, FU_elemento[0].fu_elem_diagonales, FU_elemento[0].fu_elem_montantes, FU_elemento[0].fu_elem_conex_diag_pernos, FU_elemento[0].fu_elem_conex_diag_planchas, FU_elemento[0].fu_elem_cantonero, FU_elemento[0].fu_elem_conex_mont_pernos, FU_elemento[0].fu_elem_conex_mont_planchas);
+
+                        fu({
+                            SOLIC_ANT: SOLIC_ANT,
+                            FU_tramo: FU_tramo,
+                            FU_trayecto: FU_trayecto,
+                            FU_elemento: FU_elemento,
+                            FU_elemento2: FU_elemento2,
+                            fu_torre: (fu_torre * 100)
+                        })
+
+
                     }
-                }
-
-
-                FU_elemento.push({
-                    fu_elem_cantonero: comparador1.toFixed(2),
-                    fu_elem_diagonales: comparador2.toFixed(2),
-                    fu_elem_montantes: comparador3.toFixed(2),
-                    fu_elem_conex_diag_pernos: comparador4.toFixed(2),
-                    fu_elem_conex_diag_planchas: comparador5.toFixed(2),
-                    fu_elem_conex_mont_pernos: comparador6.toFixed(2),
-                    fu_elem_conex_mont_planchas: comparador7.toFixed(2)
                 });
 
-                // console.log(" El mayor fu_cantonero  =" + comparador1);
-                // console.log(" El mayor fu_diagonales  =" + comparador2);
-                // console.log(" El mayor fu_montantes  =" + comparador3);
-                // console.log(" El mayor fu_conex_diag_pernos  =" + comparador4);
-                // console.log(" El mayor fu_conex_diag_planchas  =" + comparador5);
-                // console.log(" El mayor fu_conex_mont_pernos  =" + comparador6);
-                // console.log(" El mayor fu_conex_mont_planchas  =" + comparador7);
-
-                var fu_torre = Math.max(FU_elemento[0].fu_elem_cantonero, FU_elemento[0].fu_elem_diagonales, FU_elemento[0].fu_elem_montantes, FU_elemento[0].fu_elem_conex_diag_pernos, FU_elemento[0].fu_elem_conex_diag_planchas, FU_elemento[0].fu_elem_cantonero, FU_elemento[0].fu_elem_conex_mont_pernos, FU_elemento[0].fu_elem_conex_mont_planchas);
 
 
 
-                fu({
-                    SOLIC_ANT: SOLIC_ANT,
-                    FU_tramo: FU_tramo,
-                    FU_elemento: FU_elemento,
-                    fu_torre: (fu_torre * 100)
-                })
 
             }
         });

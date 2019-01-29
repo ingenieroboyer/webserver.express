@@ -14,29 +14,12 @@ var lista = new Array();
 
 
 
-// controller.dash = (req, res, band) => {
-
-//     dashboardCliente(req, res, function(err, band) {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             var anio = new Date().getFullYear();
-//             res.render('dashCliente', {
-//                 // anio: anio,
-//                 band: band
-//             });
-//         }
-
-//     });
-
 
 controller.dash = (req, res) => {
     console.log(' Ingresa en el controller.dash');
 
     let dashwaite1 = async(req, res) => {
-
         console.log(' Ingresa en el dashwaite1 ');
-
 
         let dashwaite2 = await dashboardCliente(req, res, (err, band) => {
             if (err) {
@@ -57,23 +40,6 @@ controller.dash = (req, res) => {
     dashwaite1(req, res);
 
 
-    // let espera = async(conn, req, org) => {
-    //     var anio = new Date().getFullYear();
-    //     let procesado = await datosSitios(conn, req, org, (err, band) => {
-    //         if (err) {
-    //             console.log('El pasaje no era suficiente' + JSON.stringify(band));
-    //         } else {
-    //             console.log('El pasaje no era suficiente' + JSON.stringify(band));
-
-    //             res.render('dashCliente', {
-    //                 // anio: anio,
-    //                 band: band
-    //             });
-    //         }
-    //     });
-    // }
-
-    // espera(conn, req, org);
 }
 
 
@@ -148,17 +114,12 @@ controller.valid = (req, res) => {
                             role: role,
                             nombre: nombre
                         }, 'este-es-el-seed-desarrollo', { expiresIn: 60 * 60 });
-                        console.log(role);
-                        console.log(pass);
-                        console.log(nombre);
 
                         if (role === 'ADMIN_ROLE') {
                             res.render('usuarioAdmin', { token, role, nombre });
                         }
 
                         if (role === 'CLIENT_ROLE') {
-                            console.log('Entró a la categoria del usuario');
-                            console.log('El valor de la organizacion :' + org);
 
                             ///Se debe sincronizar aquí
 
@@ -168,33 +129,19 @@ controller.valid = (req, res) => {
                                     if (err) {
                                         console.log('Tenemos un error de los sitios');
                                     } else {
-                                        console.log('Antes de enviarlo al front ' + JSON.stringify(band)) ///esta cargando varias veces
+                                        console.log('Antes de enviarlo al front ' + JSON.stringify(band)) ///ESTA CARGANDO VARIAS VECES #!!!#4$%%%
                                             // band: band
                                         var anio = new Date().getFullYear();
                                         res.render('usuarioClient', { band, nombre, token, anio }); //falta el anio
                                     }
-
-
                                 });
 
                                 ////hay que atajar el error si se produce
-
-
                             }
                             vista(conn, req, org);
-
-                            //fin de la sincronizacion
-
-                            // datosSitios(conn, req, results[0].organitation, function(err, band) {
-                            //     // console.log('Quiero saber que hay en band' + band);
-                            //     var anio = new Date().getFullYear();
-                            //     res.render('usuarioClient', { band, nombre, anio, token });
-                            // });
-
                         }
 
                         if (role === 'USER_ROLE' || role === 'ANALYST_ROLE') {
-
                             res.render('usuarioUser', { token, role, nombre });
                         }
 
@@ -511,21 +458,6 @@ controller.analyAST60 = function(req, res) {
                         });
 
 
-
-
-
-                        // fuMontantes.push(parseFloat(allast[i][4]) * parseFloat(results6[i].montantes.replace(",", ".")));
-                        // fuconex_diag_pernos.push(parseFloat(allast[i][4]) * parseFloat(results6[i].conex_diag_pernos.replace(",", ".")));
-                        // fuconex_diag_planchas.push(parseFloat(allast[i][4]) * parseFloat(results6[i].conex_diag_planchas.replace(",", ".")));
-                        // fuconex_mont_pernos.push(parseFloat(allast[i][4]) * parseFloat(results6[i].conex_mont_pernos.replace(",", ".")));
-                        // fuconex_mont_planchas.push(parseFloat(allast[i][4]) * parseFloat(results6[i].conex_mont_planchas.replace(",", ".")));
-                        // console.log('en iteracion ' + i + ', los montantes planchas : ' + fuconex_mont_planchas[i]);
-                        // console.log('en iteracion ' + i + ', fuconex_diag_planchas : ' + fuconex_diag_planchas[i]);
-                        // console.log('Viene de base de datos conex_diag_planchas : ' + results6[i].conex_diag_planchas);
-                        // console.log('en iteracion ' + i + ', los fuconex_mont_planchas : ' + fuconex_mont_planchas[i]);
-                        // // fupernos.push(parseFloat(results5[desp].corte_fact_amp.replace(",", ".")) * parseFloat(results7[i].pernos.replace(",", ".")));
-                        // // fubridas.push(parseFloat(results5[desp].corte_fact_amp.replace(",", ".")) * parseFloat(results7[i].bridas.replace(",", ".")));
-
                     }
 
 
@@ -535,20 +467,10 @@ controller.analyAST60 = function(req, res) {
                             Trayecto: results7[i].trayecto, //ojo con la coma
                             factorConexPernos: parseFloat(allast[i][4]) * parseFloat(results7[i].pernos.replace(",", ".")),
                             factorConexBridas: parseFloat(allast[i][3]) * parseFloat(results7[i].bridas.replace(",", "."))
-                                // factorDiagonales: parseFloat(allast[i][4]) * parseFloat(results6[i].diagonales.replace(",", ".")),
-                                // factorMontantes: parseFloat(allast[i][4]) * parseFloat(results6[i].montantes.replace(",", ".")),
-                                // factordiagpernos: parseFloat(allast[i][4]) * parseFloat(results6[i].conex_diag_pernos.replace(",", ".")),
-                                // factordiagplanchas: parseFloat(allast[i][4]) * parseFloat(results6[i].conex_diag_planchas.replace(",", ".")),
-                                // factormontpernos: parseFloat(allast[i][4]) * parseFloat(results6[i].conex_mont_pernos.replace(",", ".")),
-                                // fuconexmontplanchas: parseFloat(allast[i][4]) * parseFloat(results6[i].conex_mont_planchas.replace(",", ".")),
-                                // futramopernos: parseFloat(allast[i][4]) * parseFloat(results7[j].pernos.replace(",", ".")),
-                                // futramobridas: parseFloat(allast[i][4]) * parseFloat(results7[j].bridas.replace(",", "."))
+
                         });
                     }
 
-                    // console.log(' Mostrando los trayectos');
-                    // console.log(imprimibleTrayecto);
-                    // console.log('el cantonero' + fuCantonero);
 
                     var comparador1 = fuCantonero[0];
                     var comparador2 = fuDiagonales[0];
@@ -557,82 +479,6 @@ controller.analyAST60 = function(req, res) {
                     var comparador5 = fuconex_diag_planchas[0]; //fuconex_diag_planchas
                     var comparador6 = fuconex_mont_pernos[0];
                     var comparador7 = fuconex_mont_planchas[0];
-
-
-
-                    // for (i = 0; i < 10; i++) {
-
-                    //     if (i < 10 && isFinite(fuCantonero[i + 1])) { //se puede añadir la condición de que revise si la comparación es número para poder acumular el resultado o no
-                    //         comparador1 = Math.max(comparador1, parseFloat(fuCantonero[i + 1]))
-                    //     } else {
-                    //         resultadoFuCantonero = comparador1;
-                    //     }
-
-
-                    //     if (i < 10 && isFinite(fuDiagonales[i + 1])) { //se puede añadir la condición de que revise si la comparación es número para poder acumular el resultado o no
-                    //         comparador2 = Math.max(comparador2, parseFloat(fuDiagonales[i + 1]));
-
-                    //     } else {
-                    //         resultadoFuDiag = comparador2;
-                    //     }
-
-
-                    //     if (i < 10 && isFinite(fuMontantes[i + 1])) { //REVISAR QUE RECORRA TODO EL ARREGLO Y NO DEJE DE VER EL ÚLTIMO ELEMENTO
-                    //         comparador3 = Math.max(comparador3, parseFloat(fuMontantes[i + 1]));
-
-                    //     } else {
-                    //         resultadoFuMont = comparador3;
-                    //     }
-
-
-                    //     if (i < 10 && isFinite(fuconex_diag_pernos[i + 1])) { //REVISAR QUE RECORRA TODO EL ARREGLO Y NO DEJE DE VER EL ÚLTIMO ELEMENTO
-                    //         comparador4 = Math.max(comparador4, parseFloat(fuconex_diag_pernos[i + 1]));
-                    //         // console.log('condición del no definido ' + fuconex_diag_pernos[i + 1] * 0);
-                    //     } else {
-                    //         resultadoConDiagPer = comparador4;
-                    //     }
-
-
-                    //     if (i < 10 && isFinite(fuconex_diag_planchas[i + 1])) { //REVISAR QUE RECORRA TODO EL ARREGLO Y NO DEJE DE VER EL ÚLTIMO ELEMENTO
-                    //         comparador5 = Math.max(comparador5, parseFloat(fuconex_diag_planchas[i + 1]));
-                    //         // console.log('condición del no definido ' + fuconex_diag_planchas[i + 1] * 0);
-                    //         console.log('Tenemos fuconex_diag_planchas:' + comparador5);
-                    //     } else {
-                    //         resultadoConDiagPlan = comparador5;
-                    //     }
-
-
-                    //     if (i < 10 && isFinite(fuconex_mont_pernos[i + 1])) { //REVISAR QUE RECORRA TODO EL ARREGLO Y NO DEJE DE VER EL ÚLTIMO ELEMENTO
-                    //         comparador6 = Math.max(comparador6, parseFloat(fuconex_mont_pernos[i + 1]));
-                    //         // console.log('condición del no definido ' + fuconex_mont_pernos[i + 1] * 0);
-                    //     } else {
-                    //         resultadoacuMontPer = comparador6;
-                    //     }
-
-                    //     if (i < 10 && isFinite(fuconex_mont_planchas[i + 1])) { //REVISAR QUE RECORRA TODO EL ARREGLO Y NO DEJE DE VER EL ÚLTIMO ELEMENTO
-                    //         comparador7 = Math.max(comparador7, parseFloat(fuconex_mont_planchas[i + 1]));
-                    //         // fuconex_mont_planchas[i + 1] = acuMontPlan;
-                    //         // console.log('condición del no definido ' + fuconex_mont_planchas[i + 1] * 0);
-                    //     } else {
-                    //         resultadoacuMontPlan = comparador7;
-                    //     }
-
-                    // }
-
-                    // console.log(fuCantonero);
-                    // console.log('El resultado de los cantoneros es :  ' + resultadoFuCantonero);
-                    // console.log(fuDiagonales);
-                    // console.log('El resultado de las diagonales es :  ' + resultadoFuDiag);
-                    // console.log(fuMontantes);
-                    // console.log('El resultado de las diagonales es :  ' + resultadoFuMont);
-                    // console.log(fuconex_diag_pernos);
-                    // console.log('El resultado de los cantoneros es :  ' + resultadoConDiagPer);
-                    // console.log(fuconex_diag_planchas);
-                    // console.log('El resultado de los cantoneros es :  ' + resultadoConDiagPlan);
-                    // console.log(fuconex_mont_pernos);
-                    // console.log('El resultado de las diagonales es :  ' + resultadoacuMontPer);
-                    // console.log(fuconex_mont_planchas);
-                    // console.log('El resultado de las diagonales es :  ' + resultadoacuMontPlan);
 
 
                     return res.render('resultadoAS', {

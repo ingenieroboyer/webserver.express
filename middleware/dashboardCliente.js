@@ -39,7 +39,6 @@ let dashboardCliente = (req, res, band) => {
                                 id_hist_mc: llave1[0].hist_mc_id
                             }
 
-
                         });
 
                         conn1.query('SELECT * FROM  inventario where hist_mc_id=?', [llave1[0].hist_mc_id], function(err, inventarios) {
@@ -47,12 +46,8 @@ let dashboardCliente = (req, res, band) => {
                                     console.log('Consulta 3 en el hilo1 a tabla inventario falló con error : ' + err);
 
                                 } else {
-                                    console.log('La cantidad de antenas que debe haber en el sitio es: ' + inventarios.length);
-
-
                                     for (var i = 0; i < inventarios.length; i++) {
                                         ant = inventarios[i].antena_id;
-                                        // console.log('La descrición de cada antena :  ' + ant);
                                         nombre2.push({
                                             antena: {
                                                 alto: inventarios[i].altura,
@@ -61,28 +56,6 @@ let dashboardCliente = (req, res, band) => {
                                                 descripcion: inventarios[i].descripcion
                                             }
                                         });
-                                        // conn1.query('SELECT * FROM  antenas where id_antenas=?', [ant], function(err, antenasBD) {
-                                        //     if (err) {
-                                        //         console.log('Consulta 3 en el hilo1 a tabla antenas falló con error : ' + err);
-
-                                        //     } else {
-
-
-                                        //         console.log('La descrición de cada antena :  ' + antenasBD[0].descripcion);
-                                        //         nombre2.push = ({
-                                        //             antena: { descripcion: antenasBD[0].descripcion }
-                                        //         });
-                                        //         console.log('Para ver que hay en aaeeentena: ' + JSON.stringify(nombre2[0]));
-
-
-
-
-
-
-
-
-                                        //     }
-                                        // });
                                     }
                                 }
                             }
@@ -93,16 +66,12 @@ let dashboardCliente = (req, res, band) => {
                 // console.log('El id del inventario es  :' + llave1[0].inventario_id);
 
             }
-            // console.log('El arreglo  :' + JSON.stringify(nombre2));
-            // console.dir(JSON.stringify(nombre2));
+
             nombre = { nombre1: nombre1, nombre2: nombre2 };
-            // console.log(nombre2[0].antena);
-            console.log('Para ver que hay en nombre2 : ' + JSON.stringify(nombre2));
-            console.log('Para ver que hay en aantena: ' + nombre2);
             band(null, nombre)
         })
     });
-    // consulta1(req);
+
 };
 
 module.exports = {

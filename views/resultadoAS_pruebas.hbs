@@ -11,6 +11,18 @@
                
                 <div class="container mt-5">
 
+        <h1>carga inicial </h1>
+  <table border="1">        
+  <tr>
+    <td><strong>DESCRIPCIÓN</strong></td><td><strong>ORIENTACIÓN</strong></td><td><strong>CANTIDAD</strong></td>
+  </tr>
+  {{#each CargaInicial}}
+   <tr>
+   <td>{{descripcion}}</td><td>{{orientacion}}</td><td>{{cantidad}}</td>
+  </tr>
+  {{/each}}
+  </table>            
+
 
 <h1>Datos del estudio </h1>
   <table border="1">        
@@ -90,6 +102,39 @@
   </tr>   
 {{/each}}
 </table>
+
+
+
+
+
+
+<h1>Factores de utilización por trayectos</h1>
+<table border="1">
+  <tr>
+   <td>fu_PERNOS</td> <td>fu_BRIDAS</td>
+  </tr>
+{{#each fu.FU_trayecto}}
+  <tr>
+     <td>{{fu_pernos}}</td><td>{{fu_bridas}}</td>
+  </tr>   
+{{/each}}
+</table>
+
+
+<h1>Factores de utilización por elementos conectores principales</h1>
+<table border="1">
+  <tr>
+   <td>PERNOS</td> <td>BRIDAS</td>
+  </tr>
+{{#each fu.FU_elemento2}}
+  <tr>
+     <td>{{fu_elem2_pernos}}</td><td>{{fu_elem2_bridas}}</td>
+  </tr>   
+{{/each}}
+</table>
+
+
+
 
 
 <h1>EL FACTO DE UTILIZACIÓN DE LA TORRE ES </h1>

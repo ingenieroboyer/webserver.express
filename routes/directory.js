@@ -50,6 +50,8 @@ router.post('/login', [customerController.valid], (req, res) => {
 //     });
 // });
 router.post('/resultadoAS_pruebas', [business.calculoAgnos], (req, res) => {
+
+    console.log("Quiero ver el req body " + JSON.stringify(req.body));
     res.render('resultadoAS_pruebas', {
         anio: new Date().getFullYear()
     });
