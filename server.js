@@ -24,15 +24,7 @@ app.use('/about', directory);
 
 // Express HBS engine
 hbs.registerPartials(__dirname + '/views/parciales');
-app.get('/pruebalistar', customerController.list);
 
-// ///prueba
-// app.get('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
-//     var posiciones = JSON.parse(req.body);
-//     console.log(posiciones);
-//     res.render('usuarioValidado');
-// });
-// ///
 
 app.listen(port, () => {
     console.log(`Escuchando peticiones en el puerto ${port}`);

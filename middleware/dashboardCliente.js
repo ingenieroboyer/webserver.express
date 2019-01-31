@@ -63,7 +63,6 @@ let dashboardCliente = (req, res, band) => {
                         );
                     }
                 });
-                // console.log('El id del inventario es  :' + llave1[0].inventario_id);
 
             }
 

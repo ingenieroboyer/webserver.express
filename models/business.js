@@ -29,6 +29,8 @@ model.calculoAgnos = function(req, res, conn) {
         var altura;
         var altura_torre = enter.arr.altura_torre;
 
+        console.log(" a la caza de altura torre" + altura_torre);
+
 
         for (i = 0; i < enter.ent.length; i++) {
             condicion_viento = req.body.condicion_viento;
@@ -67,7 +69,8 @@ model.calculoAgnos = function(req, res, conn) {
 
         //////AHORA VAMOS A GENERAR LOS FACTORES DE AMPLIFICACIÓN PARA MOMENTO Y CORTE//////
 
-        console.log("Altura de la torre : " + SOLIC_ANT[0].altura_torre);
+        // console.log("Altura de la torre : " + SOLIC_ANT[0].altura_torre);
+        // const n = altura_torre / 6; //Máxima cantidad de tramos
         const n = altura_torre / 6; //Máxima cantidad de tramos
         var valorFacAmp = new Array(100);
         var alturaTopeTramo = 0; ///inicializado

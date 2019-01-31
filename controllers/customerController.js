@@ -43,51 +43,6 @@ controller.dash = (req, res) => {
 }
 
 
-controller.list = (req, res) => {
-    req.getConnection((err, conn) => {
-        conn.query('SELECT * FROM user', (err, customers) => {
-            if (err) {
-                res.json(err);
-            }
-            res.json(customers);
-
-        });
-    });
-};
-
-controller.save = (req, res) => {
-    const data = req.body;
-    console.log(req.body)
-    req.getConnection((err, connection) => {
-        const query = connection.query('INSERT INTO customer set ?', data, (err, customer) => {
-            console.log(customer)
-            res.redirect('/');
-        })
-    })
-};
-
-controller.edit = (req, res) => {
-    const { id } = req.params;
-    req.getConnection((err, conn) => {
-        conn.query("SELECT * FROM customer WHERE id = ?", [id], (err, rows) => {
-            res.render('customers_edit', {
-                data: rows[0]
-            })
-        });
-    });
-};
-
-controller.update = (req, res) => {
-    const { id } = req.params;
-    const newCustomer = req.body;
-    req.getConnection((err, conn) => {
-
-        conn.query('UPDATE customer set ? where id = ?', [newCustomer, id], (err, rows) => {
-            res.redirect('/');
-        });
-    });
-};
-
 controller.valid = (req, res) => {
     req.getConnection((err, conn) => {
         var email = req.body.email;
@@ -102,6 +57,9 @@ controller.valid = (req, res) => {
                     "failed": "pilas con la cantidad de variables que envias"
                 })
             } else {
+
+                console.log(" el rol =" + results[0].role);
+
 
                 if (results.length > 0) {
                     if (results[0].password == password && results[0].email1 == email) {
@@ -121,24 +79,18 @@ controller.valid = (req, res) => {
 
                         if (role === 'CLIENT_ROLE') {
 
-                            ///Se debe sincronizar aquí
+                            async function vista(conn, req, res, org) {
 
-                            let vista = async(conn, req, org) => {
-                                let band = await datosSitios(conn, req, org, (err, band) => {
+                                var band = await datosSitios(conn, nombre, token, req, res, org);
 
-                                    if (err) {
-                                        console.log('Tenemos un error de los sitios');
-                                    } else {
-                                        console.log('Antes de enviarlo al front ' + JSON.stringify(band)) ///ESTA CARGANDO VARIAS VECES #!!!#4$%%%
-                                            // band: band
-                                        var anio = new Date().getFullYear();
-                                        res.render('usuarioClient', { band, nombre, token, anio }); //falta el anio
-                                    }
-                                });
+                                return band;
 
-                                ////hay que atajar el error si se produce
                             }
-                            vista(conn, req, org);
+
+                            vista(conn, req, res, org).then(band => {
+                                console.log("El timer cuando viene de datosSitios" + band);
+
+                            });
                         }
 
                         if (role === 'USER_ROLE' || role === 'ANALYST_ROLE') {
@@ -154,13 +106,15 @@ controller.valid = (req, res) => {
 
                         });
                     }
-                } else {
-                    res.send({
-                        "code": 204,
-                        "success": "Email o clave no existen"
-                    });
                 }
             }
+            //     else {
+            //         res.send({
+            //             "code": 204,
+            //             "success": "Email o clave no existen"
+            //         });
+            //     }
+            // }
         });
     });
 };

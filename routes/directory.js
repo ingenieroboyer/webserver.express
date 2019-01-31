@@ -19,7 +19,7 @@ router.use(myConnection(mysql, {
     user: 'root',
     password: 'Ajsoftwarestructural2019!',
     port: 3306,
-    database: 'ajss'
+    database: 'software_estructural'
 }, 'pool'));
 
 router.use(express.urlencoded({ extended: false }));
@@ -44,11 +44,7 @@ router.post('/login', [customerController.valid], (req, res) => {
     });
 });
 
-// router.post('/resultadoAS', [customerController.analyAST60], (req, res) => {
-//     res.render('resultadoAS', {
-//         anio: new Date().getFullYear()
-//     });
-// });
+
 router.post('/resultadoAS_pruebas', [business.calculoAgnos], (req, res) => {
 
     console.log("Quiero ver el req body " + JSON.stringify(req.body));
