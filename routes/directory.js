@@ -45,7 +45,7 @@ router.post('/login', [customerController.valid], (req, res) => {
 });
 
 
-router.post('/resultadoAS_pruebas', [business.calculoAgnos], (req, res) => {
+router.post('/resultadoAS', [business.calculoAgnos], (req, res) => {
 
     console.log("Quiero ver el req body " + JSON.stringify(req.body));
     res.render('resultadoAS_pruebas', {
@@ -55,6 +55,12 @@ router.post('/resultadoAS_pruebas', [business.calculoAgnos], (req, res) => {
 
 router.get('/login', (req, res) => {
     res.render('login', {
+        anio: new Date().getFullYear()
+    });
+});
+
+router.get('/vistaInforme', (req, res) => {
+    res.render('vistaInforme', {
         anio: new Date().getFullYear()
     });
 });

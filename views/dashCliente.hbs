@@ -5,7 +5,7 @@
 <body> 
     <div class="jumbotron">
         <h1 class="display-4">Aqui se creará el dashboard para estructuras</h1>
-        <h2 class="display-4" align ='right'> Versión 1.3</h2>
+        <h2 class="display-4" align ='right'> Versión 2.0</h2>
         <p class="lead">Datos sobre la memoria de cálculo base
             
   <div>          
@@ -29,6 +29,9 @@
   {{/each}}
 </table>
 </div> 
+
+
+
 
 <p></p>
 <p></p>
@@ -56,7 +59,7 @@
     <div class="col-md-15">
       <div class="card-body">
 
-        <form action="/../resultadoAS_pruebas" method="POST" id="prueba">
+        <form action="/../resultadoAS" method="POST" id="prueba">
             <div class="form-group">
               <div class="row">
                   <div class="col-xs-12 col-md-13 col-md-13">
@@ -309,11 +312,16 @@
                             </div>
                             <div class="input-group">
                                {{#each band.nombre1}}
-                              <input type="hidden" name="condicion_viento" value={{general.viento}}>
+                              <input type="hidden" name="viento" value={{general.viento}}>                              
+                              <input type="hidden" name="norma" value={{general.norma}}>
                               <input type="hidden" name="id_hist_mc" value={{general.id_hist_mc}}>
                               <input type="hidden" name="altura_torre" value={{general.altura_torre}}>
                               <input type="hidden" name="codigo" value={{general.codigo}}> 
                               <input type="hidden" name="fu" value={{general.fu}}>  
+                              <input type="hidden" name="hielo" value={{general.hielo}}> 
+                              <input type="hidden" name="fecha" value={{general.fecha}}>
+                              
+
                               <input type="hidden" name="antenasAntes" value={{band.nombre2}}> 
                                                        {{!-- ///serializar la salida para que la pueda mandar  el html --}}
                               

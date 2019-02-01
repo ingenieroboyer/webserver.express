@@ -12,9 +12,6 @@ const { datosSitios } = require('../middleware/datosSitios');
 const { dashboardCliente } = require('../middleware/dashboardCliente');
 var lista = new Array();
 
-
-
-
 controller.dash = (req, res) => {
     console.log(' Ingresa en el controller.dash');
 
@@ -42,13 +39,12 @@ controller.dash = (req, res) => {
 
 }
 
-
 controller.valid = (req, res) => {
     req.getConnection((err, conn) => {
         var email = req.body.email;
         var password = req.body.password;
-        console.log(email);
-        console.log(password);
+        // console.log(email);
+        // console.log(password);
         conn.query('SELECT * FROM user WHERE email1 = ?', [email], function(err, results, fields) {
             if (err) {
                 console.log("error ocurred", error);
@@ -78,9 +74,7 @@ controller.valid = (req, res) => {
                         }
 
                         if (role === 'CLIENT_ROLE') {
-
                             async function vista(conn, req, res, org) {
-
                                 var band = await datosSitios(conn, nombre, token, req, res, org);
 
                                 return band;
@@ -89,14 +83,12 @@ controller.valid = (req, res) => {
 
                             vista(conn, req, res, org).then(band => {
                                 console.log("El timer cuando viene de datosSitios" + band);
-
                             });
                         }
 
                         if (role === 'USER_ROLE' || role === 'ANALYST_ROLE') {
                             res.render('usuarioUser', { token, role, nombre });
                         }
-
 
                     } else {
                         console.log('El usuario no introdujo un password válido')
@@ -108,13 +100,7 @@ controller.valid = (req, res) => {
                     }
                 }
             }
-            //     else {
-            //         res.send({
-            //             "code": 204,
-            //             "success": "Email o clave no existen"
-            //         });
-            //     }
-            // }
+
         });
     });
 };

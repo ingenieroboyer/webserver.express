@@ -29,8 +29,6 @@ model.calculoAgnos = function(req, res, conn) {
         var altura;
         var altura_torre = enter.arr.altura_torre;
 
-        console.log(" a la caza de altura torre" + altura_torre);
-
 
         for (i = 0; i < enter.ent.length; i++) {
             condicion_viento = req.body.condicion_viento;
@@ -41,9 +39,7 @@ model.calculoAgnos = function(req, res, conn) {
             altura = enter.ent[i].altura;
             fuerza = area * num_antenas * coeficiente * q;
             mome_bas_actual = fuerza * altura;
-
             mom_bas_acum = mome_bas_actual + mom_bas_acum;
-
             cort_bas_acum = fuerza + cort_bas_acum;
             coe_mom_acum = mom_bas_acum / (mom_bas_acum_anterior);
             coe_cort_acum = cort_bas_acum / (cort_bas_acum_anterior);
@@ -112,14 +108,17 @@ model.calculoAgnos = function(req, res, conn) {
             });
         }
 
-        ////Incrustar aquí la función totalizadora final
+        ////Esta función solo acomoda la informació que se va enviar a la
 
         let pasofinal = fu_final(conn, req, res, vect_fact_amp, enter, SOLIC_ANT, (fu) => {
 
-            console.log("Quiero ver el req body " + JSON.stringify(req.body.id_hist_mc));
 
             req.getConnection((err, conn1) => {
                 var CargaInicial = [];
+                var sitio = [];
+                var estudio = [];
+                estudio[0] = enter.data_mc;
+                sitio[0] = enter.arr;
                 conn1.query("SELECT * FROM inventario WHERE hist_mc_id=? ", [req.body.id_hist_mc], (err, cargin, fields) => {
                     if (err) {
                         console.log("Atento con error en query inventario");
@@ -132,15 +131,25 @@ model.calculoAgnos = function(req, res, conn) {
                                 altura: cargin[i].altura
                             });
                         }
-                        console.log("Quiero saber que hay en CargaInicial " + JSON.stringify(CargaInicial));
-                        return res.render('resultadoAS_pruebas', {
-                            antenasAntes: req.body.antenasAntes,
+                        // console.log(" Que tiene el cuerpo antes de enviarlo = " + JSON.stringify(req.body));
+                        console.log(" ");
+                        console.log(" Que tiene enter.arr antes de enviarlo = " + JSON.stringify(enter.arr));
+                        console.log(" ");
+                        console.log(" Que tiene enter antes de enviarlo = " + JSON.stringify(enter));
+                        console.log(" ");
+                        console.log(" Que tiene enter.ent antes de enviarlo = " + JSON.stringify(enter.ent));
+                        console.log(" ");
+                        console.log(" Que tiene sitio antes de enviarlo = " + JSON.stringify(sitio));
+
+                        return res.render('resultadoAS', {
+                            // antenasAntes: req.body.antenasAntes,
                             solicitaciones: SOLIC_ANT,
                             factoresamptramos: vect_fact_amp,
                             enter: enter,
+                            estudio: estudio,
+                            sitio: sitio,
                             fu: fu,
                             CargaInicial: CargaInicial
-
                         });
                     }
 
@@ -151,15 +160,9 @@ model.calculoAgnos = function(req, res, conn) {
 
             ///Aquí yo debería incluir un midleware para enviar a la vista de acuerdo al perfil del usuario solicitante
 
-
         });
-
-
     });
-
     console.log("Ip que hace la solicitud : " + req.ip); ///
-
-
 }
 
 
@@ -177,8 +180,6 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                 } else {
                     area[0] = (req.body.diametro1 / 2) * (req.body.diametro1 / 2) * 3.14;
                     var alt = Math.round(req.body.alturaAntena1);
-
-                    var vien = req.body.condicion_viento;
                     let arr = {
                         altura: req.body.alturaAntena1,
                         condicion_viento: req.body.condicion_viento
@@ -187,7 +188,6 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
 
                     qs = buscaq(conn, req, arr, (pol) => {
                         q[0] = pol;
-                        var ent1 = [alt, area[0], coef[0].coe_antena, pol];
                         ent.push({
                             n: 1,
                             altura: alt,
@@ -209,7 +209,6 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                 } else {
                     area[1] = (req.body.diametro2 / 2) * (req.body.diametro2 / 2) * 3.14;
                     var alt = Math.round(req.body.alturaAntena2);
-                    var vien = req.body.condicion_viento;
                     let arr = {
                         altura: req.body.alturaAntena2,
                         condicion_viento: req.body.condicion_viento
@@ -238,15 +237,12 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                 } else {
 
                     var alt = Math.round(req.body.alturaAntena3);
-                    var vien = req.body.condicion_viento;
                     let arr = {
                         altura: req.body.alturaAntena3,
                         condicion_viento: req.body.condicion_viento
                     }
 
                     qs = buscaq(conn, req, arr, (pol) => {
-
-                        var ent2 = [alt, (req.body.diametro3 / 2) * (req.body.diametro3 / 2) * 3.14, coef[0].coe_antena, pol];
                         ent.push({
                             n: 1,
                             altura: alt,
@@ -254,8 +250,6 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                             coeficiente: coef[0].coe_antena,
                             q: pol
                         });
-
-
                     });
                 }
             });
@@ -267,19 +261,13 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                 if (err) {
                     console.log("Atajamos error query antena2 ");
                 } else {
-
-
                     var alt = Math.round(req.body.alturaAntena4);
-
-                    var vien = req.body.condicion_viento;
                     let arr = {
                         altura: req.body.alturaAntena4,
                         condicion_viento: req.body.condicion_viento
                     }
 
                     qs = buscaq(conn, req, arr, (pol) => {
-
-                        var ent3 = [alt, (req.body.diametro4 / 2) * (req.body.diametro4 / 2) * 3.14, coef[0].coe_antena, pol];
                         ent.push({
                             n: 1,
                             altura: alt,
@@ -299,15 +287,12 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                     console.log("Atajamos error query antena2 ");
                 } else {
                     var alt = Math.round(req.body.alturaAntena5);
-                    var vien = req.body.condicion_viento;
                     let arr = {
                         altura: req.body.alturaAntena5,
                         condicion_viento: req.body.condicion_viento
                     }
 
                     qs = buscaq(conn, req, arr, (pol) => {
-
-                        var ent4 = [alt, (req.body.diametro5 / 2) * (req.body.diametro5 / 2) * 3.14, coef[0].coe_antena, pol];
                         ent.push({
                             n: 1,
                             altura: alt,
@@ -327,14 +312,12 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                     console.log("Atajamos error query antena2 ");
                 } else {
                     var alt = Math.round(req.body.alturaAntena6);
-                    var vien = req.body.condicion_viento;
                     let arr = {
                         altura: req.body.alturaAntena6,
                         condicion_viento: req.body.condicion_viento
                     }
 
                     qs = buscaq(conn, req, arr, (pol) => {
-                        var ent5 = [alt, (req.body.diametro6 / 2) * (req.body.diametro6 / 2) * 3.14, coef[0].coe_antena, pol];
                         ent.push({
                             n: 1,
                             altura: alt,
@@ -356,7 +339,6 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                 } else {
 
                     var alt = Math.round(req.body.alturaAntena7);
-                    var vien = req.body.condicion_viento;
                     let arr = {
                         altura: req.body.alturaAntena7,
                         condicion_viento: req.body.condicion_viento
@@ -445,7 +427,6 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                 } else {
 
                     var alt = Math.round(req.body.alturaAntenaSect1);
-                    var vien = req.body.condicion_viento;
                     let arr = {
                         altura: req.body.alturaAntenaSect1,
                         condicion_viento: req.body.condicion_viento
@@ -476,14 +457,12 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                 } else {
 
                     var alt = Math.round(req.body.alturaAntenaSect2);
-                    var vien = req.body.condicion_viento;
                     let arr = {
                         altura: req.body.alturaAntenaSect2,
                         condicion_viento: req.body.condicion_viento
                     }
 
                     qs = buscaq(conn, req, arr, (pol) => {
-                        var ent9 = [alt, (req.body.largo1) * (req.body.ancho1), coef[0].coe_antena, pol];
                         ent.push({
                             n: req.body.cantAntSect2,
                             altura: alt,
@@ -507,14 +486,12 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                 } else {
 
                     var alt = Math.round(req.body.alturaAntenaSect3);
-                    var vien = req.body.condicion_viento;
                     let arr = {
                         altura: req.body.alturaAntenaSect3,
                         condicion_viento: req.body.condicion_viento
                     }
 
                     qs = buscaq(conn, req, arr, (pol) => {
-                        var ent9 = [alt, (req.body.largo1) * (req.body.ancho1), coef[0].coe_antena, pol];
                         ent.push({
                             n: req.body.cantAntSect2,
                             altura: alt,
@@ -539,14 +516,13 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                 } else {
 
                     var alt = Math.round(req.body.alturaAntenaSect4);
-                    var vien = req.body.condicion_viento;
                     let arr = {
                         altura: req.body.alturaAntenaSect4,
                         condicion_viento: req.body.condicion_viento
                     }
 
                     qs = buscaq(conn, req, arr, (pol) => {
-                        var ent9 = [alt, (req.body.largo1) * (req.body.ancho1), coef[0].coe_antena, pol];
+
                         ent.push({
                             n: req.body.cantAntSect4,
                             altura: alt,
@@ -570,14 +546,14 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                 } else {
 
                     var alt = Math.round(req.body.alturaAntenaSect5);
-                    var vien = req.body.condicion_viento;
+
                     let arr = {
                         altura: req.body.alturaAntenaSect5,
                         condicion_viento: req.body.condicion_viento
                     }
 
                     qs = buscaq(conn, req, arr, (pol) => {
-                        var ent9 = [alt, (req.body.largo1) * (req.body.ancho1), coef[0].coe_antena, pol];
+
                         ent.push({
                             n: req.body.cantAntSect5,
                             altura: alt,
@@ -601,14 +577,14 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                 } else {
 
                     var alt = Math.round(req.body.alturaAntenaSect6);
-                    var vien = req.body.condicion_viento;
+
                     let arr = {
                         altura: req.body.alturaAntenaSect6,
                         condicion_viento: req.body.condicion_viento
                     }
 
                     qs = buscaq(conn, req, arr, (pol) => {
-                        var ent9 = [alt, (req.body.largo1) * (req.body.ancho1), coef[0].coe_antena, pol];
+
                         ent.push({
                             n: req.body.cantAntSect6,
                             altura: alt,
@@ -631,14 +607,14 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                 } else {
 
                     var alt = Math.round(req.body.alturaAntenaSect7);
-                    var vien = req.body.condicion_viento;
+
                     let arr = {
                         altura: req.body.alturaAntenaSect7,
                         condicion_viento: req.body.condicion_viento
                     }
 
                     qs = buscaq(conn, req, arr, (pol) => {
-                        var ent9 = [alt, (req.body.largo1) * (req.body.ancho1), coef[0].coe_antena, pol];
+
                         ent.push({
                             n: req.body.cantAntSect7,
                             altura: alt,
@@ -657,31 +633,57 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
             if (err) {
                 console.log("Hubo un erro en el query de mom_total");
             } else {
-                /////Esta es la forma de añadir propiedades al arreglo
-                let arr = {
-                    altura_torre: req.body.altura_torre,
-                    altura: 100,
-                    condicion_viento: req.body.condicion_viento,
-                    mom_basal: basales[0].mom_basal,
-                    corte_basal: basales[0].corte_basal
-                }
 
-                let data_mc = {
-                    fu: req.body.fu,
-                    codigo: req.body.codigo,
-                    id_hist_mc: req.body.id_hist_mc
-                }
+                conn1.query("SELECT * FROM estructura WHERE hist_mc_id=? ", [req.body.id_hist_mc], (err, pelusas, fields) => {
+                    if (err) {
+                        console.log("Hubo un erro en el query de mom_total");
+                    } else {
 
-                // console.log("Donde se arma el arr, mom_basal :" + basales[0].mom_basal);
-                // console.log("Donde se arma el arr, mom_basal :" + basales[0].corte_basal);
-                qs = buscaq(conn, req, arr, (pol) => {
-                    console.log("marca para ver los tiempos de ejecución");
-                    enter({
-                        ent: ent,
-                        arr: arr,
-                        data_mc: data_mc
-                    })
+                        /////Esta es la forma de añadir propiedades al arreglo
+                        let arr = {
+                            altura_torre: req.body.altura_torre,
+                            altura: 100,
+                            condicion_viento: req.body.condicion_viento,
+                            mom_basal: basales[0].mom_basal,
+                            corte_basal: basales[0].corte_basal,
+                            nombre: pelusas[0].nombre,
+                            tipo: pelusas[0].tipo
+                        }
+
+                        let data_mc = {
+                            fu: req.body.fu,
+                            codigo: req.body.codigo,
+                            id_hist_mc: req.body.id_hist_mc,
+                            norma: req.body.norma,
+                            viento: req.body.viento,
+                            hielo: req.body.hielo,
+                            fecha: req.body.fecha
+                        }
+
+
+
+
+
+
+
+                        // console.log("Donde se arma el arr, mom_basal :" + basales[0].mom_basal);
+                        // console.log("Donde se arma el arr, mom_basal :" + basales[0].corte_basal);
+                        qs = buscaq(conn, req, arr, (pol) => {
+                            enter({
+                                ent: ent,
+                                arr: arr,
+                                data_mc: data_mc
+                            })
+
+                        });
+
+
+
+
+
+                    }
                 });
+
             }
         });
     });
@@ -695,7 +697,7 @@ buscaq = (conn, req, arr, pol) => {
     req.getConnection((err, conn1) => {
         conn1.query("SELECT * FROM q WHERE altura=? ", [alt], (err, ques, fields) => {
             if (err) {
-                console.log("Pendiente");
+                console.log("Pendiente que hay un error");
             } else {
                 if (arr.condicion_viento === "Ciudad") {
                     q = ques[0].Ciudad;
@@ -719,16 +721,6 @@ buscaq = (conn, req, arr, pol) => {
         });
     });
 }
-
-buscaalt = function(conn, req) {
-    conn1.query("SELECT id_estructura FROM index_mem_calc WHERE id_hist_mc=? ", [req.body.id_hist_mc], (err, basales, fields) => {
-        if (err) {
-            console.log("Manejar el error de query en buscaalt");
-        }
-    });
-
-}
-
 
 
 fu_final = function(conn, req, res, vect_fact_amp, enter, SOLIC_ANT, fu) {

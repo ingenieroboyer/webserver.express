@@ -18,7 +18,7 @@ let dashboardCliente = (req, res, band) => {
     nombre2 = [];
     nombre1 = [];
     req.getConnection((err, conn1) => {
-        conn1.query('SELECT hist_mc_id,altura FROM  estructura where geometria_id=?', [req.body.sitio], function(err, llave1) {
+        conn1.query('SELECT * FROM  estructura where geometria_id=?', [req.body.sitio], function(err, llave1) {
             if (err) {
                 console.log('Consulta a tabla estructura falló con error : ' + err);
             } else {
@@ -32,11 +32,13 @@ let dashboardCliente = (req, res, band) => {
                             general: {
                                 fu: (memoria[0].fu) * 100,
                                 altura_torre: llave1[0].altura,
+                                hielo: memoria[0].hielo,
                                 norma: memoria[0].norma,
                                 viento: memoria[0].cond_viento,
                                 fecha: memoria[0].fecha_registro,
                                 codigo: memoria[0].codigo_estudio,
-                                id_hist_mc: llave1[0].hist_mc_id
+                                id_hist_mc: llave1[0].hist_mc_id,
+                                nombreSitio: llave1[0].nombre
                             }
 
                         });

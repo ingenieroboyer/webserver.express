@@ -1,0 +1,186 @@
+
+<script>
+    function printDiv(nombreDiv) {
+     var contenido= document.getElementById(nombreDiv).innerHTML;
+     var contenidoOriginal= document.body.innerHTML;
+
+     document.body.innerHTML = contenido;
+
+     window.print();
+
+     document.body.innerHTML = contenidoOriginal;
+}
+</script>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+  <!--  Meta  -->
+  <meta charset="UTF-8" />
+  <title> Reporte LVES AJ Ingenieros </title>
+
+  <!--  Styles  -->
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <!-- <style>
+    h1 {text-align:center;}
+    p {text-align:center;}
+  </style> -->
+</head>
+
+<!-- ********************************************************************** -->
+
+<body>
+
+<!--   <h1> Test </h1> -->
+<div id="areaImprimir">
+  <div>
+  	<div class="clearfix">
+      <img class="logo" src="./images/logo.png">
+  	  <div class="center_title"><h1>Reporte Auto-Generado</h1></div>
+    </div>
+
+    <br>
+
+    <div class="fecha">
+      09-01-2019
+    </div>
+
+    <center><h3>Análisis Estructural</h3></center> <br>
+
+    <!-- CREACIÓN TABLA -->
+
+  <table class="datos_sitio">
+  <tr>
+    <th align="left">Datos de Sitio</th>
+    <th></th>
+  </tr>
+  <tr>
+    <td>Tipo de Torre</td>
+    <td>Autosoportada</td>
+  </tr>
+  <tr>
+    <td>Altura</td>
+    <td>60[m]</td>
+  </tr>
+  <tr>
+    <td>Nombre de Sitio</td>
+    <td>Peor es Nada</td>
+  </tr>
+  <tr>
+    <td>Identificación</td>
+    <td></td>
+  </tr>
+  </table>
+
+  <br>
+
+  
+
+
+
+
+  <table class="datos_sitio">
+  <tr>
+    <th align="left">Datos Verificación Estructural</th>
+    <th></th>
+  </tr>
+  <tr>
+    <td>Condición de viento Nch 432</td>
+    <td>Campo Abierto</td>
+  </tr>
+  <tr>
+    <td>Norma TIA/EIA-222</td>
+    <td>F</td>
+  </tr>
+  <tr>
+    <td>Presencia Hielo</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>Nombre de Archivo Original</td>
+    <td>LVES AS60 (AJ8) Peor es Nada v1</td>
+  </tr>
+  <tr>
+    <td>Código de Verificación Estructural</td>
+    <td>TX-1577</td>
+  </tr>
+  <tr>
+    <td>Fecha Verificación Estructural</td>
+    <td>02-01-2019</td>
+  </tr>
+  </table>
+
+  <br><strong> Antenas y Equipamiento Considerado: </strong>
+  <br>
+  <br>
+  <table class="antenas">
+  <tr>
+    <th class="antenas">Identificación</th>
+    <th class="antenas">Tipo de Antena</th>
+    <th class="antenas">Cantidad</th>
+    <th class="antenas">Altura [m]</th>
+    <th class="antenas">Largo o Diámetro [m]</th>
+    <th class="antenas">Ancho [m]</th>
+  </tr>
+  <tr>
+    <td class="antenas">1</td>
+    <td class="antenas">Parábola f 1.8</td>
+    <td class="antenas">1</td>
+    <td class="antenas">60</td>
+    <td class="antenas">1.8</td>
+    <td class="antenas">-</td>
+  </tr>
+  <tr>
+    <td class="antenas">2</td>
+    <td class="antenas">Parábola f 1.8</td>
+    <td class="antenas">1</td>
+    <td class="antenas">57</td>
+    <td class="antenas">1.8</td>
+    <td class="antenas">-</td>
+  </tr>
+  <tr>
+    <td class="antenas">3</td>
+    <td class="antenas">Sectorial 2000x250 f 1.43</td>
+    <td class="antenas">6</td>
+    <td class="antenas">50</td>
+    <td class="antenas">1.43</td>
+    <td class="antenas">0.3</td>
+  </tr>
+  <tr>
+    <td class="antenas">3</td>
+    <td class="antenas">Sectorial 2000x250 f 1.43</td>
+    <td class="antenas">1</td>
+    <td class="antenas">42</td>
+    <td class="antenas">1.43</td>
+    <td class="antenas">0.3</td>
+  </tr>
+  </table>
+
+  <br>
+  <div class="resultado_fu"><p>
+  Factor de Utilización Resultante: 90% <br>
+  <!-- Se concluye de este modo que la torre <strong>verifica</strong> para la condición de carga -->
+  Si bien la torre verifica para la condición de carga se recomienda un <strong>mayor análisis</strong> con Memoria de Cálculo.
+  <!-- Se concluye de este modo que la torre <strong>no verifica</strong> para la condición de carga -->
+  </p></div>
+
+  <div class="nota"><p>
+  Notas: <br>
+    <ul>
+    <li>El valor mostrado corresponde sólo a una estimación con un error de precisión del ~5%. No obedece al resultado de una Verificación Estructural formal.</li>
+    <li>No se analizaron las fundaciones existentes.</li>
+    </ul>
+
+  </p></div>
+
+        <h3><center>Mi contenido</center></h3>
+      ...
+</div>
+
+
+  </div>
+  <input type="button" onclick="printDiv('areaImprimir')" value="imprimir div" />
+</body>
+
+</html>
