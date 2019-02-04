@@ -62,6 +62,12 @@ model.calculoAgnos = function(req, res, conn) {
                 coe_cort_acum: coe_cort_acum.toFixed(3)
             });
         }
+        console.log(" ");
+        console.log("Insumos de fuerza, area" + enter.ent[0].area + " numero antenas =" + enter.ent[0].n + " coeficiente " + enter.ent[0].coeficiente + " q =" + enter.ent[0].q);
+        console.log(" ");
+        console.log(" ");
+        console.log(" EESTUDIO DE LAS SOLICITACIONES EN business.js" + JSON.stringify(SOLIC_ANT));
+        console.log(" ");
 
         //////AHORA VAMOS A GENERAR LOS FACTORES DE AMPLIFICACIÓN PARA MOMENTO Y CORTE//////
 
@@ -140,6 +146,8 @@ model.calculoAgnos = function(req, res, conn) {
                         console.log(" Que tiene enter.ent antes de enviarlo = " + JSON.stringify(enter.ent));
                         console.log(" ");
                         console.log(" Que tiene sitio antes de enviarlo = " + JSON.stringify(sitio));
+                        console.log(" ");
+                        console.log(" Que SOLIC_ANT antes de enviarlo = " + JSON.stringify(SOLIC_ANT));
 
                         return res.render('resultadoAS', {
                             // antenasAntes: req.body.antenasAntes,
@@ -168,6 +176,8 @@ model.calculoAgnos = function(req, res, conn) {
 
 let prepara = async(conn, req, res, enter) => { ///Esta función generará los datos necesarios para enviarlos a calcAgnos
 
+    // console.log("Todo lo que le llega a prepara desde el req.body" + JSON.stringify(req.body));
+
     req.getConnection((err, conn1) => {
         var area = [];
         var q = [];
@@ -191,6 +201,7 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                         ent.push({
                             n: 1,
                             altura: alt,
+                            descrip: req.body.antena1,
                             area: area[0],
                             coeficiente: coef[0].coe_antena,
                             q: pol
@@ -220,6 +231,7 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                         ent.push({
                             n: 1,
                             altura: alt,
+                            descrip: req.body.antena2,
                             area: area[1],
                             coeficiente: coef[0].coe_antena,
                             q: pol
@@ -246,6 +258,7 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                         ent.push({
                             n: 1,
                             altura: alt,
+                            descrip: req.body.antena3,
                             area: (req.body.diametro3 / 2) * (req.body.diametro3 / 2) * 3.14,
                             coeficiente: coef[0].coe_antena,
                             q: pol
@@ -271,6 +284,7 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                         ent.push({
                             n: 1,
                             altura: alt,
+                            descrip: req.body.antena4,
                             area: (req.body.diametro4 / 2) * (req.body.diametro4 / 2) * 3.14,
                             coeficiente: coef[0].coe_antena,
                             q: pol
@@ -296,6 +310,7 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                         ent.push({
                             n: 1,
                             altura: alt,
+                            descrip: req.body.antena5,
                             area: (req.body.diametro5 / 2) * (req.body.diametro5 / 2) * 3.14,
                             coeficiente: coef[0].coe_antena,
                             q: pol
@@ -321,6 +336,7 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                         ent.push({
                             n: 1,
                             altura: alt,
+                            descrip: req.body.antena6,
                             area: (req.body.diametro6 / 2) * (req.body.diametro6 / 2) * 3.14,
                             coeficiente: coef[0].coe_antena,
                             q: pol
@@ -349,6 +365,7 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                         ent.push({
                             n: 1,
                             altura: alt,
+                            descrip: req.body.antena7,
                             area: (req.body.diametro7 / 2) * (req.body.diametro7 / 2) * 3.14,
                             coeficiente: coef[0].coe_antena,
                             q: pol
@@ -377,6 +394,7 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                         ent.push({
                             n: 1,
                             altura: alt,
+                            descrip: req.body.antena8,
                             area: (req.body.diametro8 / 2) * (req.body.diametro8 / 2) * 3.14,
                             coeficiente: coef[0].coe_antena,
                             q: pol
@@ -404,6 +422,7 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                         ent.push({
                             n: 1,
                             altura: alt,
+                            descrip: req.body.antena9,
                             area: (req.body.diametro9 / 2) * (req.body.diametro9 / 2) * 3.14,
                             coeficiente: coef[0].coe_antena,
                             q: pol
@@ -437,6 +456,7 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                         ent.push({
                             n: req.body.cantAntSect1,
                             altura: alt,
+                            descrip: req.body.antena10,
                             area: (req.body.largo1) * (req.body.ancho1),
                             coeficiente: coef[0].coe_antena,
                             q: pol
@@ -466,6 +486,7 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                         ent.push({
                             n: req.body.cantAntSect2,
                             altura: alt,
+                            descrip: req.body.antena11,
                             area: (req.body.largo2) * (req.body.ancho2),
                             coeficiente: coef[0].coe_antena,
                             q: pol
@@ -495,6 +516,7 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                         ent.push({
                             n: req.body.cantAntSect2,
                             altura: alt,
+                            descrip: req.body.antena12,
                             area: (req.body.largo3) * (req.body.ancho3),
                             coeficiente: coef[0].coe_antena,
                             q: pol
@@ -526,6 +548,7 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                         ent.push({
                             n: req.body.cantAntSect4,
                             altura: alt,
+                            descrip: req.body.antena13,
                             area: (req.body.largo4) * (req.body.ancho4),
                             coeficiente: coef[0].coe_antena,
                             q: pol
@@ -557,6 +580,7 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                         ent.push({
                             n: req.body.cantAntSect5,
                             altura: alt,
+                            descrip: req.body.antena14,
                             area: (req.body.largo5) * (req.body.ancho5),
                             coeficiente: coef[0].coe_antena,
                             q: pol
@@ -588,6 +612,7 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                         ent.push({
                             n: req.body.cantAntSect6,
                             altura: alt,
+                            descrip: req.body.antena15,
                             area: (req.body.largo6) * (req.body.ancho6),
                             coeficiente: coef[0].coe_antena,
                             q: pol
@@ -618,6 +643,7 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
                         ent.push({
                             n: req.body.cantAntSect7,
                             altura: alt,
+                            descrip: req.body.antena16,
                             area: (req.body.largo7) * (req.body.ancho7),
                             coeficiente: coef[0].coe_antena,
                             q: pol
@@ -693,6 +719,9 @@ let prepara = async(conn, req, res, enter) => { ///Esta función generará los d
 buscaq = (conn, req, arr, pol) => {
     var q;
     var alt = Math.round(arr.altura);
+
+    console.log("REVISANDO QUE LE LLEGUE LA ALTURA A q " + alt);
+    console.log("Si la busco en arr  =" + JSON.stringify(arr));
 
     req.getConnection((err, conn1) => {
         conn1.query("SELECT * FROM q WHERE altura=? ", [alt], (err, ques, fields) => {

@@ -73,20 +73,7 @@
   </table> 
   </div>   
 
-<p class="lead">Inventario de equipo en torre </p>
-  <div>
 
-  <table border="1">        
-  <tr>
-    <td><strong>DESCRIPCIÓN</strong></td><td><strong>ORIENTACIÓN</strong></td><td><strong>CANTIDAD</strong></td>
-  </tr>
-  {{#each CargaInicial}}
-   <tr>
-   <td>{{descripcion}}</td><td>{{orientacion}}</td><td>{{cantidad}}</td>
-  </tr>
-  {{/each}}
-  </table>            
-  </div>    
 
 {{!-- <p class="lead">Marca Sitio</p>
   
@@ -101,6 +88,20 @@
 </table>
 </div>  --}}
 
+
+
+{{!-- 
+<h1>TABLA intermedia</h1>
+<table border="1">
+  <tr>
+   <td>Area</td> <td>q</td><td>Altura Torre</td><td>Altura antena</td><td>n</td><td>condicion_viento</td><td>coeficiente</td><td>Fuerza</td><td>Momento basal</td><td>Momento acum</td><td>corte acum</td><td>coef mom</td><td>coef corte</td>
+  </tr>
+{{#each solicitaciones}}
+  <tr>
+     <td>{{area}}</td><td>{{q}}</td><td>{{altura_torre}}</td><td>{{altura}}</td><td>{{num_antenas}}</td><td>{{condicion_viento}}</td><td>{{coeficiente}}</td><td>{{fuerza}}</td><td>{{mome_bas_actual}}</td> <td>{{mom_bas_acum}}</td><td>{{cort_bas_acum}}</td><td>{{coe_mom_acum}}</td><td>{{coe_cort_acum}}</td>
+  </tr>   
+{{/each}}
+</table> --}}
 
 
 {{!-- ///////////AQUI VAN LAS TABLAS /////////--}}
@@ -202,6 +203,34 @@
 
 <hr class="my-4">
 
+<p class="lead">Inventario previo de equipos en torre </p>
+  <div>
+
+  <table border="1">        
+  <tr>
+    <td><strong>DESCRIPCIÓN</strong></td><td><strong>ORIENTACIÓN</strong></td><td><strong>CANTIDAD</strong></td>
+  </tr>
+  {{#each CargaInicial}}
+   <tr>
+   <td>{{descripcion}}</td><td>{{orientacion}}</td><td>{{cantidad}}</td>
+  </tr>
+  {{/each}}
+  </table>            
+  </div>    
+  <p class="lead">Inventario añadido para estudio actual </p>
+  <div>
+
+  <table border="1">        
+  <tr>
+    <td><strong>DESCRIPCIÓN</strong></td><td><strong>CANTIDAD</strong></td><td><strong>ALTURA</strong></td>
+  </tr>
+  {{#each enter.ent}}
+   <tr>
+   <td>{{descrip}}</td><td>{{n}}</td><td>{{altura}}</td>
+  </tr>
+  {{/each}}
+  </table>            
+  </div>
 
 
 <h1>EL FACTO DE UTILIZACIÓN DE LA TORRE ES </h1>
