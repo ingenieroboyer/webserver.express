@@ -215,7 +215,7 @@ let prepara = async(req, datosSitio, antenas, enter) => { ///Esta función gener
 
                             }
                             data_mc = {
-                                fu: Number(datosSitio[0].fu),
+                                fu: Number(datosSitio[0].fu).toFixed(2),
                                 codigo: datosSitio[0].codigo,
                                 id_hist_mc: datosSitio[0].idMC,
                                 norma: datosSitio[0].norma,
@@ -416,7 +416,7 @@ let prepara = async(req, datosSitio, antenas, enter) => { ///Esta función gener
                                         FU_trayecto: FU_trayecto,
                                         FU_elemento: FU_elemento,
                                         FU_elemento2: FU_elemento2,
-                                        fu_torre: (fu_torre * 100)
+                                        fu_torre: (fu_torre * 100),
                                     })
                                 }
                             });
