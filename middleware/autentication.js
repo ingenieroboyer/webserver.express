@@ -8,25 +8,29 @@ const jwt = require('jsonwebtoken');
 ///=========================================////
 let verificaToken = (req, res, next) => {
 
-    let token = req.get('token');
+    console.log("Ingresa a verificaToken : " + req.body[2].token);
 
-    jwt.verify(token, 'este-es-el-seed-desarrollo', (err, decoded) => {
-        if (err) {
-            return res.status(401).json({
-                ok: false,
-                err
-            });
-        }
-        req.usuario = decoded.usuario;
-        next();
-    });
+    // let token = req.get('token');
+    // var token = req.body[2].token;
+
+    // jwt.verify(token, 'este-es-el-seed-desarrollo', (err, decoded) => {
+    // jwt.verify(token, (err, decoded) => {
+    //     if (err) {
+    //         return res.status(401).json({
+    //             ok: false,
+    //             err
+    //         });
+    //     }
+    //     req.usuario = decoded.usuario;
+    //     next();
+    // });
     next();
     // res.json({
     //     token,
     //     mensaje: 'Exitosa validación del token, falta renderizar hacia la otra página'
     // });
 
-};
+}
 
 
 let verificaAdmin_Role = (req, res, next) => {

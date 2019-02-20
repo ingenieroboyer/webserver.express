@@ -7,21 +7,31 @@
      window.print();
      document.body.innerHTML = contenidoOriginal;
 }
+
+function nuevanNota(){
+    var text = "";
+    var FU ={{fu.fu_torre}};
+    FU=FU.toFixed(2);
+
+    if ( {{fu.fu_torre}}>95) {
+    text = "El factor de utilización es <strong>"+FU+"%  se recomienda realizar una nueva memoria de cálculo dada la precisión del Software de Estructuras </strong>";
+  } else {
+    text = "El factor de utilización es = <strong> "+FU+" %</strong> ";
+  }
+    document.getElementById("notaReporte").innerHTML = text;
+ }
 </script>
 
 
 {{> head }}
 {{> navbarusuario }}
+<body onload="nuevanNota()">
 <div id="areaImprimir">
-
 <img src="assets/img/logo.jpg" class= "img-thumbnail" align="left"> 
-
     <div class="jumbotron">
         <h1 class="display-4">RESULTADOS DEL ANÁLISIS ESTRUCTURAL </h1>
-             
-                <div class="container mt-5">
+         <div class="container mt-5">
   <div>   
-
   <div>
  <table border="1"> 
    <tr>
@@ -54,7 +64,7 @@
          <td>Código</td><td>{{codigo}}</td>
          </tr>
          <tr>
-           <td>FU</td><td>{{fu}}</td>
+           <td>FU</td><td><strong>{{fu}}</strong> % </td>
          </tr>
          <tr>
           <td>Hielo</td><td>{{hielo}}</td>
@@ -75,132 +85,6 @@
 
 
 
-{{!-- <p class="lead">Marca Sitio</p>
-  
-  <div>          
- <table border="1">
- {{#each enter}}
-            <tr>
-    <td><strong>Sitio </strong>    </td><td>{{lugar}}</td>
-  </tr>
-
-  {{/each}}
-</table>
-</div>  --}}
-
-
-
-{{!-- 
-<h1>TABLA intermedia</h1>
-<table border="1">
-  <tr>
-   <td>Area</td> <td>q</td><td>Altura Torre</td><td>Altura antena</td><td>n</td><td>condicion_viento</td><td>coeficiente</td><td>Fuerza</td><td>Momento basal</td><td>Momento acum</td><td>corte acum</td><td>coef mom</td><td>coef corte</td>
-  </tr>
-{{#each solicitaciones}}
-  <tr>
-     <td>{{area}}</td><td>{{q}}</td><td>{{altura_torre}}</td><td>{{altura}}</td><td>{{num_antenas}}</td><td>{{condicion_viento}}</td><td>{{coeficiente}}</td><td>{{fuerza}}</td><td>{{mome_bas_actual}}</td> <td>{{mom_bas_acum}}</td><td>{{cort_bas_acum}}</td><td>{{coe_mom_acum}}</td><td>{{coe_cort_acum}}</td>
-  </tr>   
-{{/each}}
-</table> --}}
-
-
-{{!-- ///////////AQUI VAN LAS TABLAS /////////--}}
-{{!-- <h1>TABLA intermedia</h1>
-<table border="1">
-  <tr>
-   <td>Area</td> <td>q</td><td>Altura Torre</td><td>Altura antena</td><td>n</td><td>condicion_viento</td><td>coeficiente</td><td>Fuerza</td><td>Momento basal</td><td>Momento acum</td><td>corte acum</td><td>coef mom</td><td>coef corte</td>
-  </tr>
-{{#each solicitaciones}}
-  <tr>
-     <td>{{area}}</td><td>{{q}}</td><td>{{altura_torre}}</td><td>{{altura}}</td><td>{{num_antenas}}</td><td>{{condicion_viento}}</td><td>{{coeficiente}}</td><td>{{fuerza}}</td><td>{{mome_bas_actual}}</td> <td>{{mom_bas_acum}}</td><td>{{cort_bas_acum}}</td><td>{{coe_mom_acum}}</td><td>{{coe_cort_acum}}</td>
-  </tr>   
-{{/each}}
-</table>
-
-
-<h1>TABLA FactoresAmplificacion</h1>
-<table border="1">
-  <tr>
-   <td>Tramo</td> <td>Factor amplificación momento</td><td>Factor amplificación  corte</td>
-   </tr>
-{{#each factoresamptramos}}
-  <tr>  
-    
-     <td>{{tramoReal}}</td><td>{{factor_amp_momento}}</td><td>{{factor_amp_corte}}</td>
-  </tr>   
-{{/each}}
-</table>
-
-
-
-{{!-- 
-<table border="1">
-  <tr>
-   <td>Descripcion</td> 
-   </tr>
-{{#each antenasAntes}}
-  <tr>  
-    
-     <td>{{antena.descripcion}} </td>
-  </tr>   
-{{/each}}
-</table> --}}
-
-
-{{!-- <h1>Factores de utilización por tramos</h1>
-<table border="1">
-  <tr>
-   <td>fu_cantonero</td> <td>fu_diagonales</td><td>fu_montantes</td><td>fu_conex_diag_pernos</td><td>fu_conex_diag_planchas</td><td>fu_conex_mont_pernos</td><td>fu_conex_mont_planchas</td>
-  </tr>
-{{#each fu.FU_tramo}}
-  <tr>
-     <td>{{fu_cantonero}}</td><td>{{fu_diagonales}}</td><td>{{fu_montantes}}</td><td>{{fu_conex_diag_pernos}}</td><td>{{fu_conex_diag_planchas}}</td><td>{{fu_conex_mont_pernos}}</td><td>{{fu_conex_mont_planchas}}</td>
-  </tr>   
-{{/each}}
-</table>
-
-<h1>Factores de utilización por elementos</h1>
-<table border="1">
-  <tr>
-   <td>cantonero</td> <td>diagonales</td><td>montantes</td><td>conex_diag_pernos</td><td>conex_diag_planchas</td><td>conex_mont_pernos</td><td>conex_mont_planchas</td>
-  </tr>
-{{#each fu.FU_elemento}}
-  <tr>
-     <td>{{fu_elem_cantonero}}</td><td>{{fu_elem_diagonales}}</td><td>{{fu_elem_montantes}}</td><td>{{fu_elem_conex_diag_pernos}}</td><td>{{fu_elem_conex_diag_planchas}}</td><td>{{fu_elem_conex_mont_pernos}}</td><td>{{fu_elem_conex_mont_planchas}}</td>
-  </tr>   
-{{/each}}
-</table>
-
-
-
-
-
-
-<h1>Factores de utilización por trayectos</h1>
-<table border="1">
-  <tr>
-   <td>fu_PERNOS</td> <td>fu_BRIDAS</td>
-  </tr>
-{{#each fu.FU_trayecto}}
-  <tr>
-     <td>{{fu_pernos}}</td><td>{{fu_bridas}}</td>
-  </tr>   
-{{/each}}
-</table>
-
-
-<h1>Factores de utilización por elementos conectores principales</h1>
-<table border="1">
-  <tr>
-   <td>PERNOS</td> <td>BRIDAS</td>
-  </tr>
-{{#each fu.FU_elemento2}}
-  <tr>
-     <td>{{fu_elem2_pernos}}</td><td>{{fu_elem2_bridas}}</td>
-  </tr>   
-{{/each}}
-</table> --}} 
-
 <hr class="my-4">
 
 <p class="lead">Inventario previo de equipos en torre </p>
@@ -208,18 +92,18 @@
 
   <table border="1">        
   <tr>
-    <td><strong>DESCRIPCIÓN</strong></td><td><strong>ORIENTACIÓN</strong></td><td><strong>CANTIDAD</strong></td>
+    <td><strong>DESCRIPCIÓN</strong></td><td><strong>ORIENTACIÓN</strong></td><td><strong>ALTURA</strong></td><td><strong>CANTIDAD</strong></td>
   </tr>
   {{#each CargaInicial}}
    <tr>
-   <td>{{descripcion}}</td><td>{{orientacion}}</td><td>{{cantidad}}</td>
+   <td>{{descripcion}}</td><td>{{orientacion}}</td><td>{{altura}}</td><td>{{cantidad}}</td>
   </tr>
   {{/each}}
   </table>            
   </div>    
-  <p class="lead">Inventario añadido para estudio actual </p>
+ 
   <div>
-
+ <p class="lead">Equipamento considerado para el análisis</p>
   <table border="1">        
   <tr>
     <td><strong>DESCRIPCIÓN</strong></td><td><strong>CANTIDAD</strong></td><td><strong>ALTURA</strong></td>
@@ -233,23 +117,19 @@
   </div>
 
 
-<h1>EL FACTO DE UTILIZACIÓN DE LA TORRE ES </h1>
+<h1>EL FACTOR DE UTILIZACIÓN DE LA TORRE ES </h1>
 <table border="1">
+
+    <div id="notaReporte"><strong> texto superior se ha creado dinámicamente. </strong> </div>
 <p>
-  Factor de Utilización Resultante: <strong>{{fu.fu_torre}}</strong>
-  <p>
-    Si bien la torre verifica para la condición de carga se recomienda un mayor análisis con Memoria de Cálculo.
+<p>
+<p>
 Notas: 
 El valor mostrado corresponde sólo a una estimación con un error de precisión del ~5%. No obedece al resultado de una Verificación Estructural formal.
-No se analizaron las fundaciones existentes.
-  </p>
-
-</p>
-     
-     
-
+No se analizaron las fundaciones existentes."
+    </p>
+</p>  
 </table>
-
 
   <div class="row">
     <div class="col-md-5">
@@ -265,15 +145,11 @@ No se analizaron las fundaciones existentes.
 </div>
 
 
-
-        <hr class="my-4">
-        <p>Simplemente Industrial 4.0 en las estructuras de las antenas de tu planta externa.</p>
+ <input class="btn btn-primary btn-lg" type="button" onclick="printDiv('areaImprimir')" value="Imprimir informe" />
         
-        <input class="btn btn-primary btn-lg" type="button" onclick="printDiv('areaImprimir')" value="Imprimir informe" />
-
         
     </div>
 
-
+</div>
 
 {{> footer}}

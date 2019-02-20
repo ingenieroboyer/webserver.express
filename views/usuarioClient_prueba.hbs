@@ -1,0 +1,51 @@
+{{> head }}
+{{> navbarclient }}
+<body onload="guardaLocalStore();">
+
+
+  <script>
+  function guardaLocalStore(){
+    var token = document.getElementById("tokentxt");
+    localStorage.setItem("token", token.value);
+  }
+
+       
+</script>
+
+
+<table>
+<div class="container-fluid">
+    <p class="lead">Hola {{nombre}} </p>
+</div>
+<h1 class="display-4">SELECCIONAR SITIO QUE SE QUIERE ESTUDIAR  </h1>
+
+ <form action="/../dashCliente_prueba" method="POST" id="prueba">
+  <div class="form-group">
+       <p>     
+           <h5 class="display-4">Seleccionar torre autosoportada:</h5>
+
+
+    <label>Seleccionar torre autosoportada:</label>
+  <select name="sitio">
+   {{#each band}}
+  <option value="{{id}}" {{#selected}}selected="selected"{{/selected}}>{{lugar}}</option>
+  {{/each}}
+  </select>
+
+</p>
+ <button type="submit" class="btn btn-primary">
+            Buscar
+          </button>
+           </div>
+ </form>
+
+
+</table>
+
+<input id="tokentxt" name="token" type="hidden" value="{{token}}"> <br>
+
+      
+        <hr class="my-4">
+        
+</div>
+{{> footer}}

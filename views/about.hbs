@@ -1,9 +1,5 @@
 
 {{> head }}
-
-
-
-
  <body>
 {{> navbar }}
 
@@ -15,29 +11,40 @@
 
             <table border="2">
 <tr>
-     <td><strong>Característica </strong></td><td><strong>Versión 2.0 </strong>
-  </tr>
+     <td align ="center"><strong>Característica </strong></td><td align ="center"><strong>Versión 1.3</strong></td><td align ="center"><strong>Versión 2.0</strong></td><td align ="center"><strong>Versión 2.1</strong></td><td align ="center"><strong>Versión 2.2</strong></td><td align ="center"><strong>Versión 2.3</strong></td>
+  </tr> 
   <tr>
-    <td>
+    <td align ="left">
         Carga los sitios asociados al cliente de forma automática, sin que el cliente tenga que cargar datos específicos como el código de la memoria de cálculo.
         Al seleccionar el sitio mediante un click, el sistema carga: condición de viento, momentos, cortantes, factores de utilización y solicitaciones contenidas en la memoria de cálculo basal.
 
-    </td><td> Soporta</td>
+    </td><td align ="center"> Soportado </td><td align ="center"> NA </td><td align ="center"> NA </td><td align ="center"> NA </td><td align ="center"> NA </td>
+      <tr>
+    <td align ="left">La interfaz de usuario es "responsive" por lo que se adapta al tamaño de la pantalla del usuario. </td><td align ="center"> ***  </td><td align ="center"> Soportado </td><td align ="center"> NA </td><td align ="center"> NA </td><td align ="center"> NA </td>
+  </tr>
   </tr>
   <tr>
-    <td>El modelo soporta la norma NCH 432 of 71, que considera la presión de viento como función de la altura y la condición geográfica del sitio. </td><td> Soporta</td>
+    <td align ="left">El modelo soporta la norma NCH 432 of 71, que considera la presión de viento como función de la altura y la condición geográfica del sitio. </td><td align ="center">***</td><td align ="center"> Soportado </td><td align ="center"> NA </td><td align ="center"> NA </td><td align ="center"> NA </td>
   </tr>
     <tr>
-    <td> El modelo de cálculo es independiente de la altura de la estructura, de manera que se adapta a la altura de la estructura que tenga el sitio seleccionado. </td><td> Soporta</td>
+    <td align ="left"> El modelo de cálculo es independiente de la altura de la estructura, de manera que se adapta a la altura de la estructura que tenga el sitio seleccionado. </td><td align ="center"> ***  </td><td align ="center"> *** </td><td align ="center"> Soportado </td><td align ="center"> NA </td><td align ="center"> NA </td>
+  </tr>
+   <tr>
+    <td align ="left">Permite quitar solicitaciones añadiendo cantidad negativa </td><td align ="center"> *** </td><td align ="center"> *** </td><td align ="center"> Soportado  </td><td align ="center"> NA </td><td align ="center"> NA </td>
+  </tr>
+  <tr>
+    <td align ="left">El modelo de cálculo es independiente  de la cantidad de antenas, de manera que el cliente podría incluir cantidad de solicitaciones diferentes en las iteraciones. </td><td align ="center"> ***  </td><td align ="center"> ***  </td><td align ="center"> ***  </td><td align ="center"> Soportado </td><td align ="center"> NA </td>
   </tr>
 
-  <tr>
-    <td>El modelo de cálculo es independiente  de la cantidad de antenas, de manera que el cliente podría incluir cantidad de solicitaciones diferentes en las iteraciones. </td><td> Soporta</td>
+ <tr>
+    <td align ="left">La versión añade un imprimible con el resultado,  que discrimina entre FU menor o mayor que 95% . </td><td align ="center"> ***  </td><td align ="center"> *** </td><td align ="center"> *** </td><td align ="center"> Soportado </td><td align ="center"> NA </td>
   </tr>
-  <tr>
-    <td>La interfaz de usuario es "responsive" por lo que se adapta al tamaño de la pantalla del usuario. </td><td> Soporta</td>
+   <tr>
+    <td align ="left">Incluye el modelo monoposte </td><td align ="center"> *** </td><td align ="center"> *** </td><td align ="center"> ***  </td><td align ="center"> *** </td><td align ="center"> Soporta </td>
   </tr>
-
+     <tr>
+    <td align ="left">Incluye torres con diagonales secundarias </td><td align ="center"> *** </td><td align ="center"> *** </td><td align ="center"> ***  </td><td align ="center"> *** </td><td align ="center"> Soporta </td>
+  </tr>
 
 </table> 
     {{!-- /////inicio --}}
@@ -60,14 +67,4 @@
 
 </div>
 
-<<<<<<< HEAD
 {{> footer}}
-=======
-
-Si creas un objeto, por ejemplo opciones, y ahi metes los valores que traigas de la bd, luego puedes ir asignandolos en cambioOpciones()
-
-
-
-
-{{> footer}}
->>>>>>> a2de8a7ffa3a265007a8f3fde399b08904e95afb

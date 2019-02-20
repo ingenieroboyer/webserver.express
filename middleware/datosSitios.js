@@ -37,7 +37,7 @@ function datosSitios(conn, nombre, token, req, res, org) {
                             return new Promise(resolve => {
                                 setTimeout(() => {
                                     var anio = new Date().getFullYear();
-                                    res.render('usuarioClient', { band, nombre, token, anio }); //falta el anio
+                                    res.render('usuarioClient_prueba', { band, nombre, token, anio }); //falta el anio
                                     band = [0, 0, 0];
 
                                     resolve(band);
