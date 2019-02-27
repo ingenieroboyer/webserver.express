@@ -10,14 +10,15 @@ path = require('path'),
 
 const { datosSitios } = require('../middleware/datosSitios');
 const { dashboardCliente } = require('../middleware/dashboardCliente');
+const { TodosLosSitios } = require('../middleware/TodosLosSitios');
 var lista = new Array();
+
+
 
 controller.dash = (req, res) => {
     console.log(' Ingresa en el controller.dash');
-
     let dashwaite1 = async(req, res) => {
         console.log(' Ingresa en el dashwaite1 ');
-
         let dashwaite2 = await dashboardCliente(req, res, (err, band) => {
             if (err) {
                 console.log('En daswaite  :' + err);
@@ -29,15 +30,33 @@ controller.dash = (req, res) => {
                     band: band
                 });
             }
-
         });
-
         // dashwaite2(req, res);
     }
     dashwaite1(req, res);
-
-
 }
+
+controller.clasifica = (req, res) => {
+    console.log(' Ingresa en el controller.clasifica');
+    let dashwaite1 = async(req, res) => {
+        console.log(' Ingresa en el dashwaite1 ');
+        let dashwaite2 = TodosLosSitios(req, res, (err, datoTodosLosSitios) => {
+            if (err) {
+                console.log('En TodosLosSitios  :' + err);
+            } else {
+                console.log('Ingreso al final de el controlador  TodosLosSitios antes de pasar a la vista');
+                var anio = new Date().getFullYear();
+                res.render('clasifica', {
+                    anio: anio,
+                    datoTodosLosSitios: datoTodosLosSitios
+                });
+            }
+        });
+        // dashwaite2(req, res);
+    }
+    dashwaite1(req, res);
+}
+
 
 controller.valid = (req, res) => {
     req.getConnection((err, conn) => {

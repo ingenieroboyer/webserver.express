@@ -66,8 +66,106 @@ function clearTable() {
 
 function addRow() {
 // Agregar fila
-  table.addRow();
+   table.addRow();
 };
+
+function bajar(id) {
+// Función de limpiar la data 
+var id=id+1;
+var picoteo1;
+var picotex;
+var picotem;
+var clasifPrinc;
+var aqui,n,n2,n3,n4,n5,comienza,termina;
+var alto,ancho,diametro,cantidad;
+var fila=document.getElementById("equipos_existentes").rows[id];
+
+var descripcion=document.getElementById("equipos_existentes").rows[id].cells[1].innerHTML; 
+var descParseada;   
+picoteo1=descripcion.indexOf(" ");
+picotex=descripcion.indexOf("x");
+picotem=descripcion.indexOf("m");
+clasifPrinc=descripcion.substr(0, picoteo1).toLowerCase();
+
+
+if(clasifPrinc.indexOf("sectorial")===0||clasifPrinc.indexOf("ruu")===0||clasifPrinc.indexOf("rru")===0||clasifPrinc.indexOf("omni")===0||clasifPrinc.indexOf("bts")===0||clasifPrinc.indexOf("filtro")===0||clasifPrinc.indexOf("cobertura")===0||clasifPrinc.indexOf("panel")===0){
+comienza=descripcion.substr(0, picotex);
+aqui=comienza.lastIndexOf(".",picotex);
+n2=aqui-1;
+n3=aqui+3;
+n4=picotex+1;
+n5=n4+4;
+termina=descripcion.substr(n4, 5);
+alto=comienza.substr(n2,n3);
+cantidad=fila.cells[4].innerHTML
+cantidad=(-1)*Number(cantidad);
+
+ if(clasifPrinc.indexOf("ruu")===0||clasifPrinc.indexOf("rru")===0){
+    clasifPrinc="RRU";   
+  }
+  if(clasifPrinc.indexOf("omni")===0){
+    clasifPrinc="Omnidireccional"; 
+  }
+
+  if(clasifPrinc.indexOf("sectorial")===0||clasifPrinc.indexOf("bts")===0||clasifPrinc.indexOf("filtro")===0||clasifPrinc.indexOf("cobertura")===0||clasifPrinc.indexOf("panel")===0){
+    clasifPrinc="Sectorial"; 
+  }
+
+
+
+table.addRow({"antena":clasifPrinc,"cantidad":cantidad,"altura":fila.cells[3].innerHTML,"largo":alto,"ancho":termina,"diametro":"***"});
+}
+
+
+if(clasifPrinc.indexOf("mmoo")===0||clasifPrinc.indexOf("yagui")===0||clasifPrinc.indexOf("mmoo_sin_radomo")===0||clasifPrinc.indexOf("mmoo_radomo_plano")===0){
+  
+
+  if(clasifPrinc.indexOf("mmoo_sin_radomo")===0){
+    clasifPrinc="Parabólica sin radome";   
+  }
+  if(clasifPrinc.indexOf("mmoo_radomo_plano")===0){
+    clasifPrinc="Parabólica con escudo plano";   
+  }
+  if(clasifPrinc.indexOf("mmoo_radomo_esferico")===0){
+    clasifPrinc="Parabólica con radome";   
+  }
+ 
+  if(clasifPrinc.indexOf("yagui")===0){
+    clasifPrinc="Parabólica grillada";   
+  }
+  else{
+    clasifPrinc="Parabólica sin radome"; 
+  }
+termina=descripcion.substr(0, picotem);
+
+n2=picotem-6;
+n3=picotem-1;
+
+
+diametro=descripcion.substr(n2, n3).toLowerCase();
+diametro=diametro.replace("e", "");
+diametro=diametro.replace("d", "");
+diametro=diametro.replace("m", "");
+diametro=diametro.replace("ra", "");
+diametro=diametro.replace("o", "");
+diametro=diametro.replace("sin", "");
+diametro=diametro.replace("ic", "");
+cantidad=fila.cells[4].innerHTML;
+cantidad=(-1)*Number(cantidad);
+
+
+console.log("Id del elemento :"+(id)+" diametro : "+Number(diametro)+" Descripción  = "+clasifPrinc);
+table.addRow({"antena":clasifPrinc,"cantidad":cantidad,"altura":fila.cells[3].innerHTML,"largo":"***","ancho":"***","diametro":diametro});
+}
+
+
+document.getElementById('boton_bajar').closest('tr').remove();;
+
+};
+
+
+
+
 
 
 function postData(path, method) {
@@ -127,7 +225,21 @@ form.setAttribute("action", path);
 }
 
 
+function mostrar(){
+var cuenta = document.getElementById("equipos_existentes").rows;
 
+for (i=1;i<(cuenta.length);i++){
+console.log (document.getElementById("equipos_existentes").rows[i].cells[1].innerHTML);
+}
+
+};
+
+
+
+
+
+
+  
   function post(path, params, method) {
 
     method = method || "post"; // Set method to post by default if not specified.
@@ -195,7 +307,7 @@ function cellClick(cell_event) {
  --}}
 
 {{> head }}
-{{!-- <body onload="cargar_pagina()"> --}}
+{{!-- <body onload="mostrar()"> --}}
 {{> navbarclient }}
 <div class="container-fluid">
   <p class="lead">Hola {{nombre}} </p>
@@ -208,8 +320,8 @@ function cellClick(cell_event) {
 <ul class="navbar-nav mr-auto">
           <p class="lead">Datos sobre la memoria de cálculo base </p>
             
-  <div>          
- <table border="1">
+  <div >          
+ <table border="1" >
  {{#each band.nombre1}}
             <tr>
     <td><strong>Estudio </strong>    </td><td>{{general.codigo}}</td>
@@ -230,18 +342,36 @@ function cellClick(cell_event) {
 </table>
 </div> 
 <p></p>
-<p class="lead">Equipamento existente</p>  
 
-         <table border="1">   
+<table>
+<tr>
+  <td><div>
+<p class="lead">Equipamento existente</p>
+         <table id="equipos_existentes" border="1" >   
     <tr>
-    <td><strong>Tipo</strong></td><td><strong>Orientación</strong></td><td><strong>Altura</strong></td><td><strong>cantidad</strong></td>
+   <td><strong>id</strong></td> <td><strong>Tipo</strong></td>  <td><strong>Orientación</strong></td><td><strong>Altura</strong></td><td><strong>cantidad</strong></td>
   </tr>
 {{#each band.nombre2}}      
   <tr>  
-     <td>{{antena.descripcion}} </td><td>{{antena.orientacion}}</td> <td>{{antena.alto}}</td> <td>{{antena.cantidad}}</td>
+    <td>{{@index}} </td>  <td id="valorestd">{{antena.descripcion}} </td> <td>{{antena.orientacion}}</td> <td>{{antena.alto}}</td> <td>{{antena.cantidad}}</td>
   </tr>   
 {{/each}}
+</table> 
+</div></td>
+<td>
+  <div id="equipos"></div>
+</td>
+</tr>
+
 </table>
+
+
+
+<p></p>
+<p></p>
+
+
+
 
 {{!--
 ****************************************************************************
@@ -254,14 +384,15 @@ function cellClick(cell_event) {
 <p class="lead">Carga a adicionar </p>
 <div>
 
-    <div id="example-table"></div>
+    <div id="add-table"></div>
 
 {{!-- Botones --}}
 
-  <form action="/resultadoAS_pruebas" method="POST"></form>
+  <form action="/resultadoAS_pruebas" method="POST">
   <button class="button" type="button" onclick="clearTable()">Borrar todo</button>
   <button class="button" type="button" onclick="addRow()"    >Añadir equipo</button>
   <button class="button" type="button" onclick="postData('/resultadoAS_pruebas')"  >CALCULAR</button>
+
 </form>
 
 
@@ -271,6 +402,29 @@ function cellClick(cell_event) {
 
 
 </div>
+
+
+
+<div>
+  <table>
+    <div>
+    <p></p>
+<p class="lead">Carga a eliminar</p>
+<p class="lead">Selecciona equipo que desea descargar</p>
+
+         <table id="el_mio" border="1" >   
+    <tr>
+    <td><strong>Tipo</strong></td><td><strong>Altura</strong></td><td><strong>Cantidad</strong></td><td><strong>Acción</strong></td>
+  </tr>
+{{#each band.nombre2}}      
+  <tr>  
+    <td id="valorestd">{{antena.descripcion}} </td><td id=antennaDescargando>{{antena.alto}} </td>  <td>{{antena.cantidad}}</td> <td id= "boton_bajar"><button class="button" type="button" onclick="bajar({{@index}})">Bajar este equipo de la torre</button></ul></td>
+  </tr>   
+{{/each}}
+</table> 
+</div>
+
+
 {{!--
 ****************************************************************************
 *                         Carga de datos iniciales                         *
@@ -297,7 +451,9 @@ var tableData = [
      },
 ]
 
-var table = new Tabulator("#example-table", {
+
+
+var table = new Tabulator("#add-table", {
   cellEdited : function(cell) {cellClick(cell)},
   data:             tableData,    // ** set initial table data  **
   layout:           "fitColumns", // fit columns to width of table
@@ -331,6 +487,11 @@ var table = new Tabulator("#example-table", {
     {title:"Diámetro [m]", field:"diametro", editor:"input",validator:"numeric"},
   ],
 });
+
+
+
+
+
 </script>
 
 {{!-- ---------------------------------------------------------------- --}}
@@ -356,6 +517,7 @@ var table = new Tabulator("#example-table", {
                               <input type="hidden" id="momento" name="momento" value={{general.momento_basal}}>
                               <input type="hidden" id="corte" name="corte" value={{general.corte_basal}}>    
                               <input type="hidden" id="tipo" name="tipo" value={{general.tipo}}>
+                               <input type="hidden" id="prooffLEO" name="prooffLEO" value={{band.nombre1}}>
                               
 
                              
@@ -365,17 +527,9 @@ var table = new Tabulator("#example-table", {
                                                        {{!-- ///serializar la salida para que la pueda mandar  el html --}}
                               
                               {{/each}}
-
                  
                             </div>
-       
-               
-        
-
         </form>
-
-
-
 
     </div>
 

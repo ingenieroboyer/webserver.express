@@ -10,6 +10,7 @@ const router = require('express').Router();
 
 
 var nombre2 = [];
+var todoslossitios = [];
 
 function datosSitios(conn, nombre, token, req, res, org) {
 
@@ -52,7 +53,6 @@ function datosSitios(conn, nombre, token, req, res, org) {
     });
 
 }
-
 
 
 

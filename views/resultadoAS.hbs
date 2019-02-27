@@ -20,6 +20,99 @@ function nuevanNota(){
   }
     document.getElementById("notaReporte").innerHTML = text;
  }
+
+
+function manejaPOST(path){
+
+var aGuardar=[];
+var Cargas=[];
+var Antenas=[];
+var Sitio=[];
+var Estudio=[];
+ var FUX ={{fu.fu_torre}};
+ FUX=FUX.toFixed(2);
+
+var hist_mc_id=document.getElementById("hist_mc_id").innerHTML;
+var codigo=document.getElementById("cod").innerHTML;
+var fu=document.getElementById("fu").innerHTML;
+
+
+fu=fu.replace("<strong>", "");
+  fu=fu.replace("</strong>", "");
+  fu=fu.replace("%", "");
+  fu=fu.replace(" ", "");
+var hielo=document.getElementById("hielo").innerHTML;
+var norma=document.getElementById("norma").innerHTML;
+var viento=document.getElementById("viento").innerHTML;
+var fecha=document.getElementById("fecha").innerHTML;
+
+Estudio.push({
+  hist_mc_id:hist_mc_id,
+  codigo:codigo,
+  fu:fu,
+  hielo:hielo,
+  norma:norma,
+  viento:viento,
+  fecha:fecha,
+  fu_analisis:FUX
+
+}); 
+
+Sitio.push({
+  nombre_sitio:document.getElementById("nombre_sitio").innerHTML,
+  tipo:document.getElementById("tipo").innerHTML,
+  alturaTorre:document.getElementById("alturaTorre").innerHTML,
+});
+
+console.log( " el id que ando buscando :"+hist_mc_id);
+var tablaBaja= document.getElementById("antenasBaja").rows;
+for(i=1;i<tablaBaja.length;i++)
+{
+ {
+aGuardar.push(antenas={
+  descripcion:document.getElementById("antenasBaja").rows[i].cells[0].innerHTML,
+  cant:document.getElementById("antenasBaja").rows[i].cells[1].innerHTML,
+  altura:document.getElementById("antenasBaja").rows[i].cells[2].innerHTML,
+}); 
+}
+}
+
+var cargaInicial= document.getElementById("cargaIni").rows;
+for(i=1;i<cargaInicial.length;i++)
+{
+ {
+Cargas.push({
+  descripcion:document.getElementById("cargaIni").rows[i].cells[0].innerHTML,
+  cant:document.getElementById("cargaIni").rows[i].cells[1].innerHTML,
+  altura:document.getElementById("cargaIni").rows[i].cells[2].innerHTML,
+}); 
+}
+}
+
+console.log(" Estudio :"+JSON.stringify(Estudio));
+
+consolida={
+  cargas:aGuardar,
+  sitios:Sitio,
+  estudio:Estudio,
+  antenas:Cargas,
+}
+
+var enviar =JSON.stringify(consolida);
+method =  "post";
+var path=path;
+var form = document.createElement("form");
+form.setAttribute("method", method);
+form.setAttribute("action", path);
+var hiddenField = document.createElement("input");
+hiddenField.setAttribute("type", "hidden");
+hiddenField.setAttribute("name", "analisis");
+hiddenField.setAttribute("value", enviar);
+form.appendChild(hiddenField);
+document.body.appendChild(form);
+form.submit();
+ };
+
 </script>
 
 
@@ -33,17 +126,17 @@ function nuevanNota(){
          <div class="container mt-5">
   <div>   
   <div>
- <table border="1"> 
+ <table border="1" > 
    <tr>
      <td colspan="2"><strong>DATOS DEL SITIO</strong></td>
      <tr>
        {{#each sitio}}
        <tr>
-         <td>NOMBRE DEL SITIO</td><td>{{nombre}}</td>
+         <td>NOMBRE DEL SITIO</td><td id="nombre_sitio">{{nombre}}</td>
          </tr>
-        <td>TIPO</td><td>{{tipo}}</td>
+        <td>TIPO</td><td id="tipo">{{tipo}}</td>
         <tr>
-          <td>ALTURA</td><td>{{altura_torre}}</td>
+          <td>ALTURA</td><td id="alturaTorre">{{altura_torre}}</td>
        
        </tr>
        {{/each}}
@@ -61,26 +154,29 @@ function nuevanNota(){
      <tr>
        {{#each estudio}}
        <tr>
-         <td>Código</td><td>{{codigo}}</td>
+         <td>Código</td><td id="cod">{{codigo}}</td>
          </tr>
          <tr>
-           <td>FU</td><td><strong>{{fu}}</strong> % </td>
+           <td>FU</td><td id="fu"><strong>{{fu}}</strong> % </td>
          </tr>
          <tr>
-          <td>Hielo</td><td>{{hielo}}</td>
+          <td>Hielo</td><td id="hielo">{{hielo}}</td>
           </tr>
           <tr>
-          <td>Norma</td><td>{{norma }}</td>
+          <td>Norma</td><td id="norma">{{norma }}</td>
           </tr>
           <tr>
-          <td>Condición de viento</td><td>{{viento}}</td>
+          <td>Condición de viento</td><td id="viento">{{viento}}</td>
           </tr>
           <tr>
-          <td>Fecha</td><td>{{fecha}}</td>
+          <td>Fecha</td><td id="fecha">{{fecha}}</td>
+          </tr>
+          <tr style="display: none;">
+            <td> ID estudio</td><td id="hist_mc_id">{{id_hist_mc}}</td>
           </tr>
           {{/each}}
        </tr>
-  </table> 
+  </table>  
   </div>   
 
 
@@ -90,7 +186,7 @@ function nuevanNota(){
 <p class="lead">Inventario previo de equipos en torre </p>
   <div>
 
-  <table border="1">        
+  <table border="1" id="cargaIni" >        
   <tr>
     <td><strong>DESCRIPCIÓN</strong></td><td><strong>ORIENTACIÓN</strong></td><td><strong>ALTURA</strong></td><td><strong>CANTIDAD</strong></td>
   </tr>
@@ -104,7 +200,7 @@ function nuevanNota(){
  
   <div>
  <p class="lead">Equipamento considerado para el análisis</p>
-  <table border="1">        
+  <table id="antenasBaja" border="1">        
   <tr>
     <td><strong>DESCRIPCIÓN</strong></td><td><strong>CANTIDAD</strong></td><td><strong>ALTURA</strong></td>
   </tr>
@@ -134,7 +230,16 @@ No se analizaron las fundaciones existentes."
   <div class="row">
     <div class="col-md-5">
       <div class="card-body">
+             <div >
 
+
+   <button   class="btn btn-primary" onclick="manejaPOST('/guardado')">
+     Guardar el resultado
+   </button>
+  
+
+
+        </div>
        
 
          </div>

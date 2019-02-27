@@ -10,6 +10,7 @@ path = require('path'),
 
 const { verificaToken } = require('../middleware/autentication');
 const { verificaAdmin_Role } = require('../middleware/autentication');
+const { guard } = require('../middleware/guardAS');
 const customerController = require('../controllers/customerController');
 const business = require('../models/business');
 
@@ -127,5 +128,29 @@ router.post('/dashCliente_prueba', [customerController.dash], (req, res) => { //
         anio: new Date().getFullYear()
     });
 });
+
+
+router.post('/clasifica', [customerController.clasifica], (req, res) => { ///Debo añadir el midleware que valida el token del localstorage
+    console.log('Estamos en el enrutador para clasifica.hbs');
+    console.log('res :' + res);
+
+    res.render('clasifica', {
+        res: res,
+        anio: new Date().getFullYear()
+    });
+});
+
+
+router.post('/guardado', [guard], (req, res) => { ///Debo añadir el midleware que valida el token del localstorage
+    console.log('Estamos en el enrutador para clasifica.hbs');
+    console.log('res :' + res);
+
+    res.render('guardado', {
+        res: res,
+        anio: new Date().getFullYear()
+    });
+});
+
+
 
 module.exports = router;
