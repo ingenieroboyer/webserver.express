@@ -387,13 +387,16 @@ function cellClick(cell_event) {
     <div id="add-table"></div>
 
 {{!-- Botones --}}
-
+<div>
   <form action="/resultadoAS_pruebas" method="POST">
   <button class="button" type="button" onclick="clearTable()">Borrar todo</button>
   <button class="button" type="button" onclick="addRow()"    >Añadir equipo</button>
   <button class="button" type="button" onclick="postData('/resultadoAS_pruebas')"  >CALCULAR</button>
 
 </form>
+
+</div>
+
 
 
 <br><br>

@@ -38,6 +38,9 @@ function datosSitios(conn, nombre, token, req, res, org) {
                             return new Promise(resolve => {
                                 setTimeout(() => {
                                     var anio = new Date().getFullYear();
+                                    console.log(" ");
+                                    console.log("Quiero ver el token :" + token);
+                                    console.log(" ");
                                     res.render('usuarioClient_prueba', { band, nombre, token, anio }); //falta el anio
                                     band = [0, 0, 0];
 

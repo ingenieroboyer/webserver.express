@@ -7,8 +7,10 @@ const jwt = require('jsonwebtoken');
 ///                                         ////
 ///=========================================////
 let verificaToken = (req, res, next) => {
+    //QUEDÓ EN DESUSO SE INTEGRÓ DENTRO DE guardAS.js
+    next();
 
-    console.log("Ingresa a verificaToken : " + req.body[2].token);
+
 
     // let token = req.get('token');
     // var token = req.body[2].token;
@@ -24,7 +26,7 @@ let verificaToken = (req, res, next) => {
     //     req.usuario = decoded.usuario;
     //     next();
     // });
-    next();
+    // next();
     // res.json({
     //     token,
     //     mensaje: 'Exitosa validación del token, falta renderizar hacia la otra página'

@@ -85,7 +85,8 @@ controller.valid = (req, res) => {
 
                         let token = jwt.sign({
                             role: role,
-                            nombre: nombre
+                            nombre: nombre,
+                            email: email,
                         }, 'este-es-el-seed-desarrollo', { expiresIn: 60 * 60 });
 
                         if (role === 'ADMIN_ROLE') {

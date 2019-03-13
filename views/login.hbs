@@ -1,6 +1,20 @@
 {{> head }}
 
-<body >
+<script>
+  function salvedad(){
+
+    if (!{{tokenValid}}) {
+    
+window.alert("Debe autenticarse de nuevo");
+alert("Debe autenticarse de nuevo");
+
+  } else {
+    text = "El factor de utilización es = <strong> "+FU+" %</strong> ";
+  }
+ }
+</script>
+
+<body onload="salvedad()">
 {{> navbar }}
 
     <div class="jumbotron">

@@ -11,6 +11,11 @@
 function nuevanNota(){
     var text = "";
     var FU ={{fu.fu_torre}};
+
+
+
+
+
     FU=FU.toFixed(2);
 
     if ( {{fu.fu_torre}}>95) {
@@ -29,12 +34,21 @@ var Cargas=[];
 var Antenas=[];
 var Sitio=[];
 var Estudio=[];
+var Usuario=[];
  var FUX ={{fu.fu_torre}};
  FUX=FUX.toFixed(2);
 
 var hist_mc_id=document.getElementById("hist_mc_id").innerHTML;
 var codigo=document.getElementById("cod").innerHTML;
 var fu=document.getElementById("fu").innerHTML;
+
+var token=localStorage.getItem("token");
+
+
+
+Usuario.push({
+  token:token
+}); 
 
 
 fu=fu.replace("<strong>", "");
@@ -45,6 +59,7 @@ var hielo=document.getElementById("hielo").innerHTML;
 var norma=document.getElementById("norma").innerHTML;
 var viento=document.getElementById("viento").innerHTML;
 var fecha=document.getElementById("fecha").innerHTML;
+
 
 Estudio.push({
   hist_mc_id:hist_mc_id,
@@ -96,6 +111,7 @@ consolida={
   sitios:Sitio,
   estudio:Estudio,
   antenas:Cargas,
+  usuario:Usuario,
 }
 
 var enviar =JSON.stringify(consolida);

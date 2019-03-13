@@ -1,4 +1,5 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 path = require('path');
 const router = require('express').Router();
 ////////==================///////////////////////
@@ -9,7 +10,35 @@ const router = require('express').Router();
 
 
 
-function guard(req, res) {
+function guard(req, res, next) {
+
+
+    var separado = JSON.parse(req.body.analisis);
+    var usuario = separado.usuario;
+    var token = usuario[0].token;
+    var mail;
+
+
+    console.log("El token en verificaToken : " + token);
+
+    jwt.verify(token, 'este-es-el-seed-desarrollo', (err, decoded) => {
+        if (err) {
+            res.render('login', {
+                tokenValid: false,
+                anio: new Date().getFullYear()
+            });
+        } else {
+            mail = decoded.email;
+
+            console.log(" el usuario decodificado =" + decoded.email)
+        }
+
+    });
+
+
+
+
+
     req.getConnection((err, conn1) => {
         var mmi = JSON.parse(req.body.analisis);
         var infositio = mmi.sitios;
@@ -26,11 +55,14 @@ function guard(req, res) {
 
         var cond_hielo = infoestudio[0].hielo;
         var cond_viento = infoestudio[0].viento;
-        var usuario_id = 2;
+        var usuario_id = mail;
+
+        console.log("En guard :" + mmi);
 
 
-
-        // console.log(" imprimer nombre : " + nombre);
+        // console.log(" ");
+        // console.log(" imprimer fecha : " + fecha);
+        // console.log(" ");
         // console.log(" imprimer tipo_torre : " + tipo_torre);
         // console.log(" imprimer altura_torre : " + altura_torre);
         // console.log(" imprimer hist_mc_id : " + hist_mc_id);
@@ -55,6 +87,7 @@ function guard(req, res) {
 
             } else {
                 console.log("Sitios " + JSON.stringify(infoestudio));
+                next();
             }
         });
     });
