@@ -11,6 +11,8 @@ path = require('path'),
 const { verificaToken } = require('../middleware/autentication');
 const { verificaAdmin_Role } = require('../middleware/autentication');
 const { guard } = require('../middleware/guardAS');
+const { estudioHistorico } = require('../middleware/estudioHistorico');
+
 const customerController = require('../controllers/customerController');
 const business = require('../models/business');
 
@@ -148,6 +150,14 @@ router.post('/guardado', [guard], (req, res) => { ///Debo añadir el midleware q
     res.render('guardado', {
         res: res,
         anio: new Date().getFullYear()
+    });
+});
+
+
+router.get('/estudiosHistorico', [estudioHistorico], (req, res) => {
+    res.render('estudiosHistorico', {
+        anio: new Date().getFullYear(),
+        analisis: analisis
     });
 });
 
