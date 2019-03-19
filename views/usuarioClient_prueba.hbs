@@ -1,5 +1,6 @@
 {{> head }}
 {{> navbarclient }}
+
 <body onload="guardaLocalStore();">
 
 
@@ -12,39 +13,69 @@
        
 </script>
 
-
 <table>
-<div class="container-fluid">
+  <tr>
+    <div class="container-fluid">
     <p class="lead">Hola {{nombre}} </p>
 </div>
-<h1 class="display-4">SELECCIONAR SITIO QUE SE QUIERE ESTUDIAR  </h1>
+  </tr>
+<tr>
 
- <form action="/../dashCliente_prueba" method="POST" id="prueba">
-  <div class="form-group">
-       <p>     
-           <h5 class="display-4">Seleccionar torre autosoportada:</h5>
+<h1 class="display-4">SELECCIONAR SITIO QUE SE QUIERE ESTUDIAR</h1>
+</tr>
 
 
+<tr>
+ <td>
+    <img src="assets/img/autosoportada.png" class= "img-thumbnail" align="left"> 
+  </td>
+  <td >
+    <form action="/../dashCliente" method="POST" id="prueba" >
+    <div class="form-group">
     <label>Seleccionar torre autosoportada:</label>
-  <select name="sitio">
-   {{#each band}}
-  <option value="{{id}}" {{#selected}}selected="selected"{{/selected}}>{{lugar}}</option>
-  {{/each}}
-  </select>
+     <select name="sitio">
+        {{#each band}}
+        <option value="{{id}}" {{#selected}}selected="selected"{{/selected}}>{{lugar}}</option>
+        {{/each}}
+     </select>
 
-</p>
- <button type="submit" class="btn btn-primary">
-            Buscar
-          </button>
-           </div>
- </form>
+  </td>
+</tr>
+<tr>
+ <td>
+    <img src="assets/img/contraventada.jpg" class= "img-thumbnail" align="left"> 
+  </td>
+  <td >
+
+    <div class="form-group">
+    <label>Seleccionar torre contraventada:</label>
+
+
+  </td>
+</tr>
+<tr>
+  <td>
+
+  </td>
+  <td align="right" >
+    <button type="submit" class="btn btn-primary" >
+    Buscar
+    </button>
+    </div>
+    </form>
+  </td>
+</tr>
+
+
+
+
+
 
 </table>
 
+
 <input id="tokentxt" name="token" type="hidden" value="{{token}}"> <br>
 
-      
-        <hr class="my-4">
-        
+
 </div>
 {{> footer}}

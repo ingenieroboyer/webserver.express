@@ -92,11 +92,11 @@ window.alert("El sitio : "+sitio+"\n"
 <p class="lead">Estudios disponibles</p>
          <table id="estudios_disponibles" border="1" >   
     <tr>
-   <td><strong>sitio</strong></td> <td><strong>tipo_torre</strong></td>  <td><strong>altura_torre</strong></td><td><strong>fu_estudio</strong></td><td><strong>fecha_estudio</strong></td><td><strong>Acción</strong></td>
+   <td><strong>SITIO</strong></td> <td><strong>TIPO DE TORRE</strong></td>  <td><strong>ALTURA DE LA  TORRE</strong></td><td><strong>FU RESULTANTE</strong></td><td><strong>USUARIO</strong></td><td><strong>FECHA DEL ANÁLISIS</strong></td><td><strong>ACCIÓN</strong></td>
   </tr>
 {{#each analisis}}      
   <tr>  
-    <td id="sitiomark">{{sitio}} </td>  <td id="tipomark">{{tipo_torre}} </td> <td id="alturamark">{{altura_torre}}</td> <td id="fumark">{{fu_estudio}}</td> <td id="fechamark">{{fecha_estudio}}</td><td id= "boton_bajar"><button class="button" type="button" onclick="bajar({{@index}})">Seleccionar estudio</button></ul></td>
+    <td id="sitiomark" align="center">{{sitio}} </td>  <td id="tipomark" align="center">{{tipo_torre}} </td> <td id="alturamark" align="center">{{altura_torre}}</td> <td id="fumark" align="center" >{{fu_estudio}}</td> <td id="fumark" align="center">{{usuario}}</td> <td id="fechamark" align="center">{{fecha_analisis}}</td><td id= "boton_bajar" align="center"><button class="button" type="button" onclick="bajar({{@index}})">Seleccionar estudio</button></ul></td>
   </tr>   
 {{/each}}
 </table> 

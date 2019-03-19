@@ -31,7 +31,7 @@ function estudioHistorico(req, res) {
                         fecha_estudio: analisisDB[s].fecha_estudio,
                         fu_modificado: analisisDB[s].fu_modificado,
                         usuario: analisisDB[s].usuario_id,
-                        fecha_analisis: analisisDB[s].usuario,
+                        fecha_analisis: analisisDB[s].fecha_analisis,
                         cod_estudio: analisisDB[s].cod_estudio
                     });
                 }

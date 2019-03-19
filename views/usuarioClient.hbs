@@ -2,17 +2,22 @@
 {{> head }}
 {{> navbarclient }}
 <table>
-<div class="container-fluid">
+  <tr>
+    <div class="container-fluid">
     <p class="lead">Hola {{nombre}} </p>
 </div>
+  </tr>
+<tr>
+
 <h1 class="display-4">SELECCIONAR SITIO QUE SE QUIERE ESTUDIAR</h1>
+</tr>
+
+
+<tr>
 
  <form action="/../dashCliente" method="POST" id="prueba">
   <div class="form-group">
-       <p>     
-           <h5 class="display-4">Seleccionar torre autosoportada:</h5>
-
-
+ 
     <label>Seleccionar torre autosoportada:</label>
   <select name="sitio">
    {{#each band}}
@@ -26,6 +31,8 @@
           </button>
            </div>
  </form>
+
+</tr>
 
 
 </table>
