@@ -234,11 +234,6 @@ console.log (document.getElementById("equipos_existentes").rows[i].cells[1].inne
 
 };
 
-
-
-
-
-
   
   function post(path, params, method) {
 
@@ -314,33 +309,36 @@ function cellClick(cell_event) {
 </div>
 
 <div class="jumbotron">
-        <h1 class="display-4">Ingreso de antenas</h1>
-            <h2 class="display-4" align ='right'> {{> version }}</h2>
+        <h4 class="display-3">Análisis de Factores de Utilización</h4>
+            <h1 class="display-7" align ='right'> {{> version }}</h1>
 
-<ul class="navbar-nav mr-auto">
+<ul class="navbar-nav mr-auto"></ul>
+<h1 class="display-6">Estado actual de las estructuras</h1>
           <p class="lead">Datos sobre la memoria de cálculo base </p>
             
-  <div >          
+<div >          
  <table border="1" >
  {{#each band.nombre1}}
-            <tr>
+ <tr>
     <td><strong>Estudio </strong>    </td><td>{{general.codigo}}</td>
-  </tr>
-  <tr>
+ </tr>
+ <tr>
     <td><strong>Realizado </strong>    </td><td>{{general.fecha}}</td>
-  </tr>
-  <tr>
+ </tr>
+ <tr>
     <td><strong>Bajo la norma</strong>     </td><td>{{general.norma}}</td>
-  </tr>
-    <tr>
+ </tr>
+ <tr>
     <td><strong>Condición del  viento</strong>     </td><td>{{general.viento}}</td>
-  </tr>
-   <tr>
+ </tr>
+ <tr>
     <td><strong>Factor utilizacion (%) </strong>     </td><td>{{general.fu}}</td>
-  </tr>
+ </tr>
   {{/each}}
-</table>
+ </table>
 </div> 
+
+
 <p></p>
 
 <table>
@@ -381,7 +379,7 @@ function cellClick(cell_event) {
 <p></p>
 <p></p>
 <p></p>
-<p class="lead">Carga a adicionar </p>
+<h1 class="display-6">Modificiaciones </h1>
 <div>
 
     <div id="add-table"></div>

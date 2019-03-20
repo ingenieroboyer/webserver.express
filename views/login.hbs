@@ -17,12 +17,15 @@ alert("Debe autenticarse de nuevo");
 <body onload="salvedad()">
 {{> navbar }}
 
-    <div class="jumbotron">
-        <h1 class="display-4">Login usuario </h1>
-        <p class="lead">Ingreso al sistema
-            <ul class="navbar-nav mr-auto">
-                Favor introduzca sus datos para ingresar al sistema</p>
-                <div class="container mt-5">
+
+
+    <div class="well">
+<h1 class="jumbotron">Login usuario </h1>
+
+      <table>
+
+        <tr>
+
   <div class="row">
     <div class="col-md-5">
       <div class="card-body">
@@ -33,17 +36,29 @@ alert("Debe autenticarse de nuevo");
           <div class="input-group">
             <input name="password" placeholder="Contraseña" type="text" required class="form-control" >
           </div>
-          <button type="submit" class="btn btn-primary">
-            Ingresar
-          </button>
-        </form>
+
       </div>
     </div>
   </div>
 </div>
 
+        </tr>
+        <tr>
+          <td>
 
-        <hr class="my-4">
-        <a class="btn btn-primary btn-lg" href="#" role="button">Leer más</a>
+          </td>
+          <td>
+                      <button type="submit" class="btn btn-primary">
+            Ingresar
+          </button>
+        </form>
+          </td>
+        </tr>
+
+      
+      </table>
+
+
+
     </div>
 {{> footer}}
