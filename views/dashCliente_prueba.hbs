@@ -311,13 +311,13 @@ function cellClick(cell_event) {
 <div class="jumbotron">
         <h4 class="display-3">Análisis de Factores de Utilización</h4>
             <h1 class="display-7" align ='right'> {{> version }}</h1>
+</div>
+<div class="container">
 
-<ul class="navbar-nav mr-auto"></ul>
 <h1 class="display-6">Estado actual de las estructuras</h1>
           <p class="lead">Datos sobre la memoria de cálculo base </p>
-            
-<div >          
- <table border="1" >
+
+   <table border="1" >
  {{#each band.nombre1}}
  <tr>
     <td><strong>Estudio </strong>    </td><td>{{general.codigo}}</td>
@@ -336,12 +336,12 @@ function cellClick(cell_event) {
  </tr>
   {{/each}}
  </table>
-</div> 
-
-
-<p></p>
 
 <table>
+
+           
+<div >          
+
 <tr>
   <td><div>
 <p class="lead">Equipamento existente</p>
@@ -365,6 +365,14 @@ function cellClick(cell_event) {
 
 
 
+</div> 
+
+
+<p></p>
+
+
+
+
 <p></p>
 <p></p>
 
@@ -376,39 +384,24 @@ function cellClick(cell_event) {
 *                          Acá se inserta la tabla                         *
 ****************************************************************************
 --}}
-<p></p>
-<p></p>
-<p></p>
+
+
+<div class="jumbotron" >
 <h1 class="display-6">Modificiaciones </h1>
-<div>
+<div class="row">
+  <div class="col-4">
+    
+  <div id="add-table"></div>
+    <form action="/resultadoAS_pruebas" method="POST">
+    <button class="button" type="button" onclick="clearTable()">Borrar todo</button>
+    <button class="button" type="button" onclick="addRow()"    >Añadir equipo</button>
+    <button class="button" type="button" onclick="postData('/resultadoAS_pruebas')"  >CALCULAR</button>
+    </form>
 
-    <div id="add-table"></div>
-
-{{!-- Botones --}}
-<div>
-  <form action="/resultadoAS_pruebas" method="POST">
-  <button class="button" type="button" onclick="clearTable()">Borrar todo</button>
-  <button class="button" type="button" onclick="addRow()"    >Añadir equipo</button>
-  <button class="button" type="button" onclick="postData('/resultadoAS_pruebas')"  >CALCULAR</button>
-
-</form>
-
-</div>
-
-
-
-<br><br>
-
-{{!-- Tabla --}}
-
-
-</div>
-
-
-
-<div>
+  </div>
+  <div class="col-10">
   <table>
-    <div>
+   
     <p></p>
 <p class="lead">Carga a eliminar</p>
 <p class="lead">Selecciona equipo que desea descargar</p>
@@ -423,6 +416,31 @@ function cellClick(cell_event) {
   </tr>   
 {{/each}}
 </table> 
+
+
+  </div>
+</div>
+
+
+
+
+{{!-- Botones --}}
+
+
+
+
+
+<br><br>
+
+{{!-- Tabla --}}
+
+
+</div>
+
+
+
+<div>
+
 </div>
 
 
