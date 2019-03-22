@@ -61,6 +61,14 @@ router.post('/login', [customerController.valid], (req, res) => {
     });
 });
 
+router.post('/relanza', [customerController.revalid], (req, res) => {
+    res.render('logeado', {
+        anio: new Date().getFullYear()
+    });
+});
+
+
+
 
 router.post('/resultadoAS_pruebas', [business.calculoAgnos], (req, res) => { /////AQUÍ ES DONDE SE TOMAN LOS DATOS DEL FOMULARIO DINÁMICO
     var paraver = req.body;

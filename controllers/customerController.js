@@ -58,10 +58,68 @@ controller.clasifica = (req, res) => {
 }
 
 
+controller.revalid = (req, res) => {
+    console.log(" ESTAMOS EN REVALID :" + req.body.token);
+    if (typeof(req.body.token) !== 'undefined') {
+        var token = req.body.token;
+        token = token.replace(/"/g, "");
+        console.log("Paso el if de revalid :" + token);
+
+        jwt.verify(token, 'este-es-el-seed-desarrollo', (err, decoded) => {
+            if (err) {
+                console.log(" Estamos tiendo un error en el verificador : " + err);
+                res.render('login', {
+                    tokenValid: false,
+                    anio: new Date().getFullYear()
+                });
+            } else {
+                req.getConnection((err, conn) => {
+                    var email = decoded.email;
+                    var nombre = decoded.nombre;
+
+                    conn.query('SELECT * FROM user WHERE email1 = ?', [email], function(err, results, fields) {
+                        if (err) {
+                            console.log("error ocurred", error);
+                            res.send({
+                                "code": 400,
+                                "failed": "pilas con la cantidad de variables que envias"
+                            })
+                        } else {
+                            if (results.length > 0) {
+                                const org = results[0].organitation;
+                                async function vista(conn, req, res, org) {
+                                    var band = await datosSitios(conn, nombre, token, req, res, org);
+                                    return band;
+                                }
+
+                                vista(conn, req, res, org).then(band => {
+                                    console.log("El timer cuando viene de datosSitios " + JSON.stringify(band));
+                                });
+
+                            }
+                        }
+                    });
+
+
+
+
+
+
+
+
+                });
+            }
+
+        });
+    }
+};
+
+
 controller.valid = (req, res) => {
     req.getConnection((err, conn) => {
         var email = req.body.email;
         var password = req.body.password;
+
         // console.log(email);
         // console.log(password);
         conn.query('SELECT * FROM user WHERE email1 = ?', [email], function(err, results, fields) {

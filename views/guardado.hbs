@@ -1,3 +1,32 @@
+<script>
+    function postData(path, method) {
+        var token = localStorage.getItem("token");
+        var data_array=[];
+            
+        var enviar =JSON.stringify(token);
+        method =  "post";
+        var path=path;
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+                    var hiddenField = document.createElement("input");
+                    hiddenField.setAttribute("type", "hidden");
+                    hiddenField.setAttribute("name", "token");
+                    hiddenField.setAttribute("value", enviar);
+                    form.appendChild(hiddenField);
+
+            document.body.appendChild(form);
+            form.submit();
+
+        
+
+
+};
+
+</script>
+
+
+
 
 {{> head }}
  <body>
@@ -16,7 +45,8 @@
     </div>
 
  
-  <a href="#" class="btn btn-info" role="button" align="right">Realizar otro nuevo análisis</a>
+
+  <button class="button" type="button" onclick="postData('/relanza')"  >Realizar otro  análisis</button>
 
  
 
