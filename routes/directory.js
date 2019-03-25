@@ -94,10 +94,15 @@ router.post('/test', [verificaToken], (req, res) => {
     });
 });
 
-
-
 router.get('/login', (req, res) => {
     res.render('login', {
+        anio: new Date().getFullYear()
+    });
+});
+
+
+router.get('/transicion', (req, res) => {
+    res.render('transicion', {
         anio: new Date().getFullYear()
     });
 });

@@ -17,46 +17,8 @@
 
             document.body.appendChild(form);
             form.submit();
-
-        
-
-
 };
-
 </script>
 
 
-
--- 
-{{> head }}
- <body>
-{{> navbarclient }}
-
-<div class="container">
-
-    <div class="row">
-        <h1>
-            Ya se guardó el análisis en la BD
-        </h1>
-
-    </div>
-    <div class="row" align="center">
-        <img src="assets/img/banner.jpg" class= "img-thumbnail">
-    </div>
-
- 
-
-  <button class="button" type="button" onclick="postData('/relanza')"  >Realizar otro  análisis</button>
-
- 
-
-
-
-
-
-
-</div>
-
-
-
-{{> footer}}
+<body onload="postData('/relanza')" >
