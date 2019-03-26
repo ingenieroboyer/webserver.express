@@ -66,11 +66,12 @@ function clearTable() {
 
 function addRow() {
 // Agregar fila
-   table.addRow();
+   table.addRow({"accion":"agregar"});
 };
 
 function bajar(id) {
 // Función de limpiar la data 
+
 var id=id+1;
 var picoteo1;
 var picotex;
@@ -98,7 +99,7 @@ n5=n4+4;
 termina=descripcion.substr(n4, 5);
 alto=comienza.substr(n2,n3);
 cantidad=fila.cells[4].innerHTML
-cantidad=(-1)*Number(cantidad);
+cantidad=Number(cantidad);
 
  if(clasifPrinc.indexOf("ruu")===0||clasifPrinc.indexOf("rru")===0){
     clasifPrinc="RRU";   
@@ -113,7 +114,7 @@ cantidad=(-1)*Number(cantidad);
 
 
 
-table.addRow({"antena":clasifPrinc,"cantidad":cantidad,"altura":fila.cells[3].innerHTML,"largo":alto,"ancho":termina,"diametro":"***"});
+table.addRow({"antena":clasifPrinc,"cantidad":cantidad,"altura":fila.cells[3].innerHTML,"largo":alto,"ancho":termina,"diametro":"***","accion":"bajar"});
 }
 
 
@@ -151,11 +152,11 @@ diametro=diametro.replace("o", "");
 diametro=diametro.replace("sin", "");
 diametro=diametro.replace("ic", "");
 cantidad=fila.cells[4].innerHTML;
-cantidad=(-1)*Number(cantidad);
+cantidad=Number(cantidad);
 
 
 console.log("Id del elemento :"+(id)+" diametro : "+Number(diametro)+" Descripción  = "+clasifPrinc);
-table.addRow({"antena":clasifPrinc,"cantidad":cantidad,"altura":fila.cells[3].innerHTML,"largo":"***","ancho":"***","diametro":diametro});
+table.addRow({"antena":clasifPrinc,"cantidad":cantidad,"altura":fila.cells[3].innerHTML,"largo":"***","ancho":"***","diametro":diametro,"accion":"bajar"});
 }
 
 
@@ -172,6 +173,7 @@ function postData(path, method) {
 // Funcion que publica los datos escritos en la tabla.
 // Es llamada por el botón *Enviar*.
 var data_array = table.getData(); 
+
 var getnorma = document.getElementById("norma");
 
 var getviento = document.getElementById("viento");
@@ -320,7 +322,7 @@ function cellClick(cell_event) {
    <table border="1" >
  {{#each band.nombre1}}
   <tr>
-    <td><strong>Lugar </strong>    </td><td><strong>{{general.nombreSitio}}</strong></td>
+    <td><strong>Lugar </strong>    </td><td><strong>{{general.nombreSitio}} </strong></td>
  </tr>
  <tr>
     <td><strong>Estudio </strong>    </td><td>{{general.codigo}}</td>
@@ -391,37 +393,58 @@ function cellClick(cell_event) {
 
 <div class="jumbotron" >
 <h1 class="display-6">Modificiaciones </h1>
-<div class="row">
-  <div class="col-4">
-    
-  <div id="add-table"></div>
+<div >
+
+
+
+
+ <div class="row content">
+  <div class="col-19">
+  <table>
+   
+    <p></p>
+<p class="lead">SELECCIONA EQUIPOS EXISTENTES</p>
+
+        <table id="el_mio" border="1" >   
+          <tr>
+            <td><strong>Tipo</strong></td><td><strong>Altura</strong></td><td><strong>Cantidad</strong></td><td><strong>Acción</strong></td>
+          </tr>
+          {{#each band.nombre2}}      
+          <tr>  
+            <td id="valorestd">{{antena.descripcion}} </td><td id=antennaDescargando>{{antena.alto}} </td>  <td>{{antena.cantidad}}</td> <td id= "boton_bajar"><button class="button" type="button" onclick="bajar({{@index}})">Bajar este equipo de la torre</button></ul></td>
+          </tr>   
+          {{/each}}
+        </table> 
+
+
+  </div>
+ <div class="col-1">
+   </div>
+
+   
+<div class="col-4">
+<p class="lead">TABLA DE CAMBIOS A IMPLEMENTAR</p>
+    <div id="add-table"></div>
     <form action="/resultadoAS_pruebas" method="POST">
     <button class="button" type="button" onclick="clearTable()">Borrar todo</button>
     <button class="button" type="button" onclick="addRow()"    >Añadir equipo</button>
     <button class="button" type="button" onclick="postData('/resultadoAS_pruebas')"  >CALCULAR</button>
     </form>
 
-  </div>
-  <div class="col-10">
-  <table>
-   
-    <p></p>
-<p class="lead">Carga a eliminar</p>
-<p class="lead">Selecciona equipo que desea descargar</p>
 
-         <table id="el_mio" border="1" >   
-    <tr>
-    <td><strong>Tipo</strong></td><td><strong>Altura</strong></td><td><strong>Cantidad</strong></td><td><strong>Acción</strong></td>
-  </tr>
-{{#each band.nombre2}}      
-  <tr>  
-    <td id="valorestd">{{antena.descripcion}} </td><td id=antennaDescargando>{{antena.alto}} </td>  <td>{{antena.cantidad}}</td> <td id= "boton_bajar"><button class="button" type="button" onclick="bajar({{@index}})">Bajar este equipo de la torre</button></ul></td>
-  </tr>   
-{{/each}}
-</table> 
+</div>
 
+ </div>
+
+
+
+  
+    
+ 
 
   </div>
+
+
 </div>
 
 
@@ -461,7 +484,8 @@ var tableData = [
      altura:   "42",
      largo:    "0.200",
      ancho:    "0.170",
-     diametro: NULL_DATA
+     diametro: NULL_DATA,
+     accion: "agregar"
      },
 
     {antena:   PARABOLA_ESCUDO_PLANO,
@@ -469,7 +493,8 @@ var tableData = [
      altura:   "36",
      largo:    NULL_DATA,
      ancho:    NULL_DATA,
-     diametro: "1.2"
+     diametro: "1.2",
+     accion: "agregar"
      },
 ]
 
@@ -477,6 +502,7 @@ var tableData = [
 
 var table = new Tabulator("#add-table", {
   cellEdited : function(cell) {cellClick(cell)},
+
   data:             tableData,    // ** set initial table data  **
   layout:           "fitColumns", // fit columns to width of table
   responsiveLayout: "hide",       // hide columns that dont fit on the table
@@ -507,6 +533,7 @@ var table = new Tabulator("#add-table", {
     {title:"Largo [m]",    field:"largo",    editor:"input",validator:"numeric"},
     {title:"Ancho [m]",    field:"ancho",    editor:"input",validator:"numeric"},
     {title:"Diámetro [m]", field:"diametro", editor:"input",validator:"numeric"},
+    {title:"Acción a tomar", field:"accion" },
   ],
 });
 

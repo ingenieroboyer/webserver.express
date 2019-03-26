@@ -8,15 +8,17 @@ morgan = require('morgan');
 
 
 model.calculoAgnos = function(req, res, next) {
+
+
     var datatrans = JSON.parse(req.body.armando);
-
-
     var cuenta = datatrans.length - 1;
 
-    // console.log("cantidad de antenas  :" + cuenta);
+
 
     let antenas = datatrans.filter(datatran => datatran.antena !== undefined);
     let datosSitio = datatrans.filter(datatran => datatran.norma !== undefined);
+
+    console.log(" Los datos de las antenas  :" + JSON.stringify(antenas));
     // console.log("Datos sitios " + JSON.stringify(datosSitio));
     var entrada = [];
     var SOLIC_ANT = [];
@@ -180,8 +182,8 @@ model.calculoAgnos = function(req, res, next) {
 let prepara = async(req, datosSitio, antenas, enter) => { ///Esta función generará los datos necesarios para enviarlos a calcAgnos
     // console.log();
 
-    var aqui = JSON.stringify(datosSitio);
-    console.log("Entró a prepara con antenas  con datosSitio =" + aqui);
+    // var aqui = JSON.stringify(datosSitio);
+    // console.log("Entró a prepara con antenas  con datosSitio =" + aqui);
 
     req.getConnection((err, conn1) => {
         conn1.query("SELECT * FROM antenas ", (err, antenasBD, fields) => {
@@ -229,6 +231,7 @@ let prepara = async(req, datosSitio, antenas, enter) => { ///Esta función gener
                                 // console.log("Antenas    :" + JSON.stringify(antenas));
 
                                 descr = antenas[i].antena;
+                                accion = antenas[i].accion;
                                 var alt = Math.round(antenas[i].altura);
 
                                 for (j = 0; j < antenasBD.length; j++) {
@@ -245,9 +248,17 @@ let prepara = async(req, datosSitio, antenas, enter) => { ///Esta función gener
                                     area1 = Number(antenas[i].largo) * Number(antenas[i].ancho);
                                 }
 
+                                if (accion.search("agregar") === 0) {
+                                    n = Number(antenas[i].cantidad);
+                                } else {
+                                    n = (-1) * Number(antenas[i].cantidad);
+                                }
+
+
+
                                 primero.push({ /////Puede añadir un problema de sincronìa
                                     i: i,
-                                    n: Number(antenas[i].cantidad),
+                                    n: n,
                                     altura: Number(antenas[i].altura),
                                     descrip: descr,
                                     area: area1,
