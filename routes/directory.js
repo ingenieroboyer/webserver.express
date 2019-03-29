@@ -1,7 +1,5 @@
 const express = require('express');
-
 var bodyParser = require('body-parser');
-
 const router = require('express').Router();
 path = require('path'),
     morgan = require('morgan'),
@@ -10,14 +8,13 @@ path = require('path'),
 
 const { verificaToken } = require('../middleware/autentication');
 const { verificaAdmin_Role } = require('../middleware/autentication');
-const { guard } = require('../middleware/guardAS');
+const { imprime } = require('../middleware/imprime');
 const { estudioHistorico } = require('../middleware/estudioHistorico');
-
+const { guard } = require('../middleware/guardAS');
 const customerController = require('../controllers/customerController');
 const business = require('../models/business');
 
 router.use(express.static(__dirname + '/public'));
-
 router.use(bodyParser.json()); // support json encoded bodies
 router.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
@@ -44,6 +41,7 @@ router.post('/home', (req, res) => {
         anio: new Date().getFullYear()
     });
 });
+
 
 
 router.get('/about', (req, res) => {
@@ -85,6 +83,11 @@ router.post('/resultadoAS', [business.calculoAgnos], (req, res) => {
     });
 });
 
+router.post('/pdf', [imprime], (req, res) => {
+    res.render('home', {
+        anio: new Date().getFullYear()
+    });
+});
 
 
 router.post('/test', [verificaToken], (req, res) => {

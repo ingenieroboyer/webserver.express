@@ -1,4 +1,6 @@
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+
 <script>
   function printDiv(nombreDiv) {
      var contenido= document.getElementById(nombreDiv).innerHTML;
@@ -11,13 +13,7 @@
 function nuevanNota(){
     var text = "";
     var FU ={{fu.fu_torre}};
-
-
-
-
-
     FU=FU.toFixed(2);
-
     if ( {{fu.fu_torre}}>95) {
     text = "El factor de utilización es <strong>"+FU+"%  se recomienda realizar una nueva memoria de cálculo dada la precisión del Software de Estructuras </strong>";
   } else {
@@ -25,6 +21,13 @@ function nuevanNota(){
   }
     document.getElementById("notaReporte").innerHTML = text;
  }
+
+ function genPDF(){
+  var doc = new jsPDF();
+  doc.fromHTML($('#particular').get(0), 20,20,{
+    'width':500 });
+    doc.save('ssAJ.pdf');
+}
 
 
 function manejaPOST(path){
@@ -130,19 +133,131 @@ form.submit();
  };
 
 </script>
+<script>
+
+  function creaPDF(path) {
+
+    var memoriaCalculo=[];
+    var sitiosDatos=[];
+    var equiposTorre=[];
+    var instalacion=[];
+    var data=[]; 
+
+    var tablaSitio = document.getElementById("Tablasitio");
+    var tablaEquipos=document.getElementById("antenasBaja");
+    var tabladatos_estudio=document.getElementById("datos_estudio");  
+    var cargaIni=document.getElementById("cargaIni");
+    
+    var FU=document.getElementById("notaReporte").innerHTML;
+    FU=FU.replace("<strong>","");
+    FU=FU.replace("</strong>","");
+        FU=FU.replace(" ","");
+
+    var codig=document.getElementById("datos_estudio").rows[2].cells[1].innerHTML;
+    codig=codig.replace(/<strong>/g,"");
+
+      var codig=document.getElementById("datos_estudio").rows[2].cells[1].innerHTML; 
+      var fu_mc=document.getElementById("datos_estudio").rows[3].cells[1].innerHTML;
+      fu_mc=fu_mc.replace("<strong>","");
+        fu_mc=fu_mc.replace("</strong>","");
+        fu_mc=fu_mc.replace("%","");
+        fu_mc=fu_mc.replace(" ","");
+
+
+      memoriaCalculo.push({        
+        codig:codig,
+        fu_mc:fu_mc,
+        hielo:document.getElementById("datos_estudio").rows[4].cells[1].innerHTML,
+        norma:document.getElementById("datos_estudio").rows[5].cells[1].innerHTML,
+        cond_viento:document.getElementById("datos_estudio").rows[6].cells[1].innerHTML,
+        fecha:document.getElementById("datos_estudio").rows[7].cells[1].innerHTML,
+        });
+        
+        sitiosDatos.push({
+          nombre:document.getElementById("Tablasitio").rows[2].cells[1].innerHTML,
+          tipo:document.getElementById("Tablasitio").rows[3].cells[1].innerHTML,
+          altura:document.getElementById("Tablasitio").rows[4].cells[1].innerHTML, 
+          });
+
+
+for (i=1;i<cargaIni.rows.length ;i++){
+  equiposTorre.push(
+    {
+      descripcion :document.getElementById("cargaIni").rows[i].cells[0].innerHTML,
+      orientacion:document.getElementById("cargaIni").rows[i].cells[1].innerHTML,
+      altura:document.getElementById("cargaIni").rows[i].cells[2].innerHTML,
+      cantidad:document.getElementById("cargaIni").rows[i].cells[3].innerHTML,
+    } 
+    );
+}
+
+
+for (i=1;i<tablaEquipos.rows.length ;i++){
+  instalacion.push(
+    {
+      descripcion :document.getElementById("antenasBaja").rows[i].cells[0].innerHTML,
+      cantidad:document.getElementById("antenasBaja").rows[i].cells[1].innerHTML,
+      altura:document.getElementById("antenasBaja").rows[i].cells[2].innerHTML,
+    }
+    );
+}
+          
+  console.log(" Este es memoriaCalculo :"+ JSON.stringify(memoriaCalculo));
+  console.log(" Este es sitiosDatos :"+ JSON.stringify(sitiosDatos)); 
+  console.log(" Este es equiposTorre :"+ JSON.stringify(equiposTorre));
+  console.log(" Este es instalacion :"+ JSON.stringify(instalacion));
+  console.log(" Este es FU :"+ FU);
+
+  
+
+    data.push(
+    {
+      memoriaCalculo:memoriaCalculo,
+      sitiosDatos:sitiosDatos,
+      equiposTorre:equiposTorre,
+      instalacion:instalacion,
+      FU:FU,
+    }
+    );
+
+
+    var enviar =JSON.stringify(data);
+method = "post";
+var path=path;
+var form = document.createElement("form");
+form.setAttribute("method", method);
+form.setAttribute("action", path);
+var hiddenField = document.createElement("input");
+hiddenField.setAttribute("type", "hidden");
+hiddenField.setAttribute("name", "armando");
+hiddenField.setAttribute("value", enviar);
+form.appendChild(hiddenField);
+document.body.appendChild(form);
+form.submit();
+
+
+
+}
+
+
+
+  
+</script>
 
 
 {{> head }}
 {{> navbarclient }}
 <body onload="nuevanNota()">
+<img src="assets/img/logo.jpg" class= "img-thumbnail" align="left">
+
 <div id="areaImprimir">
-<img src="assets/img/logo.jpg" class= "img-thumbnail" align="left"> 
-    <div class="jumbotron">
+ 
+    <div id="areaMasGrande" class="jumbotron">
         <h1 class="display-4">RESULTADOS DEL ANÁLISIS ESTRUCTURAL </h1>
-         <div class="container mt-5">
+         <div  class="container mt-5">
   <div>   
   <div>
- <table border="1" > 
+ <table border="1"  id="Tablasitio"> 
    <tr>
      <td colspan="2"><strong>DATOS DEL SITIO</strong></td>
      <tr>
@@ -162,9 +277,9 @@ form.submit();
 
 <p>    </p>
 <p>    </p>
-
-  <div>
- <table border="1"> 
+  
+ 
+ <table border="1" id="datos_estudio"> 
    <tr>
      <td colspan="2"><strong>DATOS DEL ESTUDIO</strong></td>
      <tr>
@@ -193,14 +308,14 @@ form.submit();
           {{/each}}
        </tr>
   </table>  
-  </div>   
+   
 
-
+<div id="particular"> 
 
 <hr class="my-4">
 
 <p class="lead">Inventario previo de equipos en torre </p>
-  <div>
+ 
 
   <table border="1" id="cargaIni" >        
   <tr>
@@ -212,9 +327,7 @@ form.submit();
   </tr>
   {{/each}}
   </table>            
-  </div>    
- 
-  <div>
+
  <p class="lead">Equipamento considerado para el análisis</p>
   <table id="antenasBaja" border="1">        
   <tr>
@@ -226,8 +339,9 @@ form.submit();
   </tr>
   {{/each}}
   </table>            
-  </div>
 
+
+  </div>
 
 <h1>EL FACTOR DE UTILIZACIÓN DE LA TORRE ES </h1>
 <table border="1">
@@ -267,6 +381,11 @@ No se analizaron las fundaciones existentes."
 
 
  <input class="btn btn-primary btn-lg" type="button" onclick="printDiv('areaImprimir')" value="Imprimir informe" />
+
+ 
+   <button   class="btn btn-primary" onclick="creaPDF('/pdf')">
+     Generar un PDF
+   </button>
         
         
     </div>
