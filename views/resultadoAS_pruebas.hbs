@@ -27,11 +27,20 @@ function genPDF(){
     'width':500 });
     doc.save('Test.pdf');
 }
+</script>
 
 
-
+<script>
+    Handlebars.registerHelper('nPositiv', function(n) {
+        n=Number(n);
+        if (n<0){
+             n=(-1)*n;
+    return n;
+        }
+        });
 
 </script>
+
 
 {{> head }}
 {{> navbarclient }}
@@ -118,7 +127,7 @@ function genPDF(){
   </tr>
   {{#each enter.ent}}
    <tr>
-   <td>{{descrip}}</td><td>{{n}}</td><td>{{altura}}</td>
+   <td>{{descrip}}</td><td> </td><td>{{altura}}</td>
   </tr>
   {{/each}}
   </table>            

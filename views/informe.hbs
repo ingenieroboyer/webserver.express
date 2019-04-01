@@ -90,21 +90,48 @@
     }
 </style>
 
+<script>
+    Handlebars.registerHelper('nPositiv', function(cantidad) {
+        cantidad=Number(cantidad);
+        if (cantidad<0){
+             cantidad=(-1)*cantidad;
+    return cantididad;
+        }
+        });
+
+</script>
+
 <div>
     {{!-- {{#if isWatermark}}
     <div style="border-width: 6px;border-style: solid; border-color: #008000;border-radius: 8px; color: #008000; opacity:0.6; position: absolute; z-index: 1; left:40%; top:30%; font-size: 60pt;-webkit-transform: rotate(-45deg);-ms-transform: rotate(-45deg);transform: rotate(-45deg); font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
         PAID </div>
     {{/if}} --}}
     <div class="invoice-box">
+
+        <div id="pageHeader" style="border-bottom: 1px solid #ddd; padding-bottom: 5px;">
+  <img src="./logo.jpg" width="150" height="27" align="left">
+
+
+
+  <p style="color: #666; margin: 0; padding-top: 12px; padding-bottom: 5px; text-align: right; font-family: sans-serif; font-size: .85em">
+    Análisis Estructural
+  </p>
+</div>
+<div id="pageFooter" style="border-top: 1px solid #ddd; padding-top: 5px;">
+  <p style="color: #666; width: 70%; margin: 0; padding-bottom: 5px; text-align: let; font-family: sans-serif; font-size: .65em; float: left;">http://aj.cl</p>
+  <p style="color: #666; margin: 0; padding-bottom: 5px; text-align: right; font-family: sans-serif; font-size: .65em">Página {{page}} de {{pages}}</p>
+</div>
+
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
                 <td colspan="2">
                     <table>
                         <tr>
-                            <td class="title">
+                            <td >
+                                <img src="./logo.jpg" align="left">
                             </td>
                             <td>
-                                Informe N° #: 001<br> Creado : viernes 19 de octubre del 2019
+                                Informe creado : {{elaboracion}}
                             </td>
                         </tr>
                    
@@ -119,18 +146,19 @@
                       
                             <td>
                                 Nombre del Sitio : {{nombreSitio}} <br>
-                                Tipo de torre :{{tipoEstructura}}<br>
-                                Altura :{{alturaEstructura}}
+                                Tipo de torre : {{tipoEstructura}}<br>
+                                Altura : {{alturaEstructura}} (m)
                             </td>                        
 
                         </tr>                   
                         <tr>                            
                             <td>
                                 Código estudio : {{codigo}} <br>
-                                Factor Utización :<strong>{{fu_mc}}</strong><br>
-                                Condición de viento: {{hielo}} <br>
-                                Fecha: {{fecha}} <br>
-                                Norma :{{norma}}
+                                Factor Utización :  <strong>{{fu_mc}} %</strong><br>
+                                Condición de viento Nch-432: {{cond_viento}} <br>
+                                Presencia de hielo: {{hielo}} <br>
+                                Fecha verificación estructural: {{fecha}} <br>
+                                Norma : {{norma}}
                             </td>
                             
                         </tr>
@@ -161,16 +189,16 @@
                         </tr>
                         {{#each equipTorr}}
                         <tr class="item">
-                             <td>
+                             <td  align="center">
                                 {{descripcion}}
                             </td>                                                  
-                            <td>
+                            <td  align="center">
                                 {{orientacion}}
                             </td>
-                            <td>
+                            <td  align="center" >
                                 {{altura}}
-                            </td>
-                            <td>
+                            </td >
+                            <td  align="center" >
                                 {{cantidad}}
                             </td>  
 
@@ -195,18 +223,42 @@
                             </td>
                             <td>
                                 ALTURA
-                            </td>                 
+                            </td>
+                            <td>
+                                ANCHO
+                            </td>
+                            <td>
+                                LARGO
+                            </td>
+                            <td>
+                                DIAMETRO
+                            </td>
+                            <td>
+                                ACCIÓN
+                            </td>                   
                         </tr>
                         {{#each instalacion}}
                         <tr class="item">
-                             <td>
+                             <td  align="center" >
                                 {{descripcion}}
                             </td>                                                  
-                            <td>
-                                {{cantidad}}
+                            <td align="center">
+                                {{cantPublica}}
                             </td>
-                            <td>
+                            <td  align="center" >
                                 {{altura}}
+                            </td>
+                            <td  align="center" >
+                                {{ancho}}
+                            </td>
+                            <td  align="center" >
+                                {{largo}}
+                            </td>
+                            <td  align="center" >
+                                {{diametro}}
+                            </td>
+                            <td  align="center">
+                                {{accion}}
                             </td>
 
                         </tr>  
@@ -218,10 +270,9 @@
      <tr >
          <td colspan="2">RESULTADO
          <h3>{{FU}} </h3> <br>
-         <h9> Notas: El valor mostrado corresponde sólo a una estimación con un error de precisión del  5%. No obedece al resultado de una Verificación Estructural formal. No se analizaron las fundaciones existentes. </h9>
+         <h9> Notas: El  valor mostrado corresponde sólo a una estimación con un error de precisión del  5%. No obedece al resultado de una Verificación Estructural formal. No se analizaron las fundaciones existentes. </h9>
          </td>
      </tr>
-
 
 
 

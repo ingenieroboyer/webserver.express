@@ -8,31 +8,29 @@ const jwt = require('jsonwebtoken');
 const router = require('express').Router();
 
 
-
-
 function imprime(req, res, next) {
 
     var armando = JSON.parse(req.body.armando);
-
     var memoriaCalculo = armando[0].memoriaCalculo;
     var sitiosDatos = armando[0].sitiosDatos;
     var equiposTorre = armando[0].equiposTorre;
     var instalacion = armando[0].instalacion;
+    console.log("En acción : " + JSON.stringify(instalacion[2]));
     var FU = armando[0].FU;
-
-
     var nombreSitio = sitiosDatos[0].nombre;
     var tipoEstructura = sitiosDatos[0].tipo;
     var alturaEstructura = sitiosDatos[0].altura;
-
     var codigo = memoriaCalculo[0].codig;
     var fu_mc = memoriaCalculo[0].fu_mc;
     var hielo = memoriaCalculo[0].hielo;
     var norma = memoriaCalculo[0].norma;
     var cond_viento = memoriaCalculo[0].cond_viento;
     var fecha = memoriaCalculo[0].fecha;
-
-
+    var elaboracion = new Date();
+    var date = Intl.DateTimeFormat('sp-LA').format(elaboracion);
+    date = date.replace("-", "/");
+    date = date.replace("-", "/");
+    console.log(" La fecha es :" + date);
 
     (async() => {
 
@@ -49,24 +47,13 @@ function imprime(req, res, next) {
             equipTorr: equiposTorre,
             instalacion: instalacion,
             FU: FU,
-
+            elaboracion: date,
             isWatermark: false
         }
 
-
-
         var templateHtml = fs.readFileSync(path.join(process.cwd(), './views/informe.hbs'), 'utf8');
-
         var template = handlebars.compile(templateHtml);
         var finalHtml = template(dataBinding);
-
-
-
-        // console.log("Datos estáticos:  " + JSON.stringify(dataBinding));
-
-
-        // console.log("  ");
-        // console.dir(finalHtml);
 
 
         pdf.create(finalHtml).toFile('./informe.pdf', function(err, res) {
@@ -76,19 +63,9 @@ function imprime(req, res, next) {
                 console.log("Se Imprimió");
             }
         });
-
-
-
     })();
-
-
-
-
-
-
 }
 
 module.exports = {
     imprime //,
-
 }

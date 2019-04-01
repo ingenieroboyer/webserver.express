@@ -15,9 +15,9 @@ function nuevanNota(){
     var FU ={{fu.fu_torre}};
     FU=FU.toFixed(2);
     if ( {{fu.fu_torre}}>95) {
-    text = "El factor de utilización es <strong>"+FU+"%  se recomienda realizar una nueva memoria de cálculo dada la precisión del Software de Estructuras </strong>";
+    text = "El  factor de utilización es <strong>"+FU+"%  se recomienda realizar una nueva memoria de cálculo dada la precisión del Software de Estructuras </strong>";
   } else {
-    text = "El factor de utilización es = <strong> "+FU+" %</strong> ";
+    text = "El  factor de utilización es = <strong> "+FU+" %</strong> ";
   }
     document.getElementById("notaReporte").innerHTML = text;
  }
@@ -91,11 +91,16 @@ aGuardar.push(antenas={
   descripcion:document.getElementById("antenasBaja").rows[i].cells[0].innerHTML,
   cant:document.getElementById("antenasBaja").rows[i].cells[1].innerHTML,
   altura:document.getElementById("antenasBaja").rows[i].cells[2].innerHTML,
+
 }); 
 }
 }
 
 var cargaInicial= document.getElementById("cargaIni").rows;
+
+console.dir("Carga inicial :"+cargaInicial);
+
+
 for(i=1;i<cargaInicial.length;i++)
 {
  {
@@ -103,6 +108,11 @@ Cargas.push({
   descripcion:document.getElementById("cargaIni").rows[i].cells[0].innerHTML,
   cant:document.getElementById("cargaIni").rows[i].cells[1].innerHTML,
   altura:document.getElementById("cargaIni").rows[i].cells[2].innerHTML,
+  cantPu:Math.abs(document.getElementById("cargaIni").rows[i].cells[1].innerHTML),
+  largo:document.getElementById("cargaIni").rows[i].cells[4].innerHTML,
+  ancho:document.getElementById("cargaIni").rows[i].cells[3].innerHTML,
+  diametro:document.getElementById("cargaIni").rows[i].cells[5].innerHTML,
+
 }); 
 }
 }
@@ -187,8 +197,11 @@ for (i=1;i<cargaIni.rows.length ;i++){
       orientacion:document.getElementById("cargaIni").rows[i].cells[1].innerHTML,
       altura:document.getElementById("cargaIni").rows[i].cells[2].innerHTML,
       cantidad:document.getElementById("cargaIni").rows[i].cells[3].innerHTML,
+      cantPublic:Math.abs(Number(document.getElementById("cargaIni").rows[i].cells[3].innerHTML)),
     } 
     );
+    
+    
 }
 
 
@@ -198,6 +211,11 @@ for (i=1;i<tablaEquipos.rows.length ;i++){
       descripcion :document.getElementById("antenasBaja").rows[i].cells[0].innerHTML,
       cantidad:document.getElementById("antenasBaja").rows[i].cells[1].innerHTML,
       altura:document.getElementById("antenasBaja").rows[i].cells[2].innerHTML,
+      accion:document.getElementById("antenasBaja").rows[i].cells[6].innerHTML,
+      cantPublica:Math.abs(document.getElementById("antenasBaja").rows[i].cells[1].innerHTML),
+      ancho:document.getElementById("antenasBaja").rows[i].cells[3].innerHTML,
+      largo:document.getElementById("antenasBaja").rows[i].cells[4].innerHTML,
+      diametro:document.getElementById("antenasBaja").rows[i].cells[5].innerHTML,
     }
     );
 }
@@ -239,10 +257,10 @@ form.submit();
 
 }
 
-
-
   
 </script>
+
+
 
 
 {{> head }}
@@ -285,25 +303,25 @@ form.submit();
      <tr>
        {{#each estudio}}
        <tr>
-         <td>Código</td><td id="cod">{{codigo}}</td>
+         <td>Código</td><td id="cod"  align="center" >{{codigo}}</td>
          </tr>
          <tr>
-           <td>FU</td><td id="fu"><strong>{{fu}}</strong> % </td>
+           <td>FU</td><td id="fu" align="center" ><strong>{{fu}}</strong> % </td>
          </tr>
          <tr>
-          <td>Hielo</td><td id="hielo">{{hielo}}</td>
+          <td>Hielo</td><td id="hielo"  align="center" >{{hielo}}</td>
           </tr>
           <tr>
-          <td>Norma</td><td id="norma">{{norma }}</td>
+          <td>Norma</td><td id="norma"  align="center">{{norma }}</td>
           </tr>
           <tr>
-          <td>Condición de viento</td><td id="viento">{{viento}}</td>
+          <td>Condición de viento</td><td id="viento"  align="center" >{{viento}}</td>
           </tr>
           <tr>
-          <td>Fecha</td><td id="fecha">{{fecha}}</td>
+          <td>Fecha</td><td id="fecha"  align="center" >{{fecha}}</td>
           </tr>
           <tr style="display: none;">
-            <td> ID estudio</td><td id="hist_mc_id">{{id_hist_mc}}</td>
+            <td> ID estudio</td><td id="hist_mc_id"  align="center">{{id_hist_mc}}</td>
           </tr>
           {{/each}}
        </tr>
@@ -319,11 +337,11 @@ form.submit();
 
   <table border="1" id="cargaIni" >        
   <tr>
-    <td><strong>DESCRIPCIÓN</strong></td><td><strong>ORIENTACIÓN</strong></td><td><strong>ALTURA</strong></td><td><strong>CANTIDAD</strong></td>
+    <td><strong>DESCRIPCIÓN</strong></td><td><strong>ORIENTACIÓN</strong></td><td><strong>ALTURA</strong></td><td><strong>CANTIDAD</strong></td></td>
   </tr>
   {{#each CargaInicial}}
    <tr>
-   <td>{{descripcion}}</td><td>{{orientacion}}</td><td>{{altura}}</td><td>{{cantidad}}</td>
+   <td  align="center" >{{descripcion}}</td><td  align="center" >{{orientacion}}</td><td  align="center">{{altura}}</td><td  align="center" >{{cantidad}}</td>
   </tr>
   {{/each}}
   </table>            
@@ -331,28 +349,35 @@ form.submit();
  <p class="lead">Equipamento considerado para el análisis</p>
   <table id="antenasBaja" border="1">        
   <tr>
-    <td><strong>DESCRIPCIÓN</strong></td><td><strong>CANTIDAD</strong></td><td><strong>ALTURA</strong></td>
+    <td><strong>DESCRIPCIÓN</strong></td><td><strong>CANTIDAD</strong></td><td><strong>ALTURA</strong><td><strong>ANCHO</strong><td><strong>LARGO</strong></td><td><strong>DIÁMETRO</strong></td><td><strong>ACCION</strong></td>
   </tr>
   {{#each enter.ent}}
    <tr>
-   <td>{{descrip}}</td><td>{{n}}</td><td>{{altura}}</td>
+   <td>{{descrip}}</td><td align="center">{{npublic}} </td><td  align="center">{{altura}}</td><td  align="center">{{ancho}}</td><td  align="center">{{largo}}</td><td  align="center">{{diametro}}</td><td  align="center">{{accion}}</td>
   </tr>
   {{/each}}
   </table>            
 
 
   </div>
+<hr class="my-4">
 
-<h1>EL FACTOR DE UTILIZACIÓN DE LA TORRE ES </h1>
+<h3>RESUMEN DEL ANÁLISIS </h3>
+
 <table border="1">
 
+
     <div id="notaReporte"><strong> texto superior se ha creado dinámicamente. </strong> </div>
+  </div>
+
+    
 <p>
 <p>
 <p>
-Notas: 
+    <article >
 El valor mostrado corresponde sólo a una estimación con un error de precisión del ~5%. No obedece al resultado de una Verificación Estructural formal.
 No se analizaron las fundaciones existentes."
+</article>
     </p>
 </p>  
 </table>

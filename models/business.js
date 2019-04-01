@@ -259,9 +259,14 @@ let prepara = async(req, datosSitio, antenas, enter) => { ///Esta función gener
                                 primero.push({ /////Puede añadir un problema de sincronìa
                                     i: i,
                                     n: n,
+                                    npublic: Math.abs(n),
                                     altura: Number(antenas[i].altura),
                                     descrip: descr,
                                     area: area1,
+                                    diametro: antenas[i].diametro,
+                                    largo: antenas[i].largo,
+                                    ancho: antenas[i].ancho,
+                                    accion: accion,
                                     coeficiente: Number(coef),
                                 });
                             }
