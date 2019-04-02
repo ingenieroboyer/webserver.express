@@ -84,8 +84,14 @@ router.post('/resultadoAS', [business.calculoAgnos], (req, res) => {
 });
 
 router.post('/pdf', [imprime], (req, res) => {
-    res.render('home', {
-        anio: new Date().getFullYear()
+    console.log("Viene de imprime.js y res :");
+    res.download('./informe.pdf', (err) => {
+        if (err) {
+            console.log("Y el error :" + err);
+            return
+        } else {
+            console.log("Viene de imprime.js  // res.download ");
+        }
     });
 });
 

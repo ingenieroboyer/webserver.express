@@ -60,7 +60,8 @@ function imprime(req, res, next) {
             if (err) {
                 console.log(err);
             } else {
-                console.log("Se Imprimió");
+                console.log("Deja imprime.js");
+                next();
             }
         });
     })();
