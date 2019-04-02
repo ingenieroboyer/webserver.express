@@ -1,4 +1,8 @@
 <style>
+
+
+
+
     .invoice-box {
         max-width: 800px;
         margin: auto;
@@ -61,6 +65,12 @@
     .invoice-box table tr.total td:nth-child(2) {
         font-weight: bold;
     }
+
+    .invoice-box table tr.saltopagina{ 
+      display:block; 
+      page-break-before:always;
+   }
+
     
     @media only screen and (max-width: 600px) {
         .invoice-box table tr.top table td {
@@ -101,26 +111,18 @@
 
 </script>
 
-<div>
-    {{!-- {{#if isWatermark}}
-    <div style="border-width: 6px;border-style: solid; border-color: #008000;border-radius: 8px; color: #008000; opacity:0.6; position: absolute; z-index: 1; left:40%; top:30%; font-size: 60pt;-webkit-transform: rotate(-45deg);-ms-transform: rotate(-45deg);transform: rotate(-45deg); font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
-        PAID </div>
-    {{/if}} --}}
     <div class="invoice-box">
 
         <div id="pageHeader" style="border-bottom: 1px solid #ddd; padding-bottom: 5px;">
-  <img src="./logo.jpg" width="150" height="27" align="left">
+            <img src="/logo.jpg" width="150" height="27" align="left">
+            <p style="color: #666; margin: 0; padding-top: 12px; padding-bottom: 5px; text-align: right; font-family: sans-serif; font-size: .85em">
+                Análisis Estructural
+            </p>
+        </div>
 
-
-
-  <p style="color: #666; margin: 0; padding-top: 12px; padding-bottom: 5px; text-align: right; font-family: sans-serif; font-size: .85em">
-    Análisis Estructural
-  </p>
-</div>
-<div id="pageFooter" style="border-top: 1px solid #ddd; padding-top: 5px;">
-  <p style="color: #666; width: 70%; margin: 0; padding-bottom: 5px; text-align: let; font-family: sans-serif; font-size: .65em; float: left;">http://aj.cl</p>
-  <p style="color: #666; margin: 0; padding-bottom: 5px; text-align: right; font-family: sans-serif; font-size: .65em">Página {{page}} de {{pages}}</p>
-</div>
+    <div id="pageFooter" style="border-top: 1px solid #ddd; padding-top: 5px;">
+        <p style="color: #666; width: 70%; margin: 0; padding-bottom: 5px; text-align: let; font-family: sans-serif; font-size: .65em; float: left;">http://aj.cl</p>
+    </div>
 
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
@@ -138,6 +140,7 @@
                 </td>
             </tr>
  </table>
+
             <tr class="information">
                 <td colspan="2">
                     
@@ -154,7 +157,7 @@
                         <tr>                            
                             <td>
                                 Código estudio : {{codigo}} <br>
-                                Factor Utización :  <strong>{{fu_mc}} %</strong><br>
+                                Factor de utilización basal :  <strong>{{fu_mc}} %</strong><br>
                                 Condición de viento Nch-432: {{cond_viento}} <br>
                                 Presencia de hielo: {{hielo}} <br>
                                 Fecha verificación estructural: {{fecha}} <br>
@@ -169,9 +172,10 @@
             </tr>
 
       <tr >
+ 
                 <td colspan="2">EQUIPOS CONSIDERADOS EN LA MEMORIA DE CALCULO
                     
-                    <table>                        
+                    <table >                        
                         <tr class="heading">
                       
                             <td>
@@ -205,16 +209,17 @@
                         </tr>  
                         {{/each}}
                     </table>
+
                    
                 </td>
      </tr>
-
-           <tr >
-                <td colspan="2">CAMBIOS EN EQUIPOS
-
-                    <table>                        
-                        <tr class="heading">
-                      
+      
+           <tr class="saltopagina" >
+                               
+                <td colspan="2"><p>CAMBIOS EN EQUIPOS </p>
+                    
+                    <table >                      
+                        <tr class="heading">           
                             <td>
                                 DESCRIPCIÓN
                             </td>                                                  
@@ -260,18 +265,25 @@
                             <td  align="center">
                                 {{accion}}
                             </td>
-
                         </tr>  
                         {{/each}}
                     </table>                   
                 </td>
+           
+       
+
+
            </tr>
 
      <tr >
-         <td colspan="2">RESULTADO
-         <h3>{{FU}} </h3> <br>
-         <h9> Notas: El  valor mostrado corresponde sólo a una estimación con un error de precisión del  5%. No obedece al resultado de una Verificación Estructural formal. No se analizaron las fundaciones existentes. </h9>
+         <td colspan="2">
+             <div class="panel-body"><h4 class="display-7"> RESULTADO</h4></div>
+             
+             <h4>{{FU}} </h4> <br>
+         <h9 class="align-self-xl-baseline"> Notas: El  valor mostrado corresponde sólo a una estimación con un error de precisión del  5%. No obedece al resultado de una Verificación Estructural formal. No se analizaron las fundaciones existentes. </h9>
          </td>
+
+
      </tr>
 
 
@@ -280,4 +292,3 @@
         </table>
 
     </div>
-</div>

@@ -11,10 +11,7 @@ const router = require('express').Router();
 var analisis = [];
 
 function estudioHistorico(req, res) {
-
-    // Aquí nos explayamos a buscar en BD
     req.getConnection((err, conn1) => {
-        console.log('Ingresó a la consulta estudioHistorico  ');
         conn1.query('SELECT * FROM index_analisis', function(err, analisisDB) {
             if (err) {
                 console.log('Tengo un error  en  estudioHistorico' + err);

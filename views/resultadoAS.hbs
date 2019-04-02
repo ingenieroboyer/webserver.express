@@ -109,9 +109,7 @@ Cargas.push({
   cant:document.getElementById("cargaIni").rows[i].cells[1].innerHTML,
   altura:document.getElementById("cargaIni").rows[i].cells[2].innerHTML,
   cantPu:Math.abs(document.getElementById("cargaIni").rows[i].cells[1].innerHTML),
-  largo:document.getElementById("cargaIni").rows[i].cells[4].innerHTML,
-  ancho:document.getElementById("cargaIni").rows[i].cells[3].innerHTML,
-  diametro:document.getElementById("cargaIni").rows[i].cells[5].innerHTML,
+
 
 }); 
 }
@@ -346,7 +344,10 @@ form.submit();
   {{/each}}
   </table>            
 
- <p class="lead">Equipamento considerado para el análisis</p>
+
+   <div class="well">
+     <p class="lead"> Equipamento considerado para el análisis</p>
+   </div>
   <table id="antenasBaja" border="1">        
   <tr>
     <td><strong>DESCRIPCIÓN</strong></td><td><strong>CANTIDAD</strong></td><td><strong>ALTURA</strong><td><strong>ANCHO</strong><td><strong>LARGO</strong></td><td><strong>DIÁMETRO</strong></td><td><strong>ACCION</strong></td>
@@ -362,7 +363,12 @@ form.submit();
   </div>
 <hr class="my-4">
 
-<h3>RESUMEN DEL ANÁLISIS </h3>
+<div class="container">
+  <h2>RESUMEN DEL ANÁLISIS </h2>
+  <div class="panel panel-default">
+</div>
+
+  </div>
 
 <table border="1">
 
@@ -385,36 +391,22 @@ No se analizaron las fundaciones existentes."
   <div class="row">
     <div class="col-md-5">
       <div class="card-body">
-             <div >
-
-
-   <button   class="btn btn-primary" onclick="manejaPOST('/guardado')">
-     Guardar el resultado
-   </button>
-  
-
-
+          <div  >
+            <button   class="btn btn-primary" onclick="manejaPOST('/guardado')">
+              Guardar el resultado
+            </button>
+            <button   class="btn btn-primary" onclick="creaPDF('/pdf')" >
+               Generar un PDF
+            </button>
         </div>
-       
-
-         </div>
+      </div>
     </div>
   </div>
 </div>
 {{!-- /// fin zona de impresión --}}
 </div>
 
-
- <input class="btn btn-primary btn-lg" type="button" onclick="printDiv('areaImprimir')" value="Imprimir informe" />
-
- 
-   <button   class="btn btn-primary" onclick="creaPDF('/pdf')">
-     Generar un PDF
-   </button>
-        
-        
     </div>
-
 </div>
 
 {{> footer}}

@@ -18,9 +18,6 @@ function guard(req, res, next) {
     var token = usuario[0].token;
     var mail;
 
-
-    console.log("El token en verificaToken : " + token);
-
     jwt.verify(token, 'este-es-el-seed-desarrollo', (err, decoded) => {
         if (err) {
             res.render('login', {
@@ -29,15 +26,9 @@ function guard(req, res, next) {
             });
         } else {
             mail = decoded.email;
-
             console.log(" el usuario decodificado =" + decoded.email)
         }
-
     });
-
-
-
-
 
     req.getConnection((err, conn1) => {
         var mmi = JSON.parse(req.body.analisis);
@@ -57,30 +48,11 @@ function guard(req, res, next) {
         var cond_viento = infoestudio[0].viento;
         var usuario_id = mail;
 
-        console.log("En guard :" + mmi);
-
-
-        // console.log(" ");
-        // console.log(" imprimer fecha : " + fecha);
-        // console.log(" ");
-        // console.log(" imprimer tipo_torre : " + tipo_torre);
-        // console.log(" imprimer altura_torre : " + altura_torre);
-        // console.log(" imprimer hist_mc_id : " + hist_mc_id);
-        // console.log(" imprimer cod_estudio : " + cod_estudio);
-        // console.log(" imprimer fu_estudio : " + fu_estudio);
-        // console.log(" imprimer fu_modificado : " + fu_modificado);
-
         var values = [
             [hist_mc_id, nombre, tipo_torre, altura_torre, fu_estudio, cond_hielo, cond_viento, fecha, fu_modificado, usuario_id, cod_estudio]
         ];
 
-        console.log(" Imprimer los valores :" + JSON.stringify(values));
-
         var sql = "INSERT INTO index_analisis (hist_mc_id,nombre_sitio,tipo_torre,altura_torre,fu_estudio,cond_hielo,cond_viento,fecha_estudio,fu_modificado,usuario_id,cod_estudio) VALUES ?";
-
-
-
-
         conn1.query(sql, [values], function(err, respuesta) {
             if (err) {
                 console.log("hay un error : " + err)
@@ -91,9 +63,6 @@ function guard(req, res, next) {
             }
         });
     });
-
-
-    // console.dir(req.body.analisis);
 
 }
 
