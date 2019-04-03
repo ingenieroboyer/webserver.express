@@ -57,10 +57,10 @@ function imprime(req, res, next) {
         var options = {
             "format": 'A4',
             "header": {
-                "height": "60px"
+                "height": "40px"
             },
             "footer": {
-                "height": "22mm"
+                "height": "17mm"
             },
             "base": 'file://Users/midesweb/carpeta_base/'
         };
