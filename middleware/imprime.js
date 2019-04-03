@@ -54,9 +54,19 @@ function imprime(req, res, next) {
         var templateHtml = fs.readFileSync(path.join(process.cwd(), './views/informe.hbs'), 'utf8');
         var template = handlebars.compile(templateHtml);
         var finalHtml = template(dataBinding);
+        var options = {
+            "format": 'A4',
+            "header": {
+                "height": "60px"
+            },
+            "footer": {
+                "height": "22mm"
+            },
+            "base": 'file://Users/midesweb/carpeta_base/'
+        };
 
 
-        pdf.create(finalHtml).toFile('./informe.pdf', function(err, res) {
+        pdf.create(finalHtml, options).toFile('./informe.pdf', function(err, res) {
             if (err) {
                 console.log(err);
             } else {
