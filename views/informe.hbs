@@ -4,11 +4,12 @@ img {
   display: inline-block;
 }
 
-
     .invoice-box {
-        max-width: 400px;
-        margin: 5px;
-        padding: 40px;
+        max-width: 400px; 
+        padding-left: 1px;
+        margin-right: 5px;
+        margin-left: 1px;        
+        padding: 45px;
         border: 1px solid #eee;
         box-shadow: 0 0 5px rgba(0, 0, 0, .15);
         font-size: 14px;
@@ -25,11 +26,15 @@ img {
     }
     
     .invoice-box table td {
+        margin-left: 1px; 
         padding: 5px;
         vertical-align: top;
+        font-size: 14px;
     }
     
     .invoice-box table tr td:nth-child(2) {
+         margin-left: 1px; 
+
         text-align: right;
     }
     
@@ -45,9 +50,12 @@ img {
     
     .invoice-box table tr.information table td {
         padding-bottom: 40px;
+        margin-left: 5px;
     }
     
     .invoice-box table tr.heading td {
+        font-size: 14px;
+        margin-left: 5px;
         background: #eee;
         border-bottom: 1px solid #ddd;
         font-weight: bold;
@@ -67,11 +75,13 @@ img {
     
     .invoice-box table tr.total td:nth-child(2) {
         font-weight: bold;
+        margin-left: 5px; 
     }
 
     .invoice-box table tr.saltopagina{ 
       display:block; 
       page-break-before:always;
+
    }
 
     
@@ -100,6 +110,7 @@ img {
     
     .rtl table tr td:nth-child(2) {
         text-align: left;
+        margin-left: 5px; 
     }
 </style>
 
@@ -113,27 +124,27 @@ img {
         });
 
 </script>
-    <div class="invoice-box">
-
-        <div id="pageHeader" style="border-bottom: 1px ; padding-bottom: 2000px;">
+<div  style="border-bottom: 1px ; padding-bottom: 1px;">
             
-            <p style="color: #666; margin: 40; padding-top: 12px;#008000;border-radius:; padding-bottom: 5px; text-align: left; font-family: sans-serif; font-size: 1em">
+            <p style="color: #666; margin: 20; padding-top: 3px;border-radius:10; padding-bottom: 3px; text-align: left; font-family: sans-serif; font-size: 1em">
                 AJ Ingenieros
             </p>
 
             <div style="border-width: 5px;border-style: solid; border-color: #008000;border-radius: 15px; color: #008000; opacity:0.05; position: fixed; z-index: 1; right:15%; top:10%; font-size: 20pt;-webkit-transform: rotate(-30 deg);-ms-transform: rotate(-30 deg);transform: rotate(-30 deg); font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;">
         Análisis rápido de estructuras  </div>
 
-        </div>
+</div>
+    <div class="invoice-box">
 
-
+        
 
 
     <div id="pageFooter" style="border-top: 1px solid #ddd; padding-top: 5px;">
-        
-        <p style="color: #666; width: 70%; margin: 0; padding-bottom: 5px; text-align: let; font-family: sans-serif; font-size: .65em; float: left;">http://aj.cl</p>
+       <p style="color: #666; width: 70%; margin: 0; padding-bottom: 5px; text-align: let; font-family: sans-serif; font-size: .65em; float: left;">http://aj.cl</p>
     </div>
 
+
+<table> 
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
                 <td colspan="2">
@@ -146,33 +157,29 @@ img {
                    
                 </td>
             </tr>
- </table>
+        </table>
 
             <tr class="information">
                 <td colspan="2">
                     
                     <table>                        
-                        <tr>
-                      
+                        <tr>                      
                             <td>
                                 Nombre del Sitio : {{nombreSitio}} <br>
                                 Tipo de torre : {{tipoEstructura}}<br>
                                 Altura : {{alturaEstructura}} (m)
-                            </td>                        
-
+                            </td>
                         </tr>                   
                         <tr>                            
                             <td>
                                 Código estudio : {{codigo}} <br>
-                                Factor de utilización basal :  <strong>{{fu_mc}} %</strong><br>
+                                Factor de utilización basal :  <strong>{{fu_mc}}%</strong><br>
                                 Condición de viento Nch-432: {{cond_viento}} <br>
                                 Presencia de hielo: {{hielo}} <br>
                                 Fecha verificación estructural: {{fecha}} <br>
                                 Norma : {{norma}}
-                            </td>
-                            
+                            </td>                          
                         </tr>
-
                     </table>
                    
                 </td>
@@ -180,7 +187,7 @@ img {
 
       <tr >
  
-                <td colspan="2">EQUIPOS CONSIDERADOS EN LA MEMORIA DE CALCULO
+                <td colspan="2">EQUIPOS EN LA MEMORIA DE CALCULO
                     
                     <table >                        
                         <tr class="heading">
@@ -228,13 +235,13 @@ img {
                     <table >                      
                         <tr class="heading">           
                             <td>
-                                DESCRIPCIÓN
+                                DESCRIP
                             </td>                                                  
                             <td>
-                                CANTIDAD
+                                CANT
                             </td>
                             <td>
-                                ALTURA
+                                ALT
                             </td>
                             <td>
                                 ANCHO
@@ -243,7 +250,7 @@ img {
                                 LARGO
                             </td>
                             <td>
-                                DIAMETRO
+                                DIAMET
                             </td>
                             <td>
                                 ACCIÓN
@@ -276,15 +283,12 @@ img {
                         {{/each}}
                     </table>                   
                 </td>
-           
-       
-
 
            </tr>
 
      <tr >
          <td colspan="2">
-             <div class="panel-body"><h4 class="display-7"> RESULTADO</h4></div>
+             <div><h4 class="display-7"> RESULTADO</h4></div>
              
              <h4>{{FU}} </h4> <br>
          <h9 class="align-self-xl-baseline"> Notas: El  valor mostrado corresponde sólo a una estimación con un error de precisión del  5%. No obedece al resultado de una Verificación Estructural formal. No se analizaron las fundaciones existentes. </h9>
@@ -296,6 +300,6 @@ img {
 
 
 
-        </table>
+</table>
 
     </div>
